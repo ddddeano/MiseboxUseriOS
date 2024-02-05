@@ -1,36 +1,35 @@
 // swift-tools-version: 5.9
-// The swift-tools-version declares the minimum version of Swift required to build this package.
-
-// swift-tools-version:5.9
-// The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
-//
+
 let package = Package(
     name: "MiseboxUseriOS",
     platforms: [
-        .iOS(.v16) // Set the iOS version you want to support
+        .iOS(.v16) // Specify iOS 16 as the minimum deployment target
     ],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "MiseboxUseriOS",
             targets: ["MiseboxUseriOS"]),
     ],
     dependencies: [
         .package(url: "https://github.com/ddddeano/FirebaseiOSMisebox.git", from: "1.0.0"),
+        // Add other package dependencies here if needed
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "MiseboxUseriOS",
             dependencies: [
-                "FirebaseiOSMisebox", // Add the dependency here
-            ]
+                "FirebaseiOSMisebox"
+            ],
+            path: "Sources/MiseboxUseriOS", // Optional: Custom path
+            exclude: ["ExcludedFile.swift"], // Optional: Exclude files
+            sources: ["IncludeThisFolderOrFile"], // Optional: Specific sources
+            resources: [.process("Resources")] // Optional: Resources
         ),
         .testTarget(
             name: "MiseboxUseriOSTests",
             dependencies: ["MiseboxUseriOS"]),
     ]
 )
+

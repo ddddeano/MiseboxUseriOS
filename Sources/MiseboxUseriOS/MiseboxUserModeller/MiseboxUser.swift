@@ -7,6 +7,8 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseiOSMisebox
+
 
 extension MiseboxUserManager {
     

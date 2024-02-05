@@ -12,13 +12,15 @@ let package = Package(
             targets: ["MiseboxUseriOS"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/ddddeano/FirebaseiOSMisebox.git", from: "1.0.0")
+        .package(url: "https://github.com/ddddeano/FirebaseiOSMisebox.git", from: "1.0.1"),
+        .package(url: "https://github.com/ddddeano/GlobalMiseboxiOS.git", from: "1.0.0")
     ],
     targets: [
         .target(
             name: "MiseboxUseriOS",
             dependencies: [
-                "FirebaseiOSMisebox"
+                "FirebaseiOSMisebox",
+                "GlobalMiseboxiOS"
             ]
         ),
         .testTarget(
@@ -26,4 +28,3 @@ let package = Package(
             dependencies: ["MiseboxUseriOS"]),
     ]
 )
-

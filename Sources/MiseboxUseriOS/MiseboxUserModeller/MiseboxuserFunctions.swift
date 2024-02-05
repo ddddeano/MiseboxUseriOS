@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import GlobalMiseboxiOS
+import FirebaseiOSMisebox
+
 
 extension MiseboxUserManager {
     
@@ -30,7 +33,6 @@ extension MiseboxUserManager {
         
         try await firestoreManager.setDoc(entity: self.miseboxUserProfile)
     }
-    
     
     public func documentListener<T: Listenable>(for entity: T, completion: @escaping (Result<T, Error>) -> Void) {
         self.listener = firestoreManager.addDocumentListener(for: entity) { result in

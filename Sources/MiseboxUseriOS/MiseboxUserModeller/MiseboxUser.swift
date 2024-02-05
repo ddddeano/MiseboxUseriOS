@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseiOSMisebox
-
+import GlobalMiseboxiOS
 
 extension MiseboxUserManager {
     
@@ -37,7 +37,7 @@ extension MiseboxUserManager {
             verified = data["verified"] as? Bool ?? false
             
             if let rolesData = data["user_roles"] as? [[String: Any]] {
-                userRoles = rolesData.compactMap(UserRole.init(dictionary:))
+                userRoles = rolesData.compactMap(UserRole.init(fire:))
             }
         }
         

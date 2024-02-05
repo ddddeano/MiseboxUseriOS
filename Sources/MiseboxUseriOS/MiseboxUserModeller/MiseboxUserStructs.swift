@@ -4,7 +4,9 @@
 //  Created by Daniel Watson on 22.01.24.
 //
 
-import FirebaseFirestore // Import Firestore
+import FirebaseFirestore
+import GlobalMiseboxiOS
+import FirebaseiOSMisebox
 
 extension MiseboxUserManager {
     

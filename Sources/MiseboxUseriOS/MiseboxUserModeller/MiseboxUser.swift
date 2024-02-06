@@ -37,8 +37,9 @@ extension MiseboxUserManager {
             verified = data["verified"] as? Bool ?? false
             
             if let rolesData = data["user_roles"] as? [[String: Any]] {
-                userRoles = rolesData.compactMap(UserRole.init(fire:))
+                userRoles = rolesData.compactMap(UserRole.init)
             }
+
         }
         
         public func toFirestore() -> [String: Any] {

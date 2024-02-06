@@ -7,12 +7,14 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseiOSMisebox
 
 extension MiseboxUserManager {
     
     public final class MiseboxUserProfile: ObservableObject, Identifiable, Listenable {
-        public var collectionName = "misebox-user-profiles"
-
+        public var doc = "misebox-user-profile"
+        public var collection = "misebox-user-profiles"
+        
         @Published public var id = ""
         @Published public var fullName = FullName()
         @Published public var subscription = Subscription()

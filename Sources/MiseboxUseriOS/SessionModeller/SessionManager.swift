@@ -16,18 +16,10 @@ public final class SessionManager: ObservableObject {
         self.session = session
         loadThemePreferences()
     }
-    
-    public enum UserRole: String, CaseIterable {
-              case miseboxUser = "miseboxUser"
-              case agent = "agent"
-              case recruiter = "recruiter"
-              case chef = "chef"
-          }
-
     public func saveThemePreferences(isDarkModeEnabled: Bool) {
         UserDefaults.standard.set(isDarkModeEnabled, forKey: themePreferenceKey)
     }
-
+    
     func loadThemePreferences() {
         if let isDarkModeEnabled = UserDefaults.standard.object(forKey: themePreferenceKey) as? Bool {
             session.isDarkMode = isDarkModeEnabled

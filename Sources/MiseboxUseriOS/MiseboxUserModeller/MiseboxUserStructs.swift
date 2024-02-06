@@ -10,71 +10,58 @@ import FirebaseiOSMisebox
 
 extension MiseboxUserManager {
     
-    public enum RoleTypes: String, CaseIterable {
-        case miseboxUser = "misebox-user"
-        case chef = "chef"
-        case agent = "agent"
-        case recruiter = "recruiter"
-
-        var docCollection: DocCollection {
-            switch self {
-            case .miseboxUser: return DocCollection(doc: "misebox-user", collection: "misebox-users")
-            case .chef: return DocCollection(doc: "chef", collection: "chefs")
-            case .agent: return DocCollection(doc: "agent", collection: "agents")
-            case .recruiter: return DocCollection(doc: "recruiter", collection: "recruiters")
-            }
+    public struct Role {
+        let doc: String
+        let collection: String
+        
+        static let miseboxUser = Role(doc: "misebox-user", collection: "misebox-users")
+        static let chef = Role(doc: "chef", collection: "chefs")
+        static let agent = Role(doc: "agent", collection: "agents")
+        static let recruiter = Role(doc: "recruiter", collection: "recruiters")
+        
+        static let allCases: [Role] = [.miseboxUser, .chef, .agent, .recruiter]
+        
+        static func find(byDoc doc: String) -> Role? {
+            return allCases.first { $0.doc == doc }
         }
     }
-
+    
     public struct UserRole {
-        public var docCollection: DocCollection
-        public var name: String
+        public var role: Role
+        public var handle: String
         
-        public init(docCollection: DocCollection, name: String) {
-            self.docCollection = docCollection
-            self.name = name
+        public init(role: Role, handle: String) {
+            self.role = role
+            self.handle = handle
         }
         
-        public init?(fire: [String: Any]) {
-            let doc = fire["role"] as? String ?? ""
-            let name = fire["name"] as? String ?? ""
-            
-            self.name = name
-            self.docCollection = UserRole.docCollection(fromRoleName: doc)
+        public init?(data: [String: Any]) {
+            guard let doc = data["role"] as? String,
+                  let handle = data["handle"] as? String,
+                  let foundRole = Role.find(byDoc: doc) else {
+                return nil
+            }
+            self.role = foundRole
+            self.handle = handle
         }
         
         public func toFirestore() -> [String: Any] {
-            ["role": docCollection.doc, "name": name]
+            ["role": role.doc, "handle": handle]
         }
         
-        private static func docCollection(fromRoleName roleName: String) -> DocCollection {
-            if let role = RoleTypes(rawValue: roleName) {
-                return role.docCollection
-            } else {
-                print("Unknown role name: \(roleName)")
-                return DocCollection(doc: "unknown", collection: "unknown")
-            }
-        }
-
-        static func updateRolesArray(rolesArray: [[String: Any]], forRoleType roleType: RoleTypes, to newName: String) -> [[String: Any]] {
-            rolesArray.map { role -> [String: Any] in
-                var modifiedRole = role
-                if modifiedRole["role"] as? String == roleType.rawValue {
-                    modifiedRole["name"] = newName
-                }
-                return modifiedRole
-            }
-        }
-        static func updatePersonNameForRole(miseboxId: String, roleType: RoleTypes, to newName: String) async throws {
-            let rolesArray = try await StaticFirestoreManager.getDependentArray(forCollection: "misebox-users", documentID: miseboxId, fieldName: "user_roles")
-            
-            let updatedRoles = updateRolesArray(rolesArray: rolesArray, forRoleType: roleType, to: newName)
-            
-            let documentRef = StaticFirestoreManager.documentReference(forCollection: "misebox-users", documentID: miseboxId)
-            try await documentRef.updateData(["user_roles": updatedRoles])
+        public static func updateHandle(userId: String, roleDoc: String, newHandle: String) async throws {
+            try await StaticFirestoreManager.updateArray(
+                collection: "misebox-users",
+                documentID: userId,
+                arrayName: "user_roles",
+                matchKey: "role",
+                matchValue: roleDoc,
+                updateKey: "handle",
+                newValue: newHandle
+            )
         }
     }
-
+    
     public struct FullName {
         public var first = ""
         public var middle = ""

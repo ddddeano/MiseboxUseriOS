@@ -12,7 +12,7 @@ import Combine
 extension SessionManager {
     
     public class Session: ObservableObject {
-        public let role: UserRole = .miseboxUser
+        public let role: MiseboxUserManager.Role = .miseboxUser
         @Published public var id = ""
         @Published public var isDarkMode = false
     }

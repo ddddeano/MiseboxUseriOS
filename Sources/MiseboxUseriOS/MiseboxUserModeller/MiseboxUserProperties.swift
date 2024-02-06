@@ -33,7 +33,4 @@ extension MiseboxUserManager {
     public var imageUrl: String {
         return miseboxUser.imageUrl
     }
-    public var toChef: ChefManager.MiseboxUser {
-        return ChefManager.MiseboxUser(miseboxUser: miseboxUser)
-    }
 }

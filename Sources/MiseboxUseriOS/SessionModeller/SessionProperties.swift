@@ -10,6 +10,9 @@ extension SessionManager {
     public var id: String {
         return session.id
     }
+    public var role: MiseboxUserManager.Role {
+        session.role
+    }
     public var mode: String {
         session.isDarkMode ? "Dark" : "Light"
     }

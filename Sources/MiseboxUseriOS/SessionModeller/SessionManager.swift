@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  SessionManager.swift
 //  MiseboxiOSPackage
 //
 //  Created by Daniel Watson on 22.01.24.
@@ -22,7 +22,7 @@ public final class SessionManager: ObservableObject {
         }
     }
     public func reset() {
-        self.session = Session()
+        self.session = Session(role: .miseboxUser)
     }
 }
 

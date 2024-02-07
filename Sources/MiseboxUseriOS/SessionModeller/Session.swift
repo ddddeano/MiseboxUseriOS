@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  SessionManagerSession.swift
 //  MiseboxiOSPackage
 //
 //  Created by Daniel Watson on 22.01.24.

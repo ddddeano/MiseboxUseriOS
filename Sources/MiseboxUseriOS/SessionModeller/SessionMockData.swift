@@ -12,7 +12,7 @@ extension SessionManager {
         
     public static func mockSessionManager() -> SessionManager {
         
-        let mockSession = Session()
+        let mockSession = Session(role: .miseboxUser)
         
         let mockSessionManager = SessionManager(session: mockSession)
         return mockSessionManager

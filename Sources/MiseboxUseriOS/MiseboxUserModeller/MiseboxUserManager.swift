@@ -33,7 +33,6 @@ public final class MiseboxUserManager: ObservableObject {
         listener?.remove()
     }
     
-
     public enum AccountAuthenticationMethod: String {
         case anon, email, other
     }

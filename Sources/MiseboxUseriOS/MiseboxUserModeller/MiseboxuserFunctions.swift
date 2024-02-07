@@ -12,8 +12,8 @@ import FirebaseiOSMisebox
 
 extension MiseboxUserManager {
     
-    public func checkMiseboxUserExistsInFirestore(doc: DocCollection) async throws -> Bool {
-        return try await firestoreManager.checkDocumentExists(collection: doc.collection, documentID: self.id)
+    public func checkMiseboxUserExistsInFirestore() async throws -> Bool {
+        return try await firestoreManager.checkDocumentExists(collection: miseboxUser.collection, documentID: self.id)
     }
     
     public func primeMiseboxUser(sessionId: String) {
@@ -24,12 +24,10 @@ extension MiseboxUserManager {
     }
     public func primeMiseboxUserProfile() {
         self.miseboxUserProfile.id = self.id
-        
     }
     
     public func setMiseboxUserAndProfile() async throws {
         try await firestoreManager.setDoc(entity: self.miseboxUser)
-        
         try await firestoreManager.setDoc(entity: self.miseboxUserProfile)
     }
     

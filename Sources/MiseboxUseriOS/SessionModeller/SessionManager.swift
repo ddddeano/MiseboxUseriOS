@@ -16,11 +16,7 @@ public final class SessionManager: ObservableObject {
         self.session = session
         loadThemePreferences()
     }
-    public func saveThemePreferences(isDarkModeEnabled: Bool) {
-        UserDefaults.standard.set(isDarkModeEnabled, forKey: themePreferenceKey)
-    }
-    
-    func loadThemePreferences() {
+    public func loadThemePreferences() {
         if let isDarkModeEnabled = UserDefaults.standard.object(forKey: themePreferenceKey) as? Bool {
             session.isDarkMode = isDarkModeEnabled
         }

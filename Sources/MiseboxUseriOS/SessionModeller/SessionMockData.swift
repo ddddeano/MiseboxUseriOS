@@ -1,9 +1,10 @@
 //
-//  File.swift
+//  SessionManager.swift
 //  
 //
 //  Created by Daniel Watson on 31.01.24.
 //
+#if DEBUG
 
 import Foundation
 
@@ -17,3 +18,4 @@ extension SessionManager {
         return mockSessionManager
     }
 }
+#endif

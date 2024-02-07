@@ -11,8 +11,8 @@ import FirebaseiOSMisebox
 extension MiseboxUserManager {
     
     public struct Role {
-        let doc: String
-        let collection: String
+        public let doc: String
+        public let collection: String
         
         public static let miseboxUser = Role(doc: "misebox-user", collection: "misebox-users")
         public static let chef = Role(doc: "chef", collection: "chefs")

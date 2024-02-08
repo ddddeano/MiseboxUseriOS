@@ -25,7 +25,18 @@ extension MiseboxUserManager {
         public init?(documentSnapshot: DocumentSnapshot) {
             guard let data = documentSnapshot.data() else { return nil }
             self.id = documentSnapshot.documentID
-            print("Initializing MiseboxUserProfile with data: \(data)")
+            print("Initializing MiseboxUserProfile with ID: \(self.id)")
+            // Example of printing individual fields for the profile
+            if let fullNameData = data["full_name"] as? [String: Any] {
+                print("First Name: \(fullNameData["first"] as? String ?? "N/A")")
+                print("Middle Name: \(fullNameData["middle"] as? String ?? "N/A")")
+                print("Last Name: \(fullNameData["last"] as? String ?? "N/A")")
+            }
+            if let subscriptionData = data["subscription"] as? [String: Any] {
+                   print("Subscription Type: \(subscriptionData["type"] as? String ?? "N/A")")
+               } else {
+                   print("Subscription Type: N/A")
+               }            // Add more fields as necessary
             update(with: data)
         }
 

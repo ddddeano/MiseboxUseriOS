@@ -28,9 +28,10 @@ extension MiseboxUserManager {
         public init?(documentSnapshot: DocumentSnapshot) {
             guard let data = documentSnapshot.data() else { return nil }
             self.id = documentSnapshot.documentID
+            print("Initializing MiseboxUser with data: \(data)")
             update(with: data)
         }
-        
+
         public func update(with data: [String: Any]) {
             username = data["username"] as? String ?? ""
             imageUrl = data["image_url"] as? String ?? defaultImage

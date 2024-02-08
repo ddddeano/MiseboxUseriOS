@@ -32,10 +32,6 @@ public final class MiseboxUserManager: ObservableObject {
         self.miseboxUserProfile = MiseboxUserProfile()
         listener?.remove()
     }
-    
-    public enum AccountAuthenticationMethod: String {
-        case anon, email, other
-    }
 }
 public protocol CanMiseboxUser {
     var authenticationManager: AuthenticationManager { get }

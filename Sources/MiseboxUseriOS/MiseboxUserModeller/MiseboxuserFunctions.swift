@@ -13,9 +13,12 @@ import FirebaseiOSMisebox
 extension MiseboxUserManager {
     
     public func checkMiseboxUserExistsInFirestore() async throws -> Bool {
-        print("Checking if Misebox user exists in Firestore...")
-        return try await firestoreManager.checkDocumentExists(collection: miseboxUser.collection, documentID: self.id)
+        print("Checking if Misebox user exists in Firestore... Collection: '\(miseboxUser.collection)', Document ID: '\(self.id)'")
+        let exists = try await firestoreManager.checkDocumentExists(collection: miseboxUser.collection, documentID: self.id)
+        print("Existence check completed. Document exists: \(exists)")
+        return exists
     }
+
     
     public func primeMiseboxUser(sessionId: String) {
         print("Priming Misebox user with session ID: \(sessionId)...")

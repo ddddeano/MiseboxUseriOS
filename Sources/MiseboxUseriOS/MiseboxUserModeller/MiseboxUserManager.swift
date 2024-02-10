@@ -28,9 +28,9 @@ public final class MiseboxUserManager: ObservableObject {
     }
 
     public func reset() {
+        listener?.remove()
         self.miseboxUser = MiseboxUser()
         self.miseboxUserProfile = MiseboxUserProfile()
-        listener?.remove()
     }
     
 

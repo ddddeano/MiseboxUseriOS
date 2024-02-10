@@ -16,7 +16,8 @@ extension MiseboxUserManager {
         return try await firestoreManager.checkDocumentExists(collection: doc.collection, documentID: self.id)
     }
     
-    public func primeMiseboxUser() {
+    public func primeMiseboxUser(id: String) {
+        self.miseboxUser.id = self.id
         if self.imageUrl.isEmpty {
             self.miseboxUser.imageUrl = defaultImage
         }
@@ -27,7 +28,6 @@ extension MiseboxUserManager {
     }
     
     public func setMiseboxUserAndProfile() async throws {
-        primeMiseboxUser()
         
         try await firestoreManager.setDoc(entity: self.miseboxUser)
         

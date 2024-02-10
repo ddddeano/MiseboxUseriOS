@@ -55,6 +55,13 @@ extension MiseboxUserManager {
                 "user_roles": userRoles.map { $0.toFirestore() }
             ]
         }
+        public func resetFields() {
+               id = ""
+               username = ""
+               imageUrl = defaultImage
+               verified = false
+               userRoles = []
+           }
     }
 }
 

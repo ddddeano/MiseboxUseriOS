@@ -53,5 +53,11 @@ extension MiseboxUserManager {
                 "account_providers": accountProviders
             ]
         }
+        public func resetFields() {
+               id = ""
+               fullName = FullName()
+               subscription = Subscription()
+               accountProviders = []
+           }
     }
 }

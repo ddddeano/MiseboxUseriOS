@@ -19,31 +19,25 @@ extension MiseboxUserManager {
         return exists
     }
 
-    
-<<<<<<< HEAD
     public func primeMiseboxUser(id: String) {
-        self.miseboxUser.id = self.id
-=======
-    public func primeMiseboxUser(sessionId: String) {
-        print("Priming Misebox user with session ID: \(sessionId)...")
-        self.miseboxUser.id = sessionId
->>>>>>> origin/main
+        print("Before priming Misebox user, current user ID: \(self.miseboxUser.id)")
+        print("Priming Misebox user with session ID: \(id)...")
+        self.miseboxUser.id = id
         if self.imageUrl.isEmpty {
             self.miseboxUser.imageUrl = defaultImage
         }
+        print("After priming Misebox user, new user ID: \(self.miseboxUser.id)")
     }
-    
-    public func primeMiseboxUserProfile() {
-        print("Priming Misebox user profile with user ID: \(self.id)...")
-        self.miseboxUserProfile.id = self.id
+
+    public func primeMiseboxUserProfile(id: String) {
+        print("Before priming Misebox user profile, current profile ID: \(self.miseboxUserProfile.id)")
+        print("Priming Misebox user profile with user ID: \(id)...")
+        self.miseboxUserProfile.id = id
+        print("After priming Misebox user profile, new profile ID: \(self.miseboxUserProfile.id)")
     }
     
     public func setMiseboxUserAndProfile() async throws {
-<<<<<<< HEAD
-        
-=======
         print("Setting Misebox user and profile in Firestore...")
->>>>>>> origin/main
         try await firestoreManager.setDoc(entity: self.miseboxUser)
         try await firestoreManager.setDoc(entity: self.miseboxUserProfile)
     }

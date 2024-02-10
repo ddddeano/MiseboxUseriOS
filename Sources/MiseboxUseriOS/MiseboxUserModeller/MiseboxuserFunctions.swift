@@ -12,35 +12,52 @@ import FirebaseiOSMisebox
 
 extension MiseboxUserManager {
     
-    public func checkMiseboxUserExistsInFirestore(doc: DocCollection) async throws -> Bool {
-        return try await firestoreManager.checkDocumentExists(collection: doc.collection, documentID: self.id)
+    public func checkMiseboxUserExistsInFirestore() async throws -> Bool {
+        print("Checking if Misebox user exists in Firestore... Collection: '\(miseboxUser.collection)', Document ID: '\(self.id)'")
+        let exists = try await firestoreManager.checkDocumentExists(collection: miseboxUser.collection, documentID: self.id)
+        print("Existence check completed. Document exists: \(exists)")
+        return exists
     }
+
     
+<<<<<<< HEAD
     public func primeMiseboxUser(id: String) {
         self.miseboxUser.id = self.id
+=======
+    public func primeMiseboxUser(sessionId: String) {
+        print("Priming Misebox user with session ID: \(sessionId)...")
+        self.miseboxUser.id = sessionId
+>>>>>>> origin/main
         if self.imageUrl.isEmpty {
             self.miseboxUser.imageUrl = defaultImage
         }
     }
+    
     public func primeMiseboxUserProfile() {
+        print("Priming Misebox user profile with user ID: \(self.id)...")
         self.miseboxUserProfile.id = self.id
-        
     }
     
     public func setMiseboxUserAndProfile() async throws {
+<<<<<<< HEAD
         
+=======
+        print("Setting Misebox user and profile in Firestore...")
+>>>>>>> origin/main
         try await firestoreManager.setDoc(entity: self.miseboxUser)
-        
         try await firestoreManager.setDoc(entity: self.miseboxUserProfile)
     }
     
     public func documentListener<T: Listenable>(for entity: T, completion: @escaping (Result<T, Error>) -> Void) {
+        print("Adding document listener for \(T.self)...")
         self.listener = firestoreManager.addDocumentListener(for: entity) { result in
             completion(result)
         }
     }
     
     public func collectionListener(completion: @escaping (Result<[MiseboxUser], Error>) -> Void) {
+        print("Adding collection listener for Misebox users...")
         self.listener = firestoreManager.addCollectionListener(collection: self.miseboxUser.collection, completion: completion)
     }
 }
+

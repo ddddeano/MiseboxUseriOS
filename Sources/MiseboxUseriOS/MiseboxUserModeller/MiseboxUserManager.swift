@@ -33,15 +33,9 @@ public final class MiseboxUserManager: ObservableObject {
         self.miseboxUser = MiseboxUser()
         self.miseboxUserProfile = MiseboxUserProfile()
     }
-    
-
-    public enum AccountAuthenticationMethod: String {
-        case anon, email, other
-    }
 }
 public protocol CanMiseboxUser {
     var authenticationManager: AuthenticationManager { get }
     var miseboxUserManager: MiseboxUserManager { get }
-    func verifyMiseboxUser(with accountType: MiseboxUserManager.AccountAuthenticationMethod) async throws
-    func onboardMiseboxUser() async
+     func onboardMiseboxUser() async
 }

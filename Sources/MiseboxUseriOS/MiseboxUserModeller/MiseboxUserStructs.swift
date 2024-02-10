@@ -11,17 +11,17 @@ import FirebaseiOSMisebox
 extension MiseboxUserManager {
     
     public struct Role {
-        let doc: String
-        let collection: String
+        public let doc: String
+        public let collection: String
         
-        static let miseboxUser = Role(doc: "misebox-user", collection: "misebox-users")
-        static let chef = Role(doc: "chef", collection: "chefs")
-        static let agent = Role(doc: "agent", collection: "agents")
-        static let recruiter = Role(doc: "recruiter", collection: "recruiters")
+        public static let miseboxUser = Role(doc: "misebox-user", collection: "misebox-users")
+        public static let chef = Role(doc: "chef", collection: "chefs")
+        public static let agent = Role(doc: "agent", collection: "agents")
+        public static let recruiter = Role(doc: "recruiter", collection: "recruiters")
         
-        static let allCases: [Role] = [.miseboxUser, .chef, .agent, .recruiter]
+        public static let allCases: [Role] = [.miseboxUser, .chef, .agent, .recruiter]
         
-        static func find(byDoc doc: String) -> Role? {
+        public static func find(byDoc doc: String) -> Role? {
             return allCases.first { $0.doc == doc }
         }
     }

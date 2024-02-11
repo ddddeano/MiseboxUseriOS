@@ -28,6 +28,7 @@ extension MiseboxUserManager {
         public func prime(id: String) {
             DispatchQueue.main.async {
                 self.id = id
+                self.objectWillChange.send()
             }
         }
         

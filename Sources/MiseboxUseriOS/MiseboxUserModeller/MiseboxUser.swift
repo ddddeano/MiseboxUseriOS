@@ -23,7 +23,9 @@ extension MiseboxUserManager {
         @Published public var verified: Bool = false
         @Published public var userRoles: [UserRole] = []
         
-        public init() {}
+        public init(id: String) {
+            self.id = id
+        }
         
         public init?(documentSnapshot: DocumentSnapshot) {
             guard let data = documentSnapshot.data() else { return nil }
@@ -34,7 +36,6 @@ extension MiseboxUserManager {
             print("Verified: \(data["verified"] as? Bool ?? false)")
             update(with: data)
         }
-
 
         public func update(with data: [String: Any]) {
             username = data["username"] as? String ?? ""

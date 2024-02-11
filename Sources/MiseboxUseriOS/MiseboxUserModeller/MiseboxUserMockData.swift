@@ -35,7 +35,7 @@ extension MiseboxUserManager {
     }
     
     public static func mockMiseboxUser() -> MiseboxUser {
-        let mockUser = MiseboxUser()
+        let mockUser = MiseboxUser(id: "1")
         mockUser.id = "12345trewq"
         mockUser.username = "miseuserone"
         mockUser.imageUrl = tinyImg
@@ -45,7 +45,7 @@ extension MiseboxUserManager {
     }
     
     public static func mockMiseboxUserProfile() -> MiseboxUserProfile {
-        let mockUserProfile = MiseboxUserProfile()
+        let mockUserProfile = MiseboxUserProfile(id: "1")
         mockUserProfile.id = mockMiseboxUser().id
         mockUserProfile.fullName = exampleFullName
         mockUserProfile.subscription = exampleSubscription

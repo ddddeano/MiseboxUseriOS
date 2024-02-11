@@ -22,7 +22,7 @@ extension MiseboxUserManager {
     public func primeMiseboxUser(id: String) {
         print("Before priming Misebox user, current user ID: \(self.miseboxUser.id)")
         print("Priming Misebox user with session ID: \(id)...")
-        self.miseboxUser = MiseboxUser(id: id)
+        self.miseboxUser.prime(id: id)
        /* not sure what to do with image yet we can wit if self.imageUrl.isEmpty {
             self.miseboxUser.imageUrl = defaultImage
         }*/
@@ -32,7 +32,7 @@ extension MiseboxUserManager {
     public func primeMiseboxUserProfile(id: String) {
         print("Before priming Misebox user profile, current profile ID: \(self.miseboxUserProfile.id)")
         print("Priming Misebox user profile with user ID: \(id)...")
-        self.miseboxUserProfile = MiseboxUserProfile(id: id)
+        self.miseboxUserProfile.prime(id: id)
         print("After priming Misebox user profile, new profile ID: \(self.miseboxUserProfile.id)")
     }
     

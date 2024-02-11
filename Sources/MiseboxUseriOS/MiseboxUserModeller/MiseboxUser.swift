@@ -23,7 +23,9 @@ extension MiseboxUserManager {
         @Published public var verified: Bool = false
         @Published public var userRoles: [UserRole] = []
         
-        public init(id: String) {
+        public init() {}
+        
+        public func prime(id: String) {
             self.id = id
         }
         

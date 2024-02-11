@@ -10,8 +10,8 @@ import FirebaseFirestore
 import FirebaseiOSMisebox
 import GlobalMiseboxiOS
 
+@MainActor
 extension MiseboxUserManager {
-    
     public final class MiseboxUser: ObservableObject, Identifiable, Listenable {
         
         public let doc = "misebox-user"
@@ -26,7 +26,9 @@ extension MiseboxUserManager {
         public init() {}
         
         public func prime(id: String) {
-            self.id = id
+            DispatchQueue.main.async {
+                self.id = id
+            }
         }
         
         public init?(documentSnapshot: DocumentSnapshot) {

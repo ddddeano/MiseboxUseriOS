@@ -18,13 +18,11 @@ public final class MiseboxUserManager: ObservableObject {
         listener?.remove()
     }
     
-    @Published public var miseboxUser: MiseboxUser
-    @Published public var miseboxUserProfile: MiseboxUserProfile
+    @Published public var miseboxUser = MiseboxUser()
+    @Published public var miseboxUserProfile = MiseboxUserProfile()
     
-    public init(miseboxUser: MiseboxUser, miseboxUserProfile: MiseboxUserProfile, role: MiseboxUserManager.Role) {
+    public init(role: MiseboxUserManager.Role) {
         self.role = role
-        self.miseboxUser = miseboxUser
-        self.miseboxUserProfile = miseboxUserProfile
     }
 
     public func reset() {

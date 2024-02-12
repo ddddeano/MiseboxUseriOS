@@ -54,12 +54,9 @@ extension MiseboxUserManager {
     }
     
     public static func mockMiseboxUserManager() -> MiseboxUserManager {
-        let mockMiseboxUser = MiseboxUserManager.mockMiseboxUser()
-        let mockMiseboxUserProfile = MiseboxUserManager.mockMiseboxUserProfile()
-        let mockMiseboxUserManager = MiseboxUserManager(miseboxUser: mockMiseboxUser, miseboxUserProfile: mockMiseboxUserProfile, role: .chef)
+        let mockMiseboxUserManager = MiseboxUserManager(role: .miseboxUser)
         return mockMiseboxUserManager
     }
 }
-
 
 #endif

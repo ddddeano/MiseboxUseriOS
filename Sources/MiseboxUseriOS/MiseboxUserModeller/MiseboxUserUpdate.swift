@@ -20,7 +20,7 @@ extension MiseboxUserManager {
     }
 
     
-    enum UpdateContext {
+    public enum UpdateContext {
         case username
         case miseCODE
         case email
@@ -32,7 +32,7 @@ extension MiseboxUserManager {
         case accountProviders
     }
     
-    func update(context: UpdateContext) async {
+    public func update(context: UpdateContext) async {
         switch context {
         case .username:
             print("Current username: \(self.miseboxUser.username)")

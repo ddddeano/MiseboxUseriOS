@@ -90,6 +90,9 @@ extension MiseboxUserManager {
         public var endDate: Timestamp = Timestamp()
         
         public init() {}
+        public init(type: SubscriptionType) {
+            self.type = type
+        }
         
         public init?(fromDictionary fire: [String: Any]) {
             self.type = SubscriptionType(rawValue: fire["type"] as? String ?? "") ?? .basic

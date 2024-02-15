@@ -14,11 +14,14 @@ extension MiseboxUserManager {
     
     public func checkMiseboxUserExistsInFirestore() async throws -> Bool {
         guard !self.id.isEmpty else {
+            print("MiseboxUserManager checkMiseboxUserExistsInFirestore: ID is empty.")
             return false
         }
         let exists = try await firestoreManager.checkDocumentExists(collection: miseboxUser.collection, documentID: self.id)
+        print("MiseboxUserManager checkMiseboxUserExistsInFirestore: Document exists = \(exists) for ID: \(self.id)")
         return exists
     }
+
 
     public func primeMiseboxUser(id: String) {
         self.miseboxUser.prime(id: id)

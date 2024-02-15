@@ -68,6 +68,11 @@ extension MiseboxUserManager {
         public var last = ""
         
         public init() {}
+        public init(first: String, middle: String, last: String) {
+            self.first = first
+            self.middle = middle
+            self.last = last
+        }
         
         public init?(fromDictionary fire: [String: Any]) {
             self.first = fire["first"] as? String ?? ""

@@ -17,7 +17,7 @@ extension MiseboxUserManager {
         public let isAvailable: Bool
         
         // Define roles without the 'mottoKey' property
-        public static let miseboxUser = Role(doc: "misebox-user", collection: "misebox-users", color: .gray, isAvailable: true)
+        public static let miseboxUser = Role(doc: "misebox-user", collection: "misebox-users", color: .purple, isAvailable: true)
         public static let chef = Role(doc: "chef", collection: "chefs", color: .green, isAvailable: true)
         public static let agent = Role(doc: "agent", collection: "agents", color: .blue, isAvailable: true)
         public static let recruiter = Role(doc: "recruiter", collection: "recruiters", color: .orange, isAvailable: true)

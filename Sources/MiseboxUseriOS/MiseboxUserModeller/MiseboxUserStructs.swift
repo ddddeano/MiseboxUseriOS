@@ -7,24 +7,29 @@
 import FirebaseFirestore
 import GlobalMiseboxiOS
 import FirebaseiOSMisebox
+import SwiftUI
 
 extension MiseboxUserManager {
     
-    public struct Role {
-        public let doc: String
-        public let collection: String
-        
-        public static let miseboxUser = Role(doc: "misebox-user", collection: "misebox-users")
-        public static let chef = Role(doc: "chef", collection: "chefs")
-        public static let agent = Role(doc: "agent", collection: "agents")
-        public static let recruiter = Role(doc: "recruiter", collection: "recruiters")
-        
-        public static let allCases: [Role] = [.miseboxUser, .chef, .agent, .recruiter]
-        
-        public static func find(byDoc doc: String) -> Role? {
-            return allCases.first { $0.doc == doc }
+        public struct Role {
+            public let doc: String
+            public let collection: String
+            public let color: Color
+            public let isAvailable: Bool
+            
+            public static let miseboxUser = Role(doc: "misebox-user", collection: "misebox-users", color: .gray, isAvailable: true)
+            public static let chef = Role(doc: "chef", collection: "chefs", color: .green, isAvailable: true)
+            public static let agent = Role(doc: "agent", collection: "agents", color: .blue, isAvailable: true)
+            public static let recruiter = Role(doc: "recruiter", collection: "recruiters", color: .orange, isAvailable: true)
+            
+            public static let allCases: [Role] = [.miseboxUser, .chef, .agent, .recruiter]
+            
+            public static func find(byDoc doc: String) -> Role? {
+                return allCases.first { $0.doc == doc }
+            }
         }
-    }
+    
+
     
     public struct UserRole {
         public var role: Role

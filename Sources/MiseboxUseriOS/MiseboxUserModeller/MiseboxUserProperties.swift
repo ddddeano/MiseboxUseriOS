@@ -33,4 +33,24 @@ extension MiseboxUserManager {
     public var imageUrl: String {
         return miseboxUser.imageUrl
     }
+        
+    // EcoSystem Properties
+       
+       public var miseboxUserMotto: String {
+           ecosystemData?.miseboxUserMotto ?? ""
+       }
+       
+       public var chefMotto: String {
+           ecosystemData?.chefMotto ?? ""
+       }
+       
+       public var agentMotto: String {
+           ecosystemData?.agentMotto ?? ""
+       }
+       
+       public var recruiterMotto: String {
+           ecosystemData?.recruiterMotto ?? ""
+       }
+   }
+   In this extension:
 }

@@ -10,30 +10,27 @@ import FirebaseiOSMisebox
 import SwiftUI
 
 extension MiseboxUserManager {
-
+    
+    public struct Role {
+        public let doc: String
+        public let collection: String
+        public let color: Color
+        public let isAvailable: Bool
         
-        public struct Role {
-            public let doc: String
-            public let collection: String
-            public let color: Color
-            public let isAvailable: Bool
-            public let message: String
-            
-            public static let miseboxUser = Role(doc: "misebox-user", collection: "misebox-users", color: .gray, isAvailable: true, message: "Misebox: Your central hub for the Misebox ecosystem. Manage your account, user credentials, and logs.")
-            public static let chef = Role(doc: "chef", collection: "chefs", color: .green, isAvailable: true, message: "Chef: Manage your kitchens like a pro, design menus, envisage dishes, organize your recipes, staff, training, and record keeping.")
-            public static let agent = Role(doc: "agent", collection: "agents", color: .blue, isAvailable: true, message: "Agent: Search for jobs, get hired, and get paid.")
-            public static let recruiter = Role(doc: "recruiter", collection: "recruiters", color: .orange, isAvailable: true, message: "Recruiter: Post jobs, search for agents, link staff with kitchens.")
-            
-            public static let allCases: [Role] = [.miseboxUser, .chef, .agent, .recruiter]
-            
-            public static func find(byDoc doc: String) -> Role? {
-                return allCases.first { $0.doc == doc }
-            }
+        // Define roles without the 'motto' property
+        public static let miseboxUser = Role(doc: "misebox-user", collection: "misebox-users", color: .gray, isAvailable: true)
+        public static let chef = Role(doc: "chef", collection: "chefs", color: .green, isAvailable: true)
+        public static let agent = Role(doc: "agent", collection: "agents", color: .blue, isAvailable: true)
+        public static let recruiter = Role(doc: "recruiter", collection: "recruiters", color: .orange, isAvailable: true)
+        
+        // Array of all role cases for easy iteration or finding
+        public static let allCases: [Role] = [.miseboxUser, .chef, .agent, .recruiter]
+        
+        // Helper method to find a role by its document identifier
+        public static func find(byDoc doc: String) -> Role? {
+            return allCases.first { $0.doc == doc }
         }
-    
-
-    
-
+    }
     
     public struct UserRole {
         public var role: Role

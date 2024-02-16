@@ -35,7 +35,7 @@ extension MiseboxUserManager {
     public func update(context: UpdateContext) async {
         switch context {
         case .username:
-            print("Current username: \(self.miseboxUser.username)")
+            print("Update username: \(self.miseboxUser.username)")
             updateMiseboxUser()
         case .miseCODE:
             print("Current miseCode: \(self.miseboxUser.miseCODE)")

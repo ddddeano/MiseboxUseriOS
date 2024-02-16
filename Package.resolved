@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ddddeano/GlobalMiseboxiOS.git",
       "state" : {
-        "revision" : "80a54fd55f1c6c6e9fab4b21f40fac15492e2420",
-        "version" : "1.0.4"
+        "revision" : "258e950138b6609a6ad5b988804f20b88117e807",
+        "version" : "1.0.31"
       }
     },
     {

@@ -22,7 +22,7 @@ extension MiseboxUserManager {
         @Published public var handle: String = ""
         @Published public var miseCODE: String = ""
         @Published public var email: String = ""
-        @Published public var imageUrl: String = defaultImage
+        @Published public var imageUrl: String = ""
         @Published public var verified: Bool = false
         @Published public var userRoles: [UserRole] = []
         

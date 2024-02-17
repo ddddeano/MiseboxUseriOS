@@ -7,7 +7,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseiOSMisebox
 
-public final class MiseboxUserManager: ObservableObject {
+public final class MiseboxUserManager {
     public var role: MiseboxUserManager.Role
     
     let firestoreManager = FirestoreManager()
@@ -38,7 +38,6 @@ public final class MiseboxUserManager: ObservableObject {
                     self.ecosystemData = data
                 case .failure(let error):
                     print("Error fetching ecosystem data: \(error)")
-                    // Handle error, potentially setting a default EcosystemData or showing an error message
                 }
             }
         }

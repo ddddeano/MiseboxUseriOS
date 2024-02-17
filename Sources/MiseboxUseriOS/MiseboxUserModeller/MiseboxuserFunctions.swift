@@ -40,9 +40,12 @@ extension MiseboxUserManager {
     public func documentListener<T: Listenable>(for entity: T, completion: @escaping (Result<T, Error>) -> Void) {
         print("Adding document listener for \(T.self)...")
         self.listener = firestoreManager.addDocumentListener(for: entity) { result in
-            completion(result)
+            DispatchQueue.main.async {
+                completion(result)
+            }
         }
     }
+
     
     public func collectionListener(completion: @escaping (Result<[MiseboxUser], Error>) -> Void) {
         print("Adding collection listener for Misebox users...")

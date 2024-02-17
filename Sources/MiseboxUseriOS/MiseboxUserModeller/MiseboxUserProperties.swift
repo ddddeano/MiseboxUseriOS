@@ -11,9 +11,11 @@ extension MiseboxUserManager {
     public var id: String {
         return miseboxUser.id
     }
-    public var username: String {
-        return miseboxUser.handle
+  
+    public var miseCODE: String {
+        miseboxUser.miseCODE
     }
+    
     public var name: String {
         miseboxUserProfile.fullName.first
     }

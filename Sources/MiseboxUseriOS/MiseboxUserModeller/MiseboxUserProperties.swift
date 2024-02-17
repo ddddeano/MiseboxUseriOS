@@ -9,11 +9,15 @@ import Foundation
 extension MiseboxUserManager {
     
     public var id: String {
-        return miseboxUser.id
+        miseboxUser.id
     }
   
     public var miseCODE: String {
         miseboxUser.miseCODE
+    }
+    
+    public var handle: String {
+        miseboxUser.handle
     }
     
     public var name: String {

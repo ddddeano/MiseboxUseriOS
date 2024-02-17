@@ -52,35 +52,25 @@ extension MiseboxUserManager {
    
     public func updateUserInfo(provider: AuthenticationManager.AuthenticationMethod, firebaseUser: AuthenticationManager.FirebaseUser) async {
         if self.miseCODE.isEmpty {
-            let newMiseCODE = await generateMiseCODE()
-            DispatchQueue.main.async { [weak self] in
-                self?.miseboxUser.miseCODE = newMiseCODE
-            }
+            self.miseboxUser.miseCODE = await generateMiseCODE()
         }
         
         let generatedHandle = generateHandle(provider: provider, firebaseUser: firebaseUser)
-        DispatchQueue.main.async { [weak self] in
-            self?.miseboxUser.handle = generatedHandle.isEmpty ? self?.miseboxUser.miseCODE ?? "" : generatedHandle
-        }
+        self.miseboxUser.handle = generatedHandle.isEmpty ? self.miseboxUser.miseCODE : generatedHandle
 
         if let email = firebaseUser.email, self.email.isEmpty {
-            DispatchQueue.main.async { [weak self] in
-                self?.miseboxUser.email = email
-            }
+            self.miseboxUser.email = email
         }
 
         if let photoUrl = firebaseUser.photoUrl, self.imageUrl.isEmpty {
-            DispatchQueue.main.async { [weak self] in
-                self?.miseboxUser.imageUrl = photoUrl
-            }
+            self.miseboxUser.imageUrl = photoUrl
         }
 
         if !self.accountProviders.contains(provider.rawValue) {
-            DispatchQueue.main.async { [weak self] in
-                self?.miseboxUserProfile.accountProviders.append(provider.rawValue)
-            }
+            self.miseboxUserProfile.accountProviders.append(provider.rawValue)
         }
     }
+
 
 
     public func generateMiseCODE() async -> String {

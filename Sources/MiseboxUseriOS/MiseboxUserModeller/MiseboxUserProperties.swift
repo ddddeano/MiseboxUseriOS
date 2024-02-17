@@ -12,7 +12,7 @@ extension MiseboxUserManager {
         return miseboxUser.id
     }
     public var username: String {
-        return miseboxUser.username
+        return miseboxUser.handle
     }
     public var name: String {
         miseboxUserProfile.fullName.first

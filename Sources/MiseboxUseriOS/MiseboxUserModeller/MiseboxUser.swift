@@ -19,7 +19,7 @@ extension MiseboxUserManager {
         
         @Published public var id: String = ""
         
-        @Published public var username: String = ""
+        @Published public var handle: String = ""
         @Published public var miseCODE: String = ""
         @Published public var email: String = ""
         @Published public var imageUrl: String = defaultImage
@@ -42,7 +42,7 @@ extension MiseboxUserManager {
         }
         
         public func update(with data: [String: Any]) {
-            username = data["username"] as? String ?? ""
+            handle = data["handle"] as? String ?? ""
             email = data["email"] as? String ?? ""
             miseCODE = data ["misecode"] as? String ?? ""
             imageUrl = data["image_url"] as? String ?? defaultImage
@@ -55,7 +55,7 @@ extension MiseboxUserManager {
         
         public func toFirestore() -> [String: Any] {
             return [
-                "username": username,
+                "handle": handle,
                 "email": email,
                 "misecode": miseCODE,
                 "image_url": imageUrl,
@@ -65,7 +65,7 @@ extension MiseboxUserManager {
         }
         public func resetFields() {
             id = ""
-            username = ""
+            handle = ""
             email = ""
             miseCODE = ""
             imageUrl = defaultImage

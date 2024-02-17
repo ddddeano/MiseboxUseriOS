@@ -22,12 +22,8 @@ extension MiseboxUserManager {
         return exists
     }
 
-
     public func primeMiseboxUser(id: String) {
         self.miseboxUser.prime(id: id)
-       /* not sure what to do with image yet we can wit if self.imageUrl.isEmpty {
-            self.miseboxUser.imageUrl = defaultImage
-        }*/
     }
 
     public func primeMiseboxUserProfile(id: String) {
@@ -39,6 +35,8 @@ extension MiseboxUserManager {
         try await firestoreManager.setDoc(entity: self.miseboxUserProfile)
     }
     
+    
+    
     public func documentListener<T: Listenable>(for entity: T, completion: @escaping (Result<T, Error>) -> Void) {
         print("Adding document listener for \(T.self)...")
         self.listener = firestoreManager.addDocumentListener(for: entity) { result in
@@ -49,6 +47,48 @@ extension MiseboxUserManager {
     public func collectionListener(completion: @escaping (Result<[MiseboxUser], Error>) -> Void) {
         print("Adding collection listener for Misebox users...")
         self.listener = firestoreManager.addCollectionListener(collection: self.miseboxUser.collection, completion: completion)
+    }
+    // MARK: - Shared Logic Helpers
+    public func updateUserInfo(provider: AuthenticationManager.AuthenticationMethod, firebaseUser: AuthenticationManager.FirebaseUser) {
+        let handle = getUsername(provider: provider, firebaseUser: firebaseUser)
+        
+        // Generate miseCODE only if it hasn't been set yet.
+        if self.miseboxUser.miseCODE.isEmpty {
+            self.miseboxUser.miseCODE = generateMiseCODE()
+        }
+        
+        if self.miseboxUser.handle.isEmpty {
+            self.miseboxUser.handle = handle
+        }
+        if let email = firebaseUser.email, self.miseboxUser.email.isEmpty {
+            self.miseboxUser.email = email
+        }
+        if let photoUrl = firebaseUser.photoUrl, self.miseboxUser.imageUrl.isEmpty {
+            self.miseboxUser.imageUrl = photoUrl
+        }
+        
+        if !self.miseboxUserProfile.accountProviders.contains(provider.rawValue) {
+            self.miseboxUserProfile.accountProviders.append(provider.rawValue)
+        }
+    }
+
+    private func generateMiseCODE() -> String {
+        let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        return String((0..<6).map{ _ in characters.randomElement()! })
+    }
+    
+    private func getUsername(provider: AuthenticationManager.AuthenticationMethod, firebaseUser: AuthenticationManager.FirebaseUser) -> String {
+        switch provider {
+        case .email:
+            if let email = firebaseUser.email, let prefix = email.components(separatedBy: "@").first {
+                return prefix
+            }
+        default:
+            if let name = firebaseUser.name, !name.isEmpty {
+                return name
+            }
+        }
+        return "User"
     }
 }
 

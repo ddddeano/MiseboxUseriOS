@@ -49,28 +49,40 @@ extension MiseboxUserManager {
         print("Adding collection listener for Misebox users...")
         self.listener = firestoreManager.addCollectionListener(collection: self.miseboxUser.collection, completion: completion)
     }
+   
     public func updateUserInfo(provider: AuthenticationManager.AuthenticationMethod, firebaseUser: AuthenticationManager.FirebaseUser) async {
-
         if self.miseCODE.isEmpty {
-            self.miseboxUser.miseCODE = await generateMiseCODE()
+            let newMiseCODE = await generateMiseCODE() // Generate MiseCODE asynchronously
+            DispatchQueue.main.async { [weak self] in
+                self?.miseboxUser.miseCODE = newMiseCODE
+            }
         }
-        
+
         let generatedHandle = generateHandle(provider: provider, firebaseUser: firebaseUser)
-        self.miseboxUser.handle = generatedHandle.isEmpty ? self.miseCODE : generatedHandle
-        
+        DispatchQueue.main.async { [weak self] in
+            self?.miseboxUser.handle = generatedHandle.isEmpty ? self?.miseboxUser.miseCODE ?? "" : generatedHandle
+        }
+
         if let email = firebaseUser.email, self.email.isEmpty {
-            self.miseboxUser.email = email
+            DispatchQueue.main.async { [weak self] in
+                self?.miseboxUser.email = email
+            }
         }
-        
+
         if let photoUrl = firebaseUser.photoUrl, self.imageUrl.isEmpty {
-            self.miseboxUser.imageUrl = photoUrl
+            DispatchQueue.main.async { [weak self] in
+                self?.miseboxUser.imageUrl = photoUrl
+            }
         }
-        
+
         if !self.accountProviders.contains(provider.rawValue) {
-            self.miseboxUserProfile.accountProviders.append(provider.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.miseboxUserProfile.accountProviders.append(provider.rawValue)
+            }
         }
-        // subscription
     }
+
+
     public func generateMiseCODE() async -> String {
         let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         var miseCODE: String

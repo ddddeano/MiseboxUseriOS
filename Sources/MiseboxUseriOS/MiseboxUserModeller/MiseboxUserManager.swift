@@ -17,10 +17,10 @@ public final class MiseboxUserManager: ObservableObject {
         listener?.remove()
     }
     
-    @Published public var ecosystemData: EcosystemData? // Made optional
+    public var ecosystemData: EcosystemData?
     
-    @Published public var miseboxUser = MiseboxUser()
-    @Published public var miseboxUserProfile = MiseboxUserProfile()
+    public var miseboxUser = MiseboxUser()
+    public var miseboxUserProfile = MiseboxUserProfile()
     
     public init(role: MiseboxUserManager.Role) {
         self.role = role

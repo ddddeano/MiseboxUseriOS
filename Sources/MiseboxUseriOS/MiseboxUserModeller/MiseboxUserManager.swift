@@ -57,12 +57,14 @@ public protocol CanMiseboxUser {
 }
 
 public final class EcosystemData: FirestoreDataProtocol {
-    public var id: String = "singleton" // Assuming a fixed ID for simplicity
-    public var miseboxUserMotto: String
-    public var chefMotto: String
-    public var agentMotto: String
-    public var recruiterMotto: String
+    public var id = ""
+    public var miseboxUserMotto = ""
+    public var chefMotto = ""
+    public var agentMotto = ""
+    public var recruiterMotto = ""
 
+    public init() {}
+    
     public required init?(documentSnapshot: DocumentSnapshot) {
         guard let data = documentSnapshot.data() else { return nil }
         self.miseboxUserMotto = data["miseboxUserMotto"] as? String ?? ""

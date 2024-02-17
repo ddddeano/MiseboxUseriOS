@@ -20,8 +20,8 @@ public final class MiseboxUserManager: ObservableObject {
     
     public var ecosystemData: EcosystemData?
     
-    public var miseboxUser = MiseboxUser()
-    public var miseboxUserProfile = MiseboxUserProfile()
+    @Published public var miseboxUser = MiseboxUser()
+    @Published public var miseboxUserProfile = MiseboxUserProfile()
     
     public init(role: MiseboxUserManager.Role) {
         self.role = role

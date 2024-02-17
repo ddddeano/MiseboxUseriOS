@@ -51,27 +51,35 @@ extension MiseboxUserManager {
     }
    
     public func updateUserInfo(provider: AuthenticationManager.AuthenticationMethod, firebaseUser: AuthenticationManager.FirebaseUser) async {
+        print("Before update: \(self.miseboxUser.description)")
+
         if self.miseCODE.isEmpty {
-            self.miseboxUser.miseCODE = await generateMiseCODE()
+            let newMiseCODE = await generateMiseCODE()
+            print("Generated new MiseCODE: \(newMiseCODE)")
+            self.miseboxUser.miseCODE = newMiseCODE
         }
         
         let generatedHandle = generateHandle(provider: provider, firebaseUser: firebaseUser)
+        print("Generated Handle: \(generatedHandle)")
         self.miseboxUser.handle = generatedHandle.isEmpty ? self.miseboxUser.miseCODE : generatedHandle
 
         if let email = firebaseUser.email, self.email.isEmpty {
+            print("Setting Email: \(email)")
             self.miseboxUser.email = email
         }
 
         if let photoUrl = firebaseUser.photoUrl, self.imageUrl.isEmpty {
+            print("Setting Image URL: \(photoUrl)")
             self.miseboxUser.imageUrl = photoUrl
         }
 
         if !self.accountProviders.contains(provider.rawValue) {
+            print("Adding Account Provider: \(provider.rawValue)")
             self.miseboxUserProfile.accountProviders.append(provider.rawValue)
         }
+
+        print("After update: \(self.miseboxUser.description)")
     }
-
-
 
     public func generateMiseCODE() async -> String {
         let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -116,4 +124,26 @@ extension MiseboxUserManager {
         return handle
     }
     
+}
+// Implementing Custom Description for Debugging
+extension MiseboxUserManager.MiseboxUser {
+    var description: String {
+        """
+        ID: \(id)
+        Handle: \(handle)
+        MiseCODE: \(miseCODE)
+        Email: \(email)
+        Image URL: \(imageUrl)
+        Verified: \(verified)
+        User Roles: \(userRoles.map { $0.description }.joined(separator: ", "))
+        """
+    }
+}
+
+// Assuming UserRole conforms to CustomStringConvertible for better logging
+extension UserRole: CustomStringConvertible {
+    var description: String {
+        // Implement your description format for user roles here
+        "RoleName or other identifying property"
+    }
 }

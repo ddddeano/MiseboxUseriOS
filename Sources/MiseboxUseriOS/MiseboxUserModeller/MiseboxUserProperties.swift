@@ -19,7 +19,9 @@ extension MiseboxUserManager {
     public var handle: String {
         miseboxUser.handle
     }
-    
+    public var email: String {
+        miseboxUser.email
+    }
     public var name: String {
         miseboxUserProfile.fullName.first
     }

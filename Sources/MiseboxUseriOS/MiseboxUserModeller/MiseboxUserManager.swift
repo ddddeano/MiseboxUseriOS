@@ -7,6 +7,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseiOSMisebox
 
+@MainActor
 public final class MiseboxUserManager: ObservableObject {
     public var role: MiseboxUserManager.Role
     

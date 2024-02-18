@@ -16,7 +16,7 @@ extension MiseboxUserManager {
         fullName.first
     }
     public var fullNameFormatted: String {
-        [fullName.first, fullName.middle, fullName.last].filter { !$0.isEmpty }.joined(separator: " ")
+        fullName.formatted
     }
     
     // MiseboxUser Properties

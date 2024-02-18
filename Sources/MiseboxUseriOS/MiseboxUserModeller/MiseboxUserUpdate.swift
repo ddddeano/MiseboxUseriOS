@@ -21,7 +21,7 @@ extension MiseboxUserManager {
 
     
     public enum UpdateContext {
-        case username
+        case handle
         case miseCODE
         case email
         case imageUrl
@@ -34,8 +34,8 @@ extension MiseboxUserManager {
     
     public func update(context: UpdateContext) async {
         switch context {
-        case .username:
-            print("Update username: \(self.miseboxUser.handle)")
+        case .handle:
+            print("Update handle: \(self.miseboxUser.handle)")
             updateMiseboxUser()
         case .miseCODE:
             print("Current miseCode: \(self.miseboxUser.miseCODE)")

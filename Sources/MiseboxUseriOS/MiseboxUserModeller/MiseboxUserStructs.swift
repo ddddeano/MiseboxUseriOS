@@ -86,10 +86,10 @@ extension MiseboxUserManager {
         public func toFirestore() -> [String: Any] {
             ["first": first, "middle": middle, "last": last]
         }
-        var formattedCard: String {
+        public var formattedCard: String {
             [first, middle, last].filter { !$0.isEmpty }.joined(separator: " ")
         }
-        var isincomplete: Bool {
+        public var isincomplete: Bool {
             first.isEmpty || last.isEmpty
         }
         public var formatted: String {

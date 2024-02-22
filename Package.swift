@@ -2,14 +2,14 @@
 import PackageDescription
 
 let package = Package(
-    name: "MiseboxUseriOSPKG",
+    name: "MiseboxiOSMiseboxUser",
     platforms: [
         .iOS(.v16)
     ],
     products: [
         .library(
-            name: "MiseboxUseriOSPKG",
-            targets: ["MiseboxUseriOSPKG"]),
+            name: "MiseboxiOSMiseboxUser",
+            targets: ["MiseboxiOSMiseboxUser"]),
     ],
     dependencies: [
         .package(url: "https://github.com/ddddeano/FirebaseiOSMisebox.git", from: "1.0.3"),
@@ -17,14 +17,14 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "MiseboxUseriOSPKG",
+            name: "MiseboxiOSMiseboxUser",
             dependencies: [
                 "FirebaseiOSMisebox",
                 "GlobalMiseboxiOS"
             ]
         ),
         .testTarget(
-            name: "MiseboxUseriOSPKGTTests",
-            dependencies: ["MiseboxUseriOSPKG"]),
+            name: "MiseboxiOSMiseboxUserTTests",
+            dependencies: ["MiseboxiOSMiseboxUser"]),
     ]
 )

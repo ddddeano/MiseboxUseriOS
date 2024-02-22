@@ -5,7 +5,7 @@
 //
 
 import FirebaseFirestore
-import GlobalMiseboxiOS
+import MiseboxiOSGlobal
 import FirebaseiOSMisebox
 import SwiftUI
 

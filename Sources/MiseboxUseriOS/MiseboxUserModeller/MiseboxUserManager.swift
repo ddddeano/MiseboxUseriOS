@@ -6,7 +6,7 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseiOSMisebox
-import GlobalMiseboxiOS
+import MiseboxiOSGlobal
 
 @MainActor
 public final class MiseboxUserManager: ObservableObject {

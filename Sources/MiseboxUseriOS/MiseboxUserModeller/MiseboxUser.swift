@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseiOSMisebox
-import GlobalMiseboxiOS
+import MiseboxiOSGlobal
 
 extension MiseboxUserManager {
     public final class MiseboxUser: ObservableObject, Identifiable, Listenable {

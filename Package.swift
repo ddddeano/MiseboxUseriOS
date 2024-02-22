@@ -13,14 +13,14 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/ddddeano/FirebaseiOSMisebox.git", from: "1.0.3"),
-        .package(url: "https://github.com/ddddeano/GlobalMiseboxiOS.git", from: "1.0.4")
+        .package(url: "https://github.com/ddddeano/misebox-ios-global-pkg", from: "1.0.4")
     ],
     targets: [
         .target(
             name: "MiseboxiOSMiseboxUser",
             dependencies: [
                 "FirebaseiOSMisebox",
-                "GlobalMiseboxiOS"
+                "MiseboxiOSGlobal"
             ]
         ),
         .testTarget(
@@ -28,3 +28,4 @@ let package = Package(
             dependencies: ["MiseboxiOSMiseboxUser"]),
     ]
 )
+x-xcode-log://301E1985-97A6-4328-AF39-A7296D081945 product 'MiseboxiOSGlobal' required by package 'miseboxuserios' target 'MiseboxiOSMiseboxUser' not found.

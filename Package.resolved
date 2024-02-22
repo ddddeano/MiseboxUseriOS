@@ -41,17 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ddddeano/FirebaseiOSMisebox.git",
       "state" : {
-        "revision" : "15d6291c8f2cf528e7d5e054409359bedb99be30",
-        "version" : "1.1.99"
-      }
-    },
-    {
-      "identity" : "globalmiseboxios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ddddeano/GlobalMiseboxiOS.git",
-      "state" : {
-        "revision" : "1ddf5cf90a4aa5f3d29fdecd02a083a5f7a49841",
-        "version" : "1.0.38"
+        "revision" : "1cfd2cd5428179f5b737b6681c9eccd4037eda52",
+        "version" : "1.1.104"
       }
     },
     {
@@ -136,6 +127,15 @@
       }
     },
     {
+      "identity" : "misebox-ios-global-pkg",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ddddeano/misebox-ios-global-pkg",
+      "state" : {
+        "revision" : "9463e9ccb481db1976492502a8f049abcf6666da",
+        "version" : "1.0.4"
+      }
+    },
+    {
       "identity" : "nanopb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/nanopb.git",
@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/promises.git",
       "state" : {
-        "revision" : "e70e889c0196c76d22759eb50d6a0270ca9f1d9e",
-        "version" : "2.3.1"
+        "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
+        "version" : "2.4.0"
       }
     },
     {

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import GlobalMiseboxiOS
+import MiseboxiOSGlobal
 import FirebaseiOSMisebox
 
 

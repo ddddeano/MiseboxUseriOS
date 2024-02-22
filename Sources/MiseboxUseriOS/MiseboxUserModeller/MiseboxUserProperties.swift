@@ -56,23 +56,4 @@ extension MiseboxUserManager {
     public var subscription: Subscription {
         miseboxUserProfile.subscription
     }
-    
-    // EcoSystem Properties
-    
-    public var miseboxUserMotto: String {
-        ecosystemData?.miseboxUserMotto ?? ""
-    }
-    
-    public var chefMotto: String {
-        ecosystemData?.chefMotto ?? ""
-    }
-    
-    public var agentMotto: String {
-        ecosystemData?.agentMotto ?? ""
-    }
-    
-    public var recruiterMotto: String {
-        ecosystemData?.recruiterMotto ?? ""
-        
-    }
 }

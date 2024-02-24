@@ -13,7 +13,7 @@ public class ProfileDashboardVM: ObservableObject {
 
     var signOutAction: () async -> Void // Store the sign-out action
 
-    init(miseboxUserManager: MiseboxUserManager, signOutAction: @escaping () async -> Void) {
+   public init(miseboxUserManager: MiseboxUserManager, signOutAction: @escaping () async -> Void) {
         self.miseboxUserManager = miseboxUserManager
         self.signOutAction = signOutAction
     }

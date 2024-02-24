@@ -6,13 +6,63 @@
 //
 
 import SwiftUI
+import MiseboxiOSGlobal
+import _PhotosUI_SwiftUI
 
-struct SwiftUIView: View {
+struct UserCardView: View {
+    @ObservedObject var photoVM: PhotosPickerVM
+    @ObservedObject var vm: ProfileDashboardVM
+    @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
+    @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+          HStack {
+              leftSide
+              main
+          }
+        .frame(height: 110)
+        .sectionStyle(borderColor: .purple)
+      }
 
-#Preview {
-    SwiftUIView()
+    private var main: some View {
+        VStack(alignment: .leading) {
+            Text(miseboxUserProfile.fullName.formattedCard)
+                .font(.headline)
+                .foregroundColor(.primary)
+            Text("@\(miseboxUser.handle)")
+                .font(.subheadline)
+                .foregroundColor(.purple.opacity(1))
+            Divider()
+            Text("\(miseboxUserProfile.subscription.type.rawValue) subscription")
+                .font(.caption)
+                .foregroundColor(.purple.opacity(0.8))
+            Text("MiseCODE: \(miseboxUser.miseCODE)")
+                .font(.caption)
+                .foregroundColor(.purple.opacity(0.8))
+        }
+        .padding(.top, 13)
+        .padding(.leading, 5)
+    }
+    
+    private var leftSide: some View {
+        VStack {
+            avatarView
+            Spacer()
+        }
+    }
+    private var avatarView: some View {
+        PhotosPicker(selection: $photoVM.imageSelection, matching: .images) {
+            Group {
+                if miseboxUser.imageUrl.isEmpty {
+                    Image(systemName: "person.crop.circle.badge.plus")
+                        .resizable()
+                        .scaledToFit()
+                } else {
+                    AvatarView(imageUrl: miseboxUser.imageUrl, width: 60, height: 60, env: .edit)
+                }
+            }
+            .frame(width: 60, height: 60)
+            .contentShape(Rectangle()) // Explicit tap area
+        }
+    }
 }

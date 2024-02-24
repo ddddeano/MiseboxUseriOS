@@ -7,9 +7,10 @@
 
 import Foundation
 import SwiftUI
+import MiseboxiOSGlobal
 
 struct MiseboxUserProfile: View {
-    @StateObject var vm: ProfileDashboardViewModel
+    @StateObject var vm: ProfileDashboardVM
     @StateObject var nav = MiseboxUserProfileViewNavigation()
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
@@ -19,12 +20,12 @@ struct MiseboxUserProfile: View {
         NavigationStack(path: $navigationPath) {
             VStack {
                 UserCardView(
-                    photoVM: PhotosPickerViewModel(
+                    photoVM: PhotosPickerVM(
                         path: "misebox-users/avatars/\(miseboxUser.miseCODE)",
                         documentId: miseboxUser.id,
                         collectionName: miseboxUser.collection
                     ),
-                    vm: ProfileDashboardViewModel(
+                    vm: ProfileDashboardVM(
                         miseboxUserManager: vm.miseboxUserManager,
                         signOutAction: vm.signOut
                     )

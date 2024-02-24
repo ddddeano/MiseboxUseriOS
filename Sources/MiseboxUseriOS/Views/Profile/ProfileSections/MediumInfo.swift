@@ -6,3 +6,18 @@
 //
 
 import Foundation
+import Foundation
+import SwiftUI
+struct MediumInfoView: View {
+    var vm: ProfileDashboardVM
+    
+    var body: some View {
+        VStack {
+            Text("Medium Information")
+                .font(.title)
+            Text("Subscription Type: \(vm.miseboxUserManager.miseboxUserProfile.subscription.type.rawValue)")
+            Text("Account Providers: \(vm.miseboxUserManager.miseboxUserProfile.accountProviders.joined(separator: ", "))")
+        }
+        .padding()
+    }
+}

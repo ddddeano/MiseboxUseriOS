@@ -24,6 +24,7 @@ public final class MiseboxUserManager: ObservableObject {
     
     public init(role: MiseboxEcosystem.Role) {
         self.role = role
+        // create 5 posts
     }
     
     public func reset() {

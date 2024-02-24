@@ -9,14 +9,20 @@ import Foundation
 import SwiftUI
 import MiseboxiOSGlobal
 
-struct MiseboxUserProfile: View {
+public struct MiseboxUserProfile: View {
     @StateObject var vm: ProfileDashboardVM
     @StateObject var nav = MiseboxUserProfileViewNavigation()
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
     @Binding var navigationPath: NavigationPath
     
-    var body: some View {
+    public init(vm: ProfileDashboardVM, navigationPath: Binding<NavigationPath>) {
+           self._vm = StateObject(wrappedValue: vm)
+           self._nav = StateObject(wrappedValue: MiseboxUserProfileViewNavigation())
+           self._navigationPath = navigationPath
+       }
+
+    public var body: some View {
         NavigationStack(path: $navigationPath) {
             VStack {
                 UserCardView(

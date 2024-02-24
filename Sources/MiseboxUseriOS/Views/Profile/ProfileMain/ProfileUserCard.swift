@@ -9,13 +9,18 @@ import SwiftUI
 import MiseboxiOSGlobal
 import _PhotosUI_SwiftUI
 
-struct UserCardView: View {
+public struct UserCardView: View {
     @ObservedObject var photoVM: PhotosPickerVM
     @ObservedObject var vm: ProfileDashboardVM
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
 
-    var body: some View {
+    public init(photoVM: PhotosPickerVM, vm: ProfileDashboardVM) {
+           self.photoVM = photoVM
+           self.vm = vm
+       }
+    
+   public var body: some View {
           HStack {
               leftSide
               main

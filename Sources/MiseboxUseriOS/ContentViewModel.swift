@@ -16,7 +16,7 @@ public final class ContentViewModel: ObservableObject {
     private var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
     public let authenticationManager = AuthenticationManager()
     
-    @Published var miseboxUserManager: MiseboxUserManager
+    @Published public var miseboxUserManager: MiseboxUserManager
     @Published public var currentUser: AuthenticationManager.FirebaseUser?
     
     init(miseboxUserManager: MiseboxUserManager) {
@@ -160,7 +160,7 @@ public final class ContentViewModel: ObservableObject {
         await onboardMiseboxUser()
     }
     
-    func signOut() async {
+    public func signOut() async {
         miseboxUserManager.reset()
         await authenticationManager.signOut()
         self.isAuthenticated = false

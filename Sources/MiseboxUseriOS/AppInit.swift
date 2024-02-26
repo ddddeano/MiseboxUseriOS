@@ -13,7 +13,7 @@ public struct Misebox<ContentView: ContentViewProtocol>: View {
     let colors: [Color]
     @ObservedObject var miseboxUserManager: MiseboxUserManager
     
-    public init(colors: [Color], miseboxUserManager: MiseboxUserManager, @ViewBuilder contentViewFactory: @escaping () -> ContentView) {
+    public init(colors: [Color], miseboxUserManager: MiseboxUserManager) {
         self.colors = colors
         self.miseboxUserManager = miseboxUserManager
     }
@@ -21,9 +21,9 @@ public struct Misebox<ContentView: ContentViewProtocol>: View {
     public var body: some View {
         ZStack {
             GradientBackgroundView(colors: colors)
-           /* AuthenticationView<ContentView: ContentViewProtocol>(ContentViewModel(miseboxUserManager: miseboxUserManager))
+            AuthenticationView<ContentView>(contentViewModel: ContentViewModel(miseboxUserManager: miseboxUserManager))
                 .environmentObject(miseboxUserManager.miseboxUser)
-                .environmentObject(miseboxUserManager.miseboxUserProfile)*/
+                .environmentObject(miseboxUserManager.miseboxUserProfile)
         }
     }
 }

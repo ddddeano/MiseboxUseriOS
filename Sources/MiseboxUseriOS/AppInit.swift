@@ -13,7 +13,12 @@ struct Misebox: View {
     let colors: [Color]
     @ObservedObject var miseboxUserManager: MiseboxUserManager
 
-    var body: some View {
+    public init(colors: [Color], miseboxUserManager: MiseboxUserManager) {
+          self.colors = colors
+          self.miseboxUserManager = miseboxUserManager
+      }
+    
+   public var body: some View {
         ZStack {
             GradientBackgroundView(colors: colors)
      /*       AuthenticationView(vm: ContentViewModel(miseboxUserManager: miseboxUserManager))

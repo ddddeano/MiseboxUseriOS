@@ -19,7 +19,7 @@ public final class ContentViewModel: ObservableObject {
     @Published public var miseboxUserManager: MiseboxUserManager
     @Published public var currentUser: AuthenticationManager.FirebaseUser?
     
-    init(miseboxUserManager: MiseboxUserManager) {
+    public init(miseboxUserManager: MiseboxUserManager) {
         self.miseboxUserManager = miseboxUserManager
         Task {
             await authenticate()

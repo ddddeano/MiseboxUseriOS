@@ -34,6 +34,10 @@ public final class ContentViewModel: ObservableObject {
     @Published public var password = "12345678"
     @Published public var message: String?
     
+    public var isAnon: Bool {
+        currentUser?.isAnon ?? false
+    }
+    
     func authenticate() async {
         print("Onboarding[authenticate] Starting authentication process...")
         authStateDidChangeListenerHandle = Auth.auth().addStateDidChangeListener { [weak self] (_, user) in

@@ -17,7 +17,7 @@ public final class ContentViewModel: ObservableObject {
     public let authenticationManager = AuthenticationManager()
     
     @Published var miseboxUserManager: MiseboxUserManager
-    @Published var currentUser: AuthenticationManager.FirebaseUser?
+    @Published public var currentUser: AuthenticationManager.FirebaseUser?
     
     init(miseboxUserManager: MiseboxUserManager) {
         self.miseboxUserManager = miseboxUserManager
@@ -29,7 +29,7 @@ public final class ContentViewModel: ObservableObject {
         }
     }
 
-    @Published var isAuthenticated = false
+    @Published public var isAuthenticated = false
     @Published var email = "test@test.com"
     @Published var password = "12345678"
     @Published var message: String?

@@ -21,7 +21,7 @@ public struct Misebox<ContentView: ContentViewProtocol>: View {
     public var body: some View {
         ZStack {
             GradientBackgroundView(colors: colors)
-            AuthenticationView<ContentView>(contentViewModel: ContentViewModel(miseboxUserManager: miseboxUserManager))
+            AuthenticationView<ContentView>(vm: ContentViewModel(miseboxUserManager: miseboxUserManager))
                 .environmentObject(miseboxUserManager.miseboxUser)
                 .environmentObject(miseboxUserManager.miseboxUserProfile)
         }

@@ -61,9 +61,8 @@ public struct UserCardView: View {
                 if miseboxUser.imageUrl.isEmpty {
                     Image(systemName: "person.crop.circle.badge.plus")
                         .resizable()
-                        .scaledToFit()
                 } else {
-                    AvatarView(imageUrl: miseboxUser.imageUrl, width: 60, height: 60, env: .edit)
+                    //AvatarView(imageUrl: miseboxUser.imageUrl, width: 60, height: 60, kind: .edit)
                 }
             }
             .frame(width: 60, height: 60)

@@ -23,7 +23,7 @@ public final class ContentViewModel: ObservableObject {
         self.miseboxUserManager = miseboxUserManager
         Task {
             await authenticate()
-            if EnvironmentManager.shared.mode == .development {
+            if EnvironmentManager.env.mode == .development {
                 self.isAuthenticated = true
             }
         }

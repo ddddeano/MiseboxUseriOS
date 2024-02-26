@@ -30,9 +30,9 @@ public final class ContentViewModel: ObservableObject {
     }
 
     @Published public var isAuthenticated = false
-    @Published var email = "test@test.com"
-    @Published var password = "12345678"
-    @Published var message: String?
+    @Published public var email = "test@test.com"
+    @Published public var password = "12345678"
+    @Published public var message: String?
     
     func authenticate() async {
         print("Onboarding[authenticate] Starting authentication process...")

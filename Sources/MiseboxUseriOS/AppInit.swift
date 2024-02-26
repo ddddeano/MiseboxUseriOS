@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import MiseboxiOSGlobal
 
-struct Misebox: View {
+public struct Misebox: View {
     let colors: [Color]
     @ObservedObject var miseboxUserManager: MiseboxUserManager
 

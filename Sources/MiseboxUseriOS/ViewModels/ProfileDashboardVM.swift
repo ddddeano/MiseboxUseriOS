@@ -8,7 +8,7 @@
 import Foundation
 import MiseboxiOSGlobal
 
-public class ProfileDashboardVMTEST: ObservableObject {
+public class ProfileDashboardVM: ObservableObject {
     public let miseboxUserManager: MiseboxUserManager
     var signOutAction: () async -> Void // Store the sign-out action
 

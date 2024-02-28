@@ -9,18 +9,26 @@ import Foundation
 import SwiftUI
 import MiseboxiOSGlobal
 
-public struct MiseboxUserProfile: View {
-    @StateObject var vm: ProfileDashboardVM
+public protocol DashboardViewModelProtocol: ObservableObject {
+    var miseboxUserManager: MiseboxUserManager { get }
+    var miseboxUserHasNewContent: Bool { get set }
+    func signOut() async
+    // Define any other necessary properties or functions here.
+}
+
+
+public struct MiseboxUserProfile<DashboardVM: DashboardViewModelProtocol & ObservableObject>: View {
+    @ObservedObject var vm: DashboardVM
     @StateObject var nav = MiseboxUserProfileViewNavigation()
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
     @Binding var navigationPath: NavigationPath
     
-    public init(vm: ProfileDashboardVM, navigationPath: Binding<NavigationPath>) {
-           self._vm = StateObject(wrappedValue: vm)
-           self._nav = StateObject(wrappedValue: MiseboxUserProfileViewNavigation())
-           self._navigationPath = navigationPath
-       }
+    public init(vm: DashboardVM, navigationPath: Binding<NavigationPath>) {
+        self._vm = ObservedObject(wrappedValue: vm)
+        self._nav = StateObject(wrappedValue: MiseboxUserProfileViewNavigation())
+        self._navigationPath = navigationPath
+    }
 
     public var body: some View {
         NavigationStack(path: $navigationPath) {
@@ -50,13 +58,13 @@ public struct MiseboxUserProfile: View {
             }
             .padding()
         }
-        .navigationDestination(for: MiseboxUserProfileViewNavigation.ProfileSections.self) { section in
-            switch section {
-            case .basicInfo: BasicInfoView(vm: vm)
-            case .mediumInfo: MediumInfoView(vm: vm)
-            case .advancedInfo: AdvancedInfoView(vm: vm)
-            }
-        }
+        //.navigationDestination(for: MiseboxUserProfileViewNavigation.ProfileSections.self) { section in
+       //     switch section {
+           // case .basicInfo: BasicInfoView(vm: vm)
+           // case .mediumInfo: MediumInfoView(vm: vm)
+           // case .advancedInfo: AdvancedInfoView(vm: vm)
+          //  }
+       // }
         .pageStyle(backgroundColor: .purple.opacity(0.1))
     }
 

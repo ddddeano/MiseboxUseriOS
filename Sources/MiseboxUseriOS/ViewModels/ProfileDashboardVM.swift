@@ -32,6 +32,7 @@ public class ProfileDashboardVM: ObservableObject {
 }
 
 public class MiseboxUserProfileViewNavigation: ObservableObject {
+    public init() {}
 
     public enum ProfileSections: String, CaseIterable, Identifiable {
         case basicInfo = "Basic Information"

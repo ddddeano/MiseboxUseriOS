@@ -11,16 +11,25 @@ import MiseboxiOSGlobal
 import FirebaseiOSMisebox
 import Firebase
 
+public protocol AppRoleManageable: ObservableObject {
+    associatedtype Target: Listenable
+    var target: Target { get set }
+}
+
 @MainActor
 public final class ContentViewModel: ObservableObject {
     private var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
     public let authenticationManager = AuthenticationManager()
     
     @Published public var miseboxUserManager: MiseboxUserManager
+    
+    @Published public var appRoleManager: any AppRoleManageable
+    
     @Published public var currentUser: AuthenticationManager.FirebaseUser?
     
-    public init(miseboxUserManager: MiseboxUserManager) {
+    public init(miseboxUserManager: MiseboxUserManager, appRoleManager: any AppRoleManageable) {
         self.miseboxUserManager = miseboxUserManager
+        self.appRoleManager = appRoleManager
         Task {
             await authenticate()
             if EnvironmentManager.env.mode == .development {
@@ -63,7 +72,6 @@ public final class ContentViewModel: ObservableObject {
             }
         }
     }
-
 
     private func primeUserAndProfile(withUID uid: String) async {
         guard !uid.isEmpty else {

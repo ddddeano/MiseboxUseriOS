@@ -11,6 +11,7 @@ import MiseboxiOSGlobal
 import FirebaseiOSMisebox
 import Firebase
 
+@MainActor
 public protocol AppRoleManageable: ObservableObject {
     associatedtype Target: Listenable
     var target: Target { get set }

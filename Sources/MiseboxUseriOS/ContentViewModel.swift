@@ -15,6 +15,7 @@ import Firebase
 public protocol AppRoleManageable: ObservableObject {
     associatedtype Target: Listenable
     var target: Target { get set }
+    func onboard(userID: String) async
 }
 
 @MainActor
@@ -104,6 +105,9 @@ public final class ContentViewModel: ObservableObject {
                             print("MiseboxUser updated: \(updatedUser.id)")
                             self.miseboxUserManager.documentListener(for: self.miseboxUserManager.miseboxUserProfile, completion: { _ in })
                             print("[Content View Model]\(self.miseboxUserManager.id)")
+                            Task {
+                                await self.appRoleManager.onboard(userID: self.miseboxUserManager.id)
+                            }
                         }
                     case .failure(let error):
                         print("Error in document listener: \(error.localizedDescription)")
@@ -172,7 +176,7 @@ public final class ContentViewModel: ObservableObject {
         await primeUserAndProfile(withUID: firebaseUser.uid)
         await onboardMiseboxUser()
     }
-    
+        
     public func signOut() async {
         miseboxUserManager.reset()
         await authenticationManager.signOut()

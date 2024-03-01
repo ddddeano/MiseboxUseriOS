@@ -12,16 +12,15 @@ import MiseboxiOSGlobal
 public struct Misebox<ContentView: ContentViewProtocol>: View {
     let colors: [Color]
     @ObservedObject var miseboxUserManager: MiseboxUserManager
-    
+
     public init(colors: [Color], miseboxUserManager: MiseboxUserManager) {
-        self.colors = colors
-        self.miseboxUserManager = miseboxUserManager
-    }
-    
+           self.colors = colors
+           self.miseboxUserManager = miseboxUserManager
+       }
     public var body: some View {
         ZStack {
             GradientBackgroundView(colors: colors)
-            AuthenticationView<ContentView>(vm: ContentViewModel(miseboxUserManager: miseboxUserManager))
+            AuthenticationView<ContentView>(vm: ContentViewModel(miseboxUserManager: miseboxUserManager, appRoleManager: appRoleManager))
                 .environmentObject(miseboxUserManager.miseboxUser)
                 .environmentObject(miseboxUserManager.miseboxUserProfile)
         }

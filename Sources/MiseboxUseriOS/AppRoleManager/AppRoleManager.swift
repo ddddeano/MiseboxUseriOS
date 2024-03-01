@@ -18,7 +18,7 @@ public protocol RoleManager: ObservableObject {
 }
 
 public class GenericRoleManager<RoleType: RoleManager>: ObservableObject {
-
+    
     public let firestoreManager = FirestoreManager()
     public var listener: ListenerRegistration?
     @Published public var chefOrAgentManager: RoleType
@@ -27,15 +27,19 @@ public class GenericRoleManager<RoleType: RoleManager>: ObservableObject {
         self.chefOrAgentManager = chefOrAgentManager
     }
     
-    /*public func onboard(userID: String) async {
+    public func onboard(userID: String) async {
         // Implementation for onboarding based on the role
-        try? await chefOrAgentManager.onboard(userID: userID)
-    }*/
+      //  try? await chefOrAgentManager.onboard(userID: userID)
+    }
     
     public func reset() {
         listener?.remove()
         // Reset any other properties as needed
     }
 }
+
+// Ensure GenericRoleManager conforms to RoleManager protocol
+extension GenericRoleManager: RoleManager where RoleType: RoleManager {}
+
 
 

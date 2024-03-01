@@ -11,20 +11,21 @@ import FirebaseiOSMisebox
 import MiseboxiOSGlobal
 
 public protocol ContentViewProtocol: View {
-    init(vm: ContentViewModel)
+    associatedtype RoleManagerType: RoleManager
+    init(vm: ContentViewModel<RoleManagerType>)
 }
 
-struct AuthenticationView<ContentView: ContentViewProtocol>: View {
+struct AuthenticationView<ContentView: ContentViewProtocol, RoleManagerType: RoleManager>: View {
     // This ensures ContentView can be initialized with ContentViewModel.
     // The rest of your implementation...
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
-    @StateObject var vm: ContentViewModel
+    @StateObject var vm: ContentViewModel<RoleManagerType>
 
     var body: some View {
         ZStack {
             if vm.isAuthenticated {
-                ContentView(vm: vm)
+                ContentView(vm: vm as! ContentViewModel<ContentView.RoleManagerType>) // Cast vm to the appropriate type
                     .transition(.opacity.animation(.interpolatingSpring(stiffness: 50, damping: 10)))
             } else {
                 LogInView(vm: vm)
@@ -46,11 +47,10 @@ struct AuthenticationView<ContentView: ContentViewProtocol>: View {
 }
 
 
-    
-public struct LogInView: View {
+public struct LogInView<RoleManagerType: RoleManager>: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var env: EnvironmentManager
-    @ObservedObject var vm: ContentViewModel
+    @ObservedObject var vm: ContentViewModel<RoleManagerType>
     @State private var showEmailSignIn = false
     @State private var errorMessage: String? = ""
     @State private var welcomeIndex = 0
@@ -58,9 +58,9 @@ public struct LogInView: View {
     @State private var slideInDirection: Edge = .leading
     @State private var animateOut = false
     
-    public init(vm: ContentViewModel) {
-        self.vm = vm
-    }
+    public init(vm: ContentViewModel<RoleManagerType>) {
+            self.vm = vm
+        }
     
     public var body: some View {
         VStack {
@@ -142,9 +142,9 @@ public struct LogInView: View {
 }
 
 
-struct EmailSignInView: View {
+struct EmailSignInView<RoleManagerType: RoleManager>: View {
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var vm: ContentViewModel
+    @ObservedObject var vm: ContentViewModel<RoleManagerType>
     @State private var userIntent: AuthenticationManager.UserIntent = .newUser
     
     var body: some View {

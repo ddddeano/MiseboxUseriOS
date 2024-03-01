@@ -8,24 +8,26 @@
 import Foundation
 import SwiftUI
 import MiseboxiOSGlobal
+import Firebase
+import Foundation
+import FirebaseiOSMisebox
+import Firebase
 
-import SwiftUI
-import MiseboxiOSGlobal
 
-public struct Misebox<ContentView: ContentViewProtocol>: View {
+public struct Misebox<ContentView: ContentViewProtocol, RoleManagerType: RoleManager>: View {
     let colors: [Color]
-    @ObservedObject var vm: ContentViewModel
-    
-    public init(colors: [Color], vm: ContentViewModel) {
+
+    @StateObject var vm: ContentViewModel<RoleManagerType>
+
+    public init(colors: [Color], miseboxUserManager: MiseboxUserManager, roleManager: RoleManagerType) {
         self.colors = colors
-        self.vm = vm
+        self._vm = StateObject(wrappedValue: ContentViewModel(miseboxUserManager: miseboxUserManager, appRoleManager: roleManager))
     }
-    
+
     public var body: some View {
         ZStack {
             GradientBackgroundView(colors: colors)
-            AuthenticationView<ContentView>(vm: vm)
+            AuthenticationView<ContentView, RoleManagerType>(vm: vm)
         }
     }
 }
-

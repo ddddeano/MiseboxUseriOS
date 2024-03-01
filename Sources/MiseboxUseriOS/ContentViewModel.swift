@@ -12,24 +12,16 @@ import FirebaseiOSMisebox
 import Firebase
 
 @MainActor
-public protocol AppRoleManageable: ObservableObject {
-    associatedtype Target: Listenable
-    var target: Target { get set }
-    func onboard(userID: String) async
-}
-
-@MainActor
-public final class ContentViewModel: ObservableObject {
+public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
     private var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
     public let authenticationManager = AuthenticationManager()
     
     @Published public var miseboxUserManager: MiseboxUserManager
-    
-    @Published public var appRoleManager: any AppRoleManageable
+    @Published public var appRoleManager: RoleManagerType
     
     @Published public var currentUser: AuthenticationManager.FirebaseUser?
     
-    public init(miseboxUserManager: MiseboxUserManager, appRoleManager: any AppRoleManageable) {
+    public init(miseboxUserManager: MiseboxUserManager, appRoleManager: RoleManagerType) {
         self.miseboxUserManager = miseboxUserManager
         self.appRoleManager = appRoleManager
         Task {

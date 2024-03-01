@@ -11,16 +11,14 @@ import Firebase
 
 @MainActor
 public protocol RoleManager: ObservableObject {
-    associatedtype Role // Removing the Codable constraint
     func onboard(userID: String) async
     var firestoreManager: FirestoreManager { get }
     var listener: ListenerRegistration? { get set }
-    var role: Role { get set }
     func reset()
 }
 
 public class GenericRoleManager<RoleType: RoleManager>: ObservableObject {
-    
+
     public let firestoreManager = FirestoreManager()
     public var listener: ListenerRegistration?
     @Published public var chefOrAgentManager: RoleType

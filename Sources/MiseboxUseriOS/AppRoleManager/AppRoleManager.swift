@@ -11,7 +11,7 @@ import Firebase
 
 @MainActor
 public protocol RoleManager: ObservableObject {
-    associatedtype Role: Codable // Assuming Agent and Chef conform to Codable
+    associatedtype Role // Removing the Codable constraint
     func onboard(userID: String) async
     var firestoreManager: FirestoreManager { get }
     var listener: ListenerRegistration? { get set }
@@ -19,23 +19,25 @@ public protocol RoleManager: ObservableObject {
     func reset()
 }
 
-public class GenericRoleManager<RoleType: Codable>: RoleManager {
-    public typealias Role = RoleType
+public class GenericRoleManager<RoleType: RoleManager>: ObservableObject {
     
     public let firestoreManager = FirestoreManager()
     public var listener: ListenerRegistration?
-    @Published public var role: RoleType
+    @Published public var chefOrAgentManager: RoleType
     
-    public init(role: RoleType) {
-        self.role = role
+    public init(chefOrAgentManager: RoleType) {
+        self.chefOrAgentManager = chefOrAgentManager
     }
     
-    public func onboard(userID: String) async {
+    /*public func onboard(userID: String) async {
         // Implementation for onboarding based on the role
-    }
+        try? await chefOrAgentManager.onboard(userID: userID)
+    }*/
     
     public func reset() {
         listener?.remove()
         // Reset any other properties as needed
     }
 }
+
+

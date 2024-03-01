@@ -35,8 +35,6 @@ extension MiseboxUserManager {
         try await firestoreManager.setDoc(entity: self.miseboxUserProfile)
     }
     
-    
-    
     public func documentListener<T: Listenable>(for entity: T, completion: @escaping (Result<T, Error>) -> Void) {
         print("Adding document listener for \(T.self)...")
         self.listener = firestoreManager.addDocumentListener(for: entity) { result in

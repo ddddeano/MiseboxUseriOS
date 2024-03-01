@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ddddeano/FirebaseiOSMisebox.git",
       "state" : {
-        "revision" : "dfa7936171bce5a5e041d80c4f67a3cbee52acad",
-        "version" : "1.1.108"
+        "revision" : "da92ea5fa5fe1da05ba751814e0b22d5f4aca928",
+        "version" : "1.1.109"
       }
     },
     {

@@ -29,7 +29,7 @@ public class GenericRoleManager<RoleType: RoleManager>: ObservableObject {
     
     public func onboard(userID: String) async {
         // Implementation for onboarding based on the role
-      //  try? await chefOrAgentManager.onboard(userID: userID)
+        try? await chefOrAgentManager.onboard(userID: userID)
     }
     
     public func reset() {

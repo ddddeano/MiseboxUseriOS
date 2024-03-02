@@ -15,20 +15,15 @@ public protocol ContentViewProtocol: View {
     init(vm: ContentViewModel<RoleManagerType>)
 }
 
-struct AuthenticationView<ContentView: ContentViewProtocol, RoleManagerType: RoleManager>: View {
-    // This ensures ContentView can be initialized with ContentViewModel.
-    // The rest of your implementation...
+struct AuthenticationView<ContentView: ContentViewProtocol>: View where ContentView.RoleManagerType: RoleManager {
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
-    @StateObject var vm: ContentViewModel<RoleManagerType>
+    @StateObject var vm: ContentViewModel<ContentView.RoleManagerType>
 
-    init(vm: ContentViewModel<RoleManagerType>) {
-        self._vm = StateObject(wrappedValue: vm)
-    }
     var body: some View {
         ZStack {
             if vm.isAuthenticated {
-                ContentView(vm: vm as! ContentViewModel<ContentView.RoleManagerType>) // Cast vm to the appropriate type
+                ContentView(vm: vm)
                     .transition(.opacity.animation(.interpolatingSpring(stiffness: 50, damping: 10)))
             } else {
                 LogInView(vm: vm)

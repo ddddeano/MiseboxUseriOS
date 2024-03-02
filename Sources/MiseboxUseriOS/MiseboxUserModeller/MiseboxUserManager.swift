@@ -10,7 +10,6 @@ import MiseboxiOSGlobal
 
 @MainActor
 public final class MiseboxUserManager: ObservableObject, RoleManager {
-    public func onboard(userID: String) async {}
     
     public var role: MiseboxEcosystem.Role
     

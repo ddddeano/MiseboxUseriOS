@@ -62,7 +62,8 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
                         print("Onboarding[authStateDidChangeListener] User is authenticated, starting onboarding...")
                         self.isAuthenticated = true
                         Task {
-                            await self.miseboxUserManager.onboardMiseboxUser(withUID: user.uid)
+                            await self.miseboxUserManager.onboard(miseboxId: user.uid)
+                            await self.roleManager.onboard(miseboxId: user.uid)
                         }
                     }
                 } else {

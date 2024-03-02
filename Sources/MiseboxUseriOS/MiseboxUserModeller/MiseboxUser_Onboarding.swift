@@ -10,18 +10,17 @@ import MiseboxiOSGlobal
 import FirebaseiOSMisebox
 
 extension MiseboxUserManager {
-    
-    public func onboardMiseboxUser(withUID uid: String) async {
+    public func onboard(miseboxId: String) async {
            
-        guard !uid.isEmpty else {
-               print("MiseboxUserManager [onboardMiseboxUser] Invalid or missing UID.")
+        guard !miseboxId.isEmpty else {
+               print("MiseboxUserManager [onboardMiseboxUser] Invalid or missing miseboxId.")
                return
            }
 
-           print("MiseboxUserManager [onboardMiseboxUser] Priming user and profile with UID: \(uid)")
+           print("MiseboxUserManager [onboardMiseboxUser] Priming user and profile with miseboxId: \(miseboxId)")
            await MainActor.run {
-               self.miseboxUser.prime(id: uid)
-               self.miseboxUserProfile.prime(id: uid)
+               self.miseboxUser.prime(id: miseboxId)
+               self.miseboxUserProfile.prime(id: miseboxId)
            }
         
         do {

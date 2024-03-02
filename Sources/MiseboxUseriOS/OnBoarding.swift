@@ -22,6 +22,9 @@ struct AuthenticationView<ContentView: ContentViewProtocol, RoleManagerType: Rol
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
     @StateObject var vm: ContentViewModel<RoleManagerType>
 
+    init(vm: ContentViewModel<RoleManagerType>) {
+        self._vm = StateObject(wrappedValue: vm)
+    }
     var body: some View {
         ZStack {
             if vm.isAuthenticated {

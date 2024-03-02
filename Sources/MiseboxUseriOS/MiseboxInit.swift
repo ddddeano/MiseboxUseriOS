@@ -14,25 +14,25 @@ import FirebaseiOSMisebox
 import Firebase
 
 
-public struct Misebox<ContentView: ContentViewProtocol>: View {
+public struct Misebox<ContentView: ContentViewProtocol, RoleManagerType: RoleManager>: View {
     let colors: [Color]
 
     @ObservedObject var miseboxUserManager: MiseboxUserManager
-    @ObservedObject var roleManager: GenericRoleManager<RoleManagerType>
+    let roleManager: RoleManagerType // Use the RoleManagerType generic parameter
 
-    public init(colors: [Color], miseboxUserManager: MiseboxUserManager, roleManager: GenericRoleManager<RoleManagerType>) {
+    public init(colors: [Color], miseboxUserManager: MiseboxUserManager, roleManager: RoleManagerType) {
         self.colors = colors
         self.miseboxUserManager = miseboxUserManager
-        self.roleManager = roleManager
+        self.roleManager = roleManager // Initialize roleManager
     }
 
     public var body: some View {
         ZStack {
             GradientBackgroundView(colors: colors)
-            AuthenticationView<ContentView, GenericRoleManager<RoleManagerType>>(
+            AuthenticationView<ContentView, RoleManagerType>(
                 vm: ContentViewModel(
                     miseboxUserManager: miseboxUserManager,
-                    appRoleManager: roleManager
+                    roleManager: roleManager // Pass roleManager here
                 )
             )
             .environmentObject(miseboxUserManager.miseboxUser)
@@ -40,4 +40,3 @@ public struct Misebox<ContentView: ContentViewProtocol>: View {
         }
     }
 }
-

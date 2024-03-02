@@ -12,19 +12,19 @@ import FirebaseiOSMisebox
 import Firebase
 
 @MainActor
-public class ContentViewModel: ObservableObject {
+public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
     private var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
     public let authenticationManager = AuthenticationManager()
     
     @Published public var miseboxUserManager: MiseboxUserManager
     
-    @Published public var wrapper: WrapperRoleManager
+    @Published public var roleManager: RoleManagerType
     
     @Published public var currentUser: AuthenticationManager.FirebaseUser?
     
-    public init(miseboxUserManager: MiseboxUserManager, wrapper: WrapperRoleManager) {
+    public init(miseboxUserManager: MiseboxUserManager, roleManager: RoleManagerType) {
         self.miseboxUserManager = miseboxUserManager
-        self.wrapper = WrapperRoleManager
+        self.roleManager = roleManager
         Task {
             await authenticate()
             if EnvironmentManager.env.mode == .development {
@@ -99,7 +99,7 @@ public class ContentViewModel: ObservableObject {
                             self.miseboxUserManager.documentListener(for: self.miseboxUserManager.miseboxUserProfile, completion: { _ in })
                             print("[Content View Model]\(self.miseboxUserManager.id)")
                             Task {
-                                await self.appRoleManager.onboard(userID: self.miseboxUserManager.id)
+                                await self.roleManager.onboard(userID: self.miseboxUserManager.id)
                             }
                         }
                     case .failure(let error):

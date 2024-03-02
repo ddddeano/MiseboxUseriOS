@@ -46,21 +46,27 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
         print("Onboarding[authenticate] Starting authentication process...")
         authStateDidChangeListenerHandle = Auth.auth().addStateDidChangeListener { [weak self] (_, user) in
             Task {
-                guard let self = self else { return }
+                guard let self = self else {
+                    print("Onboarding[authenticate] self is nil")
+                    return
+                }
                 
                 if let user = user {
                     print("Onboarding[authStateDidChangeListener] User found: \(user.uid)")
                     let firebaseUser = AuthenticationManager.FirebaseUser(user: user)
                     self.currentUser = firebaseUser
                     if let currentUser = self.currentUser, currentUser.isAnon {
-                        print("Onboarding[authStateDidChangeListener] Is user anonymous: \(firebaseUser.isAnon)")
+                        print("Onboarding[authStateDidChangeListener] User is anonymous: \(firebaseUser.isAnon)")
                         self.isAuthenticated = false
                     } else {
+                        print("Onboarding[authStateDidChangeListener] User is authenticated, starting onboarding...")
                         self.isAuthenticated = true
-                        print("user onboard")
+                        Task {
+                            await self.miseboxUserManager.onboardMiseboxUser()
+                        }
                     }
                 } else {
-                    print("Onboarding[authStateDidChangeListener] No user found.")
+                    print("Onboarding[authStateDidChangeListener] No user found, user is not authenticated.")
                     self.isAuthenticated = false
                     self.currentUser = nil
                 }
@@ -68,52 +74,6 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
         }
     }
 
-    private func primeUserAndProfile(withUID uid: String) async {
-        guard !uid.isEmpty else {
-            print("UID is empty, cannot prime user and profile.")
-            return
-        }
-        
-        await MainActor.run {
-            print("Priming both objects with UID: \(uid)")
-            self.miseboxUserManager.miseboxUser.prime(id: uid)
-            self.miseboxUserManager.miseboxUserProfile.prime(id: uid)
-        }
-    }
-    
-    public func onboardMiseboxUser() async {
-        
-        guard !miseboxUserManager.id.isEmpty else {
-            print("Invalid or missing ID for miseboxUserManager.")
-            return
-        }
-        
-        do {
-            if try await miseboxUserManager.checkMiseboxUserExistsInFirestore() {
-                // dispach
-                miseboxUserManager.documentListener(for: self.miseboxUserManager.miseboxUser) { result in
-                    switch result {
-                    case .success(let updatedUser):
-                        DispatchQueue.main.async {
-                            print("MiseboxUser updated: \(updatedUser.id)")
-                            self.miseboxUserManager.documentListener(for: self.miseboxUserManager.miseboxUserProfile, completion: { _ in })
-                            print("[Content View Model]\(self.miseboxUserManager.id)")
-                            Task {
-                                await self.roleManager.onboard(userID: self.miseboxUserManager.id)
-                            }
-                        }
-                    case .failure(let error):
-                        print("Error in document listener: \(error.localizedDescription)")
-                    }
-                }
-            } else {
-                print("MiseboxUser with id \(miseboxUserManager.id) Not found")
-                Task {
-                    try await miseboxUserManager.setMiseboxUserAndProfile()
-                }
-            }
-        } catch { print("Error checking MiseboxUser in Firestore: \(error.localizedDescription)") }
-    }
     
     public func verifyMiseboxUser(with method: AuthenticationManager.AuthenticationMethod, intent: AuthenticationManager.UserIntent? = nil) async throws {
         do {
@@ -163,13 +123,10 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
     }
     
     @MainActor
-    private func updateAndOnboardUser(provider: AuthenticationManager.AuthenticationMethod, firebaseUser: AuthenticationManager.FirebaseUser) async {
-        self.currentUser = firebaseUser
-        await miseboxUserManager.updateUserInfo(provider: provider, firebaseUser: firebaseUser)
-        await primeUserAndProfile(withUID: firebaseUser.uid)
-        await onboardMiseboxUser()
-    }
-        
+     private func updateAndOnboardUser(provider: AuthenticationManager.AuthenticationMethod, firebaseUser: AuthenticationManager.FirebaseUser) async {
+         self.currentUser = firebaseUser
+         await miseboxUserManager.updateUserInfo(provider: provider, firebaseUser: firebaseUser)
+     }
     public func signOut() async {
         miseboxUserManager.reset()
         await authenticationManager.signOut()

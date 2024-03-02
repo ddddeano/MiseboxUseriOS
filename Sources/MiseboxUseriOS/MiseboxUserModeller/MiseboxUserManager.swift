@@ -9,10 +9,12 @@ import FirebaseiOSMisebox
 import MiseboxiOSGlobal
 
 @MainActor
-public final class MiseboxUserManager: ObservableObject {
+public final class MiseboxUserManager: ObservableObject, RoleManager {
+    public func onboard(userID: String) async {}
+    
     public var role: MiseboxEcosystem.Role
     
-    let firestoreManager = FirestoreManager()
+    public let firestoreManager = FirestoreManager()
     
     public var listener: ListenerRegistration?
     deinit {
@@ -24,7 +26,6 @@ public final class MiseboxUserManager: ObservableObject {
     
     public init(role: MiseboxEcosystem.Role) {
         self.role = role
-        // create 5 posts
     }
     
     public func reset() {
@@ -34,10 +35,10 @@ public final class MiseboxUserManager: ObservableObject {
     }
 }
 
-public protocol CanMiseboxUser {
+/*public protocol CanMiseboxUser {
     var authenticationManager: AuthenticationManager { get }
     var miseboxUserManager: MiseboxUserManager { get }
      func onboardMiseboxUser() async
-}
+}*/
 
 

@@ -13,11 +13,11 @@ import Foundation
 import FirebaseiOSMisebox
 import Firebase
 
-
+// Generic system
 public struct Misebox<ContentView: ContentViewProtocol>: View where ContentView.RoleManagerType: RoleManager {
     let colors: [Color]
     @ObservedObject var miseboxUserManager: MiseboxUserManager
-    var roleManager: ContentView.RoleManagerType
+    @ObservedObject var roleManager: ContentView.RoleManagerType
 
     public init(colors: [Color], miseboxUserManager: MiseboxUserManager, roleManager: ContentView.RoleManagerType) {
         self.colors = colors

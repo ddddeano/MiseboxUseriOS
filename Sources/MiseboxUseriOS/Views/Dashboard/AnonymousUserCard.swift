@@ -10,7 +10,6 @@ import MiseboxiOSGlobal
 import SwiftUI
 
 public struct AnonymousUserCard: View {
-    @EnvironmentObject var env: Env
     
     @Binding var isAuthenticated: Bool
     public  var body: some View {
@@ -47,6 +46,6 @@ public struct AnonymousUserCard: View {
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(env.appDark.opacity(0.4).edgesIgnoringSafeArea(.all))
+        .background(Color.blue.opacity(0.4).edgesIgnoringSafeArea(.all))
     }
 }

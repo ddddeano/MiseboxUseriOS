@@ -10,8 +10,12 @@ import MiseboxiOSGlobal
 import SwiftUI
 
 public struct AnonymousUserCard: View {
-    
     @Binding var isAuthenticated: Bool
+
+    public init(isAuthenticated: Binding<Bool>) {
+        self._isAuthenticated = isAuthenticated
+    }
+    
     public  var body: some View {
         VStack(spacing: 20) {
             Image(systemName: "hare")

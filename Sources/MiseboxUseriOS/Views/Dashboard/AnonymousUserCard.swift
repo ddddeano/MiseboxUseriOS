@@ -6,11 +6,14 @@
 //
 
 import Foundation
+import MiseboxiOSGlobal
 import SwiftUI
 
-struct AnonymousUserCard: View {
+public struct AnonymousUserCard: View {
+    @EnvironmentObject var env: Env
+    
     @Binding var isAuthenticated: Bool
-    var body: some View {
+    public  var body: some View {
         VStack(spacing: 20) {
             Image(systemName: "hare")
                 .resizable()
@@ -24,7 +27,7 @@ struct AnonymousUserCard: View {
             
             Text("Feel free to explore. Sign in anytime to unlock more features.")
                 .font(.body)
-                //.foregroundColor(.secondary)
+                .foregroundColor(.blue)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
             
@@ -44,6 +47,6 @@ struct AnonymousUserCard: View {
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.blue.opacity(0.4).edgesIgnoringSafeArea(.all))
+        .background(env.appDark.opacity(0.4).edgesIgnoringSafeArea(.all))
     }
 }

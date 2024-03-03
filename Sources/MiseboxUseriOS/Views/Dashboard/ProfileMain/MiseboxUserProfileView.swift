@@ -9,13 +9,6 @@ import Foundation
 import SwiftUI
 import MiseboxiOSGlobal
 
-public protocol DashboardViewModelProtocol: ObservableObject {
-    var miseboxUserManager: MiseboxUserManager { get }
-    var miseboxUserHasNewContent: Bool { get set }
-    func signOut() async
-}
-
-
 public struct MiseboxUserProfile<DashboardVM: DashboardViewModelProtocol & ObservableObject>: View {
     @ObservedObject var vm: DashboardVM
     @StateObject var nav = MiseboxUserProfileViewNavigation()

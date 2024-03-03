@@ -11,11 +11,11 @@ import _PhotosUI_SwiftUI
 
 public struct UserCardView: View {
     @ObservedObject var photoVM: PhotosPickerVM
-    @ObservedObject var vm: ProfileDashboardVM
+    @ObservedObject var vm: DashboardVM
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
 
-    public init(photoVM: PhotosPickerVM, vm: ProfileDashboardVM) {
+    public init(photoVM: PhotosPickerVM, vm: DashboardVM) {
            self.photoVM = photoVM
            self.vm = vm
        }

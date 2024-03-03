@@ -9,7 +9,7 @@ import SwiftUI
 import MiseboxiOSGlobal
 
 struct EmailProfileView: View {
-    let vm: ProfileDashboardVM
+    let vm: DashboardVM
     @Binding var email: String
     @State private var isValid: Bool = true
     @State private var isEditing: Bool = false
@@ -77,5 +77,5 @@ struct EmailProfileView: View {
 
 
 #Preview {
-    EmailProfileView(vm: ProfileDashboardVM(miseboxUserManager: MiseboxUserManager(role: .miseboxUser), signOutAction: {}), email: .constant("test@test.com"))
+    EmailProfileView(vm: DashboardVM(miseboxUserManager: MiseboxUserManager(role: .miseboxUser), signOutAction: {}), email: .constant("test@test.com"))
 }

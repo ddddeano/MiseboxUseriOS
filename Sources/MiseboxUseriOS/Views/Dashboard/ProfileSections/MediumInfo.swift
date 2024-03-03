@@ -9,7 +9,7 @@ import Foundation
 import Foundation
 import SwiftUI
 struct MediumInfoView: View {
-    var vm: ProfileDashboardVM
+    var vm: DashboardVM
     
     var body: some View {
         VStack {

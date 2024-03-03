@@ -18,7 +18,7 @@ import MiseboxiOSGlobal
 
 // Specific Types MiseboxUserProfile
 struct UpdateableUserRoles: View {
-    let vm: ProfileDashboardVM
+    let vm: DashboardVM
     var title: String
     @Binding var userRoles: [MiseboxUserManager.UserRole]
     let updateAction: () async -> Void
@@ -150,7 +150,7 @@ final class PreviewHelpers {
 struct UpdateableUserRoles_Previews: PreviewProvider {
     static var previews: some View {
         let mockManager = PreviewHelpers.mockMiseboxUserManager()
-        let mockViewModel = ProfileDashboardVM(miseboxUserManager: mockManager, signOutAction: {})
+        let mockViewModel = DashboardVM(miseboxUserManager: mockManager, signOutAction: {})
         let mockUserRoles = [MiseboxUserManager.exampleUserRole]
 
         UpdateableUserRoles(vm: mockViewModel, title: "Preview Roles", userRoles: .constant(mockUserRoles)) {

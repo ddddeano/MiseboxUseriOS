@@ -12,7 +12,7 @@ import MiseboxiOSGlobal
 struct BasicInfoView: View {
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
-    var vm: ProfileDashboardVM
+    var vm: DashboardVM
     
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {

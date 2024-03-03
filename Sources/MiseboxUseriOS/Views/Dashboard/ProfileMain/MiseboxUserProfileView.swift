@@ -25,17 +25,15 @@ public struct MiseboxUserProfile<DashboardVM: DashboardViewModelProtocol & Obser
     public var body: some View {
         NavigationStack(path: $navigationPath) {
             VStack {
-                UserCardView(
+                Text("usercardview")
+               /* UserCardView(
                     photoVM: PhotosPickerVM(
                         path: "misebox-users/avatars/\(miseboxUser.miseCODE)",
                         documentId: miseboxUser.id,
                         collectionName: miseboxUser.collection
                     ),
-                    vm: ProfileDashboardVM(
-                        miseboxUserManager: vm.miseboxUserManager,
-                        signOutAction: vm.signOut
-                    )
-                )
+                    vm: DashboardVM()
+                )*/
                     VStack {
                     ScrollView {
                         ForEach(MiseboxUserProfileViewNavigation.ProfileSections.allCases) { section in

@@ -10,7 +10,7 @@ import SwiftUI
 import MiseboxiOSGlobal
 
 struct HandleProfileView: View {
-    let vm: ProfileDashboardVM
+    let vm: DashboardVM
     @Binding var handle: String
     @State private var isValid: Bool = true
     @State private var isEditing: Bool = false
@@ -75,6 +75,6 @@ struct HandleProfileView: View {
 }
 
 #Preview {
-    HandleProfileView(vm: ProfileDashboardVM(miseboxUserManager: MiseboxUserManager(role: .miseboxUser), signOutAction: {}), handle: .constant("username"))
+    HandleProfileView(vm: DashboardVM(miseboxUserManager: MiseboxUserManager(role: .miseboxUser), signOutAction: {}), handle: .constant("username"))
 }
 

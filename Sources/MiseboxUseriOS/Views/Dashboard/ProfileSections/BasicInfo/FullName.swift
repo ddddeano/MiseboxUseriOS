@@ -10,7 +10,7 @@ import SwiftUI
 import MiseboxiOSGlobal
 
 struct FullNameProfileView: View {
-    let vm: ProfileDashboardVM
+    let vm: DashboardVM
     @Binding var fullName: MiseboxUserManager.FullName
     @State private var isValid: Bool = true
     @State private var isEditing: Bool = false
@@ -86,5 +86,5 @@ struct FullNameProfileView: View {
 }
 
 #Preview {
-    FullNameProfileView(vm: ProfileDashboardVM(miseboxUserManager: MiseboxUserManager(role: .miseboxUser), signOutAction: {}), fullName: .constant(MiseboxUserManager.FullName(first: "Daniel", middle: "Marc", last: "Watson")))
+    FullNameProfileView(vm: DashboardVM(miseboxUserManager: MiseboxUserManager(role: .miseboxUser), signOutAction: {}), fullName: .constant(MiseboxUserManager.FullName(first: "Daniel", middle: "Marc", last: "Watson")))
 }

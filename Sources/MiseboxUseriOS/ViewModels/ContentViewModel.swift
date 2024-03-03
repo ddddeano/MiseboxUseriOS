@@ -43,7 +43,6 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
     }
     
     func authenticate() async {
-        print("Onboarding[authenticate] Starting authentication process...")
         authStateDidChangeListenerHandle = Auth.auth().addStateDidChangeListener { [weak self] (_, user) in
             Task {
                 guard let self = self else {
@@ -52,14 +51,11 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
                 }
                 
                 if let user = user {
-                    print("Onboarding[authStateDidChangeListener] User found: \(user.uid)")
                     let firebaseUser = AuthenticationManager.FirebaseUser(user: user)
                     self.currentUser = firebaseUser
                     if let currentUser = self.currentUser, currentUser.isAnon {
-                        print("Onboarding[authStateDidChangeListener] User is anonymous: \(firebaseUser.isAnon)")
                         self.isAuthenticated = false
                     } else {
-                        print("Onboarding[authStateDidChangeListener] User is authenticated, starting onboarding...")
                         self.isAuthenticated = true
                         Task {
                             await self.miseboxUserManager.onboard(miseboxId: user.uid)
@@ -74,7 +70,6 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
             }
         }
     }
-
     
     public func verifyMiseboxUser(with method: AuthenticationManager.AuthenticationMethod, intent: AuthenticationManager.UserIntent? = nil) async throws {
         do {

@@ -13,7 +13,6 @@ public protocol DashboardViewModelProtocol: ObservableObject {
     var miseboxUserManager: MiseboxUserManager { get }
     var miseboxUserHasNewContent: Bool { get set }
     func signOut() async
-    // Define any other necessary properties or functions here.
 }
 
 

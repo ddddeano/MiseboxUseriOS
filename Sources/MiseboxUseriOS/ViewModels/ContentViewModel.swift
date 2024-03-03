@@ -18,11 +18,11 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
     
     @Published public var miseboxUserManager: MiseboxUserManager
     
-    @Published public var roleManager: RoleManagerType
+    @Published public var roleManager: RoleManagerType?
     
     @Published public var currentUser: AuthenticationManager.FirebaseUser?
     
-    public init(miseboxUserManager: MiseboxUserManager, roleManager: RoleManagerType) {
+    public init(miseboxUserManager: MiseboxUserManager, roleManager: RoleManagerType? = nil) {
         self.miseboxUserManager = miseboxUserManager
         self.roleManager = roleManager
         Task {
@@ -32,6 +32,7 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
             }
         }
     }
+
 
     @Published public var isAuthenticated = false
     @Published public var email = "test@test.com"
@@ -59,7 +60,9 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
                         self.isAuthenticated = true
                         Task {
                             await self.miseboxUserManager.onboard(miseboxId: user.uid)
-                            await self.roleManager.onboard(miseboxId: user.uid)
+                            if let roleManager = self.roleManager {
+                                await roleManager.onboard(miseboxId: user.uid)
+                            }
                         }
                     }
                 } else {

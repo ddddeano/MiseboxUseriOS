@@ -36,6 +36,7 @@ public struct Misebox<ContentView: ContentViewProtocol>: View where ContentView.
                     roleManager: roleManager
                 )
             )
+            .environmentObject(Env.env)
             .environmentObject(miseboxUserManager.miseboxUser)
             .environmentObject(miseboxUserManager.miseboxUserProfile)
         }

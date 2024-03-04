@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import MiseboxiOSGlobal
 
-public struct MiseboxUserProfile<DashboardVM: DashboardViewModelProtocol & ObservableObject>: View {
+public struct MiseboxUserProfile<DashboardVM: DashboardViewModelProtocol>: View {
     @ObservedObject var vm: DashboardVM
     @StateObject var nav = MiseboxUserProfileViewNavigation()
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
@@ -26,14 +26,14 @@ public struct MiseboxUserProfile<DashboardVM: DashboardViewModelProtocol & Obser
         NavigationStack(path: $navigationPath) {
             VStack {
                 Text("usercardview")
-               /* UserCardView(
+                UserCardView(
                     photoVM: PhotosPickerVM(
                         path: "misebox-users/avatars/\(miseboxUser.miseCODE)",
                         documentId: miseboxUser.id,
-                        collectionName: miseboxUser.collection
-                    ),
-                    vm: DashboardVM()
-                )*/
+                        collectionName: miseboxUser.collection),
+                    vm: vm)
+                
+    
                     VStack {
                     ScrollView {
                         ForEach(MiseboxUserProfileViewNavigation.ProfileSections.allCases) { section in
@@ -97,4 +97,35 @@ public struct MiseboxUserProfile<DashboardVM: DashboardViewModelProtocol & Obser
         .contentShape(Rectangle()) // Ensure the touch area covers the entire button space
     }
 
+}
+
+import FirebaseiOSMisebox
+import Firebase
+
+class MockRoleManager: RoleManager {
+    var firestoreManager = FirestoreManager()
+    var listener: ListenerRegistration?
+
+    func onboard(miseboxId: String) async {
+    }
+
+    init() {
+     
+    }
+
+    func reset() {
+    }
+}
+
+
+struct Dashboard_Previews: PreviewProvider {
+    static let miseboxUserManager = MiseboxUserManager(role: .agent)
+    static let vm = DashboardVM(miseboxUserManager: miseboxUserManager, signOutAction: {})
+    static let cvm = ContentViewModel<MockRoleManager>(miseboxUserManager: miseboxUserManager)
+    
+    static var previews: some View {
+        MiseboxUserProfile(vm: vm, navigationPath: .constant(NavigationPath()))
+            .environmentObject(MiseboxUserManager.mockMiseboxUser())
+            .environmentObject(MiseboxUserManager.mockMiseboxUserProfile())
+    }
 }

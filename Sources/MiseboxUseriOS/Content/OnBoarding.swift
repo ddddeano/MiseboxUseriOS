@@ -168,13 +168,13 @@ struct EmailSignInView<RoleManagerType: RoleManager>: View {
             SecureField("Password", text: $vm.password)
                 .customInput(backgroundColor: Env.env.appDark.opacity(0.2), requiredBorderColor: .red, defaultBorderColor: Env.env.appDark)
             
-            CircleButton(iconType: .system("envelope.fill"), size: 50, background: colorScheme == .dark ? .black : .white, foregroundColor: Env.env.appDark, strokeColor: Env.env.appDark, action: {
+            CircleButton(iconType: .system("checkmark.seal.fill"), size: 50, background: colorScheme == .dark ? .black : .white, foregroundColor: Env.env.appDark, strokeColor: Env.env.appLight, action: {
                 Task {
                     try await vm.verifyMiseboxUser(with: .email, intent: userIntent)
                 }
             })
             Spacer()
         }
-        .pageStyle(backgroundColor: Env.env.appDark.opacity(0.1))
+        .pageStyle(backgroundColor: Env.env.appDark.opacity(0.2))
     }
 }

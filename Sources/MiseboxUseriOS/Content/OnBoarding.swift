@@ -127,7 +127,7 @@ public struct LogInView<RoleManagerType: RoleManager>: View {
                     try await vm.verifyMiseboxUser(with: .google)
                 }
             })
-            CircleButton(iconType: .system("envelope.fill"), size: 50, background: colorScheme == .dark ? .black : .white, foregroundColor: Env.env.appDark, strokeColor: .primary, action: {
+            CircleButton(iconType: .system("envelope.fill"), size: 50, background: colorScheme == .dark ? .black : .white, foregroundColor: Env.env.appLight, strokeColor: .primary, action: {
                 showEmailSignIn = true
             })
             CircleButton(iconType: .asset("apple-icon"), size: 50, background: Env.env.appDark.opacity(0.2), foregroundColor: Env.env.appDark, strokeColor: .primary, action: {

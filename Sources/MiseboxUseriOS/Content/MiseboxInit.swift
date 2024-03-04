@@ -11,19 +11,25 @@ import FirebaseiOSMisebox
 import Firebase
 
 public struct Misebox<ContentView: ContentViewProtocol>: View where ContentView.RoleManagerType: RoleManager {
-    let colors: [Color]
     @ObservedObject var miseboxUserManager: MiseboxUserManager
     var roleManager: ContentView.RoleManagerType?
 
-    public init(colors: [Color], miseboxUserManager: MiseboxUserManager, roleManager: ContentView.RoleManagerType? = nil) {
-        self.colors = colors
+    public init(miseboxUserManager: MiseboxUserManager, roleManager: ContentView.RoleManagerType? = nil) {
         self.miseboxUserManager = miseboxUserManager
         self.roleManager = roleManager
+        let role = miseboxUserManager.role
+        Env.env.mode = .development
+        Env.env.welcome = role.welcome
+        Env.env.motto = role.motto
+        Env.env.smallPrint = role.smallPrint
+        Env.env.appDark = role.appDark
+        Env.env.appLight = role.appLight
     }
 
     public var body: some View {
+        
         ZStack {
-            GradientBackgroundView(colors: colors)
+            GradientBackgroundView(colors: [Env.env.appDark, Env.env.appLight])
             AuthenticationView<ContentView>(
                 vm: ContentViewModel(
                     miseboxUserManager: miseboxUserManager,
@@ -35,3 +41,4 @@ public struct Misebox<ContentView: ContentViewProtocol>: View where ContentView.
         }
     }
 }
+

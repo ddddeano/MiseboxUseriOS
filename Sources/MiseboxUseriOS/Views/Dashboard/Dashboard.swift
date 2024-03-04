@@ -5,17 +5,16 @@
 //
 //  Created by Daniel Watson on 26.02.2024.
 //
-
 import SwiftUI
 import FirebaseiOSMisebox
 import Firebase
 import MiseboxiOSGlobal
 
-protocol RoleProfileView: View {}
+public protocol RoleProfileView: View {}
 
-protocol RoleCardView: View {}
+public protocol RoleCardView: View {}
 
-struct Dashboard<RoleManagerType: RoleManager, ProfileView: RoleProfileView, CardView: RoleCardView>: View {
+public struct Dashboard<RoleManagerType: RoleManager, ProfileView: RoleProfileView, CardView: RoleCardView>: View {
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @ObservedObject var vm: DashboardVM
     @ObservedObject var cvm: ContentViewModel<RoleManagerType>
@@ -23,10 +22,19 @@ struct Dashboard<RoleManagerType: RoleManager, ProfileView: RoleProfileView, Car
     @Binding var navigationPath: NavigationPath
     @Binding var isAuthenticated: Bool
     
-    let profileView: ProfileView
-    let cardView: CardView
+    public let profileView: ProfileView
+    public let cardView: CardView
+
+    public init(vm: DashboardVM, cvm: ContentViewModel<RoleManagerType>, navigationPath: Binding<NavigationPath>, isAuthenticated: Binding<Bool>, profileView: ProfileView, cardView: CardView) {
+        self._vm = ObservedObject(wrappedValue: vm)
+        self._cvm = ObservedObject(wrappedValue: cvm)
+        self._navigationPath = navigationPath
+        self._isAuthenticated = isAuthenticated
+        self.profileView = profileView
+        self.cardView = cardView
+    }
     
-    var body: some View {
+    public var body: some View {
         if cvm.isAnon {
             anonView
         } else {

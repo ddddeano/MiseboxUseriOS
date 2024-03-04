@@ -4,7 +4,6 @@
 //
 //  Created by Daniel Watson on 23.02.2024.
 //
-
 import SwiftUI
 import MiseboxiOSGlobal
 import _PhotosUI_SwiftUI
@@ -16,18 +15,18 @@ public struct MiseboxUserCard<DashboardVM: DashboardViewModelProtocol>: View {
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
 
     public init(photoVM: PhotosPickerVM, vm: DashboardVM) {
-           self.photoVM = photoVM
-           self.vm = vm
-       }
+        self.photoVM = photoVM
+        self.vm = vm
+    }
     
-   public var body: some View {
-          HStack {
-              leftSide
-              main
-          }
+    public var body: some View {
+        HStack {
+            leftSide
+            main
+        }
         .frame(height: 110)
-        .sectionStyle(borderColor: .purple)
-      }
+        .modifier(ProfileCardStyle())
+    }
 
     private var main: some View {
         VStack(alignment: .leading) {
@@ -55,6 +54,7 @@ public struct MiseboxUserCard<DashboardVM: DashboardViewModelProtocol>: View {
             Spacer()
         }
     }
+    
     private var avatarView: some View {
         PhotosPicker(selection: $photoVM.imageSelection, matching: .images) {
             Group {
@@ -62,11 +62,11 @@ public struct MiseboxUserCard<DashboardVM: DashboardViewModelProtocol>: View {
                     Image(systemName: "person.crop.circle.badge.plus")
                         .resizable()
                 } else {
-                    //AvatarView(imageUrl: miseboxUser.imageUrl, width: 60, height: 60, kind: .edit)
+                    AvatarView(imageUrl: miseboxUser.imageUrl, width: 60, height: 60, kind: .edit)
                 }
             }
             .frame(width: 60, height: 60)
-            .contentShape(Rectangle()) // Explicit tap area
+            .contentShape(Rectangle())
         }
     }
 }

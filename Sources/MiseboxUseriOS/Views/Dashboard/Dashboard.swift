@@ -10,6 +10,7 @@ import FirebaseiOSMisebox
 import Firebase
 import MiseboxiOSGlobal
 
+
 public protocol RoleProfileView: View {}
 
 public protocol RoleCardView: View {}
@@ -22,10 +23,10 @@ public struct Dashboard<RoleManagerType: RoleManager, ProfileView: RoleProfileVi
     @Binding var navigationPath: NavigationPath
     @Binding var isAuthenticated: Bool
     
-    public let profileView: ProfileView
-    public let cardView: CardView
+    public var profileView: ProfileView?
+    public var cardView: CardView?
 
-    public init(vm: DashboardVM, cvm: ContentViewModel<RoleManagerType>, navigationPath: Binding<NavigationPath>, isAuthenticated: Binding<Bool>, profileView: ProfileView, cardView: CardView) {
+    public init(vm: DashboardVM, cvm: ContentViewModel<RoleManagerType>, navigationPath: Binding<NavigationPath>, isAuthenticated: Binding<Bool>, profileView: ProfileView? = nil, cardView: CardView? = nil) {
         self._vm = ObservedObject(wrappedValue: vm)
         self._cvm = ObservedObject(wrappedValue: cvm)
         self._navigationPath = navigationPath
@@ -33,6 +34,7 @@ public struct Dashboard<RoleManagerType: RoleManager, ProfileView: RoleProfileVi
         self.profileView = profileView
         self.cardView = cardView
     }
+    
     
     public var body: some View {
         if cvm.isAnon {
@@ -58,10 +60,12 @@ public struct Dashboard<RoleManagerType: RoleManager, ProfileView: RoleProfileVi
                 )
             }
             .padding()
-            NavigationLink(destination: profileView) {
-                cardView
+            if let profileView = profileView, let cardView = cardView {
+                NavigationLink(destination: profileView) {
+                    cardView
+                }
+                .padding()
             }
-            .padding()
             
             Button("Sign Out") {
                 Task {

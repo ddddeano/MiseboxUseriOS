@@ -24,7 +24,6 @@ public struct MiseboxUserCard<DashboardVM: DashboardViewModelProtocol>: View {
             leftSide
             main
         }
-        .frame(height: 110)
         .modifier(ProfileCardStyle())
     }
 

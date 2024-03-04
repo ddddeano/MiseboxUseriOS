@@ -9,7 +9,7 @@ import SwiftUI
 import MiseboxiOSGlobal
 import _PhotosUI_SwiftUI
 
-public struct UserCardView<DashboardVM: DashboardViewModelProtocol>: View {
+public struct MiseboxUserCard<DashboardVM: DashboardViewModelProtocol>: View {
     @ObservedObject var photoVM: PhotosPickerVM
     @ObservedObject var vm: DashboardVM
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser

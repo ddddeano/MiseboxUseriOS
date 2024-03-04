@@ -24,24 +24,13 @@ public struct MiseboxUserProfile<DashboardVM: DashboardViewModelProtocol>: View 
 
     public var body: some View {
         NavigationStack(path: $navigationPath) {
-            VStack {
-                Text("usercardview")
-                UserCardView(
-                    photoVM: PhotosPickerVM(
-                        path: "misebox-users/avatars/\(miseboxUser.miseCODE)",
-                        documentId: miseboxUser.id,
-                        collectionName: miseboxUser.collection),
-                    vm: vm)
-                
-    
-                    VStack {
                     ScrollView {
                         ForEach(MiseboxUserProfileViewNavigation.ProfileSections.allCases) { section in
                             navigationLink(for: section)
                                 .listStyle()
                             Divider()
-                        }
-                    }
+                        
+                
                 }
                 .sectionStyle(borderColor: .purple)
                 signOutButton

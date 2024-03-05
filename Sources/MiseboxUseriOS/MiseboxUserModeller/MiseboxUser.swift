@@ -72,7 +72,7 @@ extension MiseboxUserManager {
 }
 
 extension MiseboxUserManager.MiseboxUser {
-    static var sandboxUser: MiseboxUserManager.MiseboxUser {
+    public static var sandboxUser: MiseboxUserManager.MiseboxUser {
         let user = MiseboxUserManager.MiseboxUser()
         user.id = "sandboxUser123"
         user.handle = "johnDoe"

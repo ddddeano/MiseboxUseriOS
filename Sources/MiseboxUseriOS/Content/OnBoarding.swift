@@ -12,21 +12,21 @@ import MiseboxiOSGlobal
 
 public protocol ContentViewProtocol: View {
     associatedtype RoleManagerType: RoleManager
-    init(vm: ContentViewModel<RoleManagerType>)
+    init(cvm: ContentViewModel<RoleManagerType>)
 }
 
 struct AuthenticationView<ContentView: ContentViewProtocol>: View where ContentView.RoleManagerType: RoleManager {
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
-    @StateObject var vm: ContentViewModel<ContentView.RoleManagerType>
+    @StateObject var cvm: ContentViewModel<ContentView.RoleManagerType>
 
     var body: some View {
         ZStack {
-            if vm.isAuthenticated {
-                ContentView(vm: vm)
+            if cvm.isAuthenticated {
+                ContentView(cvm: cvm)
                     .transition(.opacity.animation(.interpolatingSpring(stiffness: 50, damping: 10)))
             } else {
-                LogInView(vm: vm)
+                LogInView(cvm: cvm)
                     .transition(.opacity.animation(.interpolatingSpring(stiffness: 50, damping: 10)))
                 logo
                     .transition(.opacity.animation(.interpolatingSpring(stiffness: 50, damping: 10)))
@@ -48,7 +48,7 @@ struct AuthenticationView<ContentView: ContentViewProtocol>: View where ContentV
 public struct LogInView<RoleManagerType: RoleManager>: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var env: EnvironmentManager
-    @ObservedObject var vm: ContentViewModel<RoleManagerType>
+    @ObservedObject var cvm: ContentViewModel<RoleManagerType>
     @State private var showEmailSignIn = false
     @State private var errorMessage: String? = ""
     @State private var welcomeIndex = 0
@@ -56,8 +56,8 @@ public struct LogInView<RoleManagerType: RoleManager>: View {
     @State private var slideInDirection: Edge = .leading
     @State private var animateOut = false
     
-    public init(vm: ContentViewModel<RoleManagerType>) {
-            self.vm = vm
+    public init(cvm: ContentViewModel<RoleManagerType>) {
+            self.cvm = cvm
         }
     
     public var body: some View {
@@ -82,7 +82,7 @@ public struct LogInView<RoleManagerType: RoleManager>: View {
         }
         .padding()
         .sheet(isPresented: $showEmailSignIn) {
-            EmailSignInView(vm: vm)
+            EmailSignInView(cvm: cvm)
         }
     }
     private var messages: [String] {
@@ -115,7 +115,7 @@ public struct LogInView<RoleManagerType: RoleManager>: View {
             .foregroundColor(Env.env.appLight)
             .onTapGesture {
                 Task {
-                    try? await vm.verifyMiseboxUser(with: .anon)
+                    try? await cvm.verifyMiseboxUser(with: .anon)
                 }
             }
     }
@@ -124,7 +124,7 @@ public struct LogInView<RoleManagerType: RoleManager>: View {
         HStack(spacing: 60) {
             CircleButton(iconType: .asset("google-icon"), size: 50, background: Env.env.appDark.opacity(0.2), foregroundColor: Env.env.appDark, strokeColor: .primary, action: {
                 Task {
-                    try await vm.verifyMiseboxUser(with: .google)
+                    try await cvm.verifyMiseboxUser(with: .google)
                 }
             })
             CircleButton(iconType: .system("envelope.fill"), size: 50, background: colorScheme == .dark ? .black : .white, foregroundColor: Env.env.appLight, strokeColor: .primary, action: {
@@ -132,7 +132,7 @@ public struct LogInView<RoleManagerType: RoleManager>: View {
             })
             CircleButton(iconType: .asset("apple-icon"), size: 50, background: Env.env.appDark.opacity(0.2), foregroundColor: Env.env.appDark, strokeColor: .primary, action: {
                 Task {
-                    try await vm.verifyMiseboxUser(with: .apple)
+                    try await cvm.verifyMiseboxUser(with: .apple)
                 }
             })
         }
@@ -142,7 +142,7 @@ public struct LogInView<RoleManagerType: RoleManager>: View {
 
 struct EmailSignInView<RoleManagerType: RoleManager>: View {
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var vm: ContentViewModel<RoleManagerType>
+    @ObservedObject var cvm: ContentViewModel<RoleManagerType>
     @State private var userIntent: AuthenticationManager.UserIntent = .newUser
     
     var body: some View {
@@ -162,15 +162,15 @@ struct EmailSignInView<RoleManagerType: RoleManager>: View {
             .cornerRadius(8)
             .foregroundColor(Env.env.appDark.opacity(0.2))
             
-            TextField("Email", text: $vm.email)
+            TextField("Email", text: $cvm.email)
                 .customInput(backgroundColor: Env.env.appDark.opacity(0.2), requiredBorderColor: .red, defaultBorderColor: Env.env.appDark)
             
-            SecureField("Password", text: $vm.password)
+            SecureField("Password", text: $cvm.password)
                 .customInput(backgroundColor: Env.env.appDark.opacity(0.2), requiredBorderColor: .red, defaultBorderColor: Env.env.appDark)
             
             CircleButton(iconType: .system("checkmark.seal.fill"), size: 50, background: colorScheme == .dark ? .black : .white, foregroundColor: Env.env.appLight, strokeColor: Env.env.appLight, action: {
                 Task {
-                    try await vm.verifyMiseboxUser(with: .email, intent: userIntent)
+                    try await cvm.verifyMiseboxUser(with: .email, intent: userIntent)
                 }
             })
             Spacer()

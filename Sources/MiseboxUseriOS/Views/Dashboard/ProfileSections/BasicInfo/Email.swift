@@ -8,8 +8,3 @@
 import SwiftUI
 import MiseboxiOSGlobal
 
-
-
-#Preview {
-    EmailProfileView(vm: DashboardVM(miseboxUserManager: MiseboxUserManager(role: .miseboxUser), signOutAction: {}), email: .constant("test@test.com"))
-}

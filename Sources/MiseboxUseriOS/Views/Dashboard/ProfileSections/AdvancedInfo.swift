@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct AdvancedInfoView: View {
+struct AdvancedInfoView<DashboardVM: DashboardViewModelProtocol>: View {
     var vm: DashboardVM
     
     var body: some View {

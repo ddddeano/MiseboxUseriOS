@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ddddeano/misebox-ios-global-pkg",
       "state" : {
-        "revision" : "98b941a8ad24eb436144b126bf3326208ad953f8",
-        "version" : "1.2.32"
+        "revision" : "e96d6ca29a984c3b1f16dd1ab5f5a63152ade65a",
+        "version" : "1.2.33"
       }
     },
     {

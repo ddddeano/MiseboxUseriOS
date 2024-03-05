@@ -13,37 +13,21 @@ extension MiseboxUserManager {
     
     public struct UserRole {
         public var role: MiseboxEcosystem.Role
-        public var handle: String
         
-        public init(role: MiseboxEcosystem.Role, handle: String) {
+        public init(role: MiseboxEcosystem.Role) {
             self.role = role
-            self.handle = handle
         }
         
         public init?(data: [String: Any]) {
             guard let doc = data["role"] as? String,
-                  let handle = data["handle"] as? String,
                   let foundRole = MiseboxEcosystem.Role.find(byDoc: doc) else {
                 return nil
             }
             self.role = foundRole
-            self.handle = handle
         }
         
         public func toFirestore() -> [String: Any] {
-            ["role": role.doc, "handle": handle]
-        }
-        
-        public static func updateHandle(userId: String, roleDoc: String, newHandle: String) async throws {
-            try await StaticFirestoreManager.updateArray(
-                collection: "misebox-users",
-                documentID: userId,
-                arrayName: "user_roles",
-                matchKey: "role",
-                matchValue: roleDoc,
-                updateKey: "handle",
-                newValue: newHandle
-            )
+            ["role": role.doc]
         }
     }
     

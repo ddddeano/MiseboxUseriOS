@@ -20,8 +20,10 @@ public struct MiseboxUserCard<DashboardVM: DashboardViewModelProtocol>: View {
     }
     
     public var body: some View {
-        HStack {
-            leftSide
+            HStack(alignment: .top) {
+                leftSide
+                    .padding(.top, 10)
+                    .padding(.leading, 10)
             main
         }
         .modifier(ProfileCardStyle())
@@ -69,3 +71,4 @@ public struct MiseboxUserCard<DashboardVM: DashboardViewModelProtocol>: View {
         }
     }
 }
+

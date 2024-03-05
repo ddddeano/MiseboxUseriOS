@@ -71,4 +71,18 @@ extension MiseboxUserManager {
     }
 }
 
+extension MiseboxUserManager.MiseboxUser {
+    static var sandboxUser: MiseboxUserManager.MiseboxUser {
+        let user = MiseboxUserManager.MiseboxUser()
+        user.id = "sandboxUser123"
+        user.handle = "johnDoe"
+        user.miseCODE = "MISE1234"
+        user.email = "john.doe@example.com"
+        user.imageUrl = "https://i.pravatar.cc/300"
+        user.verified = true
+        user.userRoles = [.init(role: .miseboxUser), .init(role: .agent)]
+        return user
+    }
+}
+
 

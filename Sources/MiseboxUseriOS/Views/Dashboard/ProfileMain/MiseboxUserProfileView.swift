@@ -29,8 +29,6 @@ public struct MiseboxUserProfile<DashboardVM: DashboardViewModelProtocol>: View 
                             navigationLink(for: section)
                                 .listStyle()
                             Divider()
-                        
-                
                 }
                 .sectionStyle(borderColor: .purple)
                 signOutButton

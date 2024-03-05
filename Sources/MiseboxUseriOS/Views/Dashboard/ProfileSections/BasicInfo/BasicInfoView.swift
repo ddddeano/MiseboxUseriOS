@@ -9,13 +9,10 @@ import Foundation
 import SwiftUI
 import MiseboxiOSGlobal
 
-public struct BasicInfoView<DashboardVM: DashboardViewModelProtocol>: View {
+public struct BasicInfoView: View {
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
-    var vm: DashboardVM
-    
-    public init(vm: DashboardVM) {
-        self.vm = vm
+    public init() {
     }
     
     public var body: some View {

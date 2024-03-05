@@ -1,10 +1,3 @@
-//
-//  MiseboxUser.swift
-//
-//
-//  Created by Daniel Watson on 22.01.24.
-//
-
 import Foundation
 import FirebaseFirestore
 import FirebaseiOSMisebox
@@ -17,18 +10,18 @@ extension MiseboxUserManager {
         public let collection = "misebox-users"
         
         @Published public var id: String = ""
-        
         @Published public var handle: String = ""
         @Published public var miseCODE: String = ""
         @Published public var email: String = ""
         @Published public var imageUrl: String = ""
         @Published public var verified: Bool = false
+        @Published public var subscription = Subscription()
         @Published public var userRoles: [UserRole] = []
         
         public init() {}
         
         public func prime(id: String) {
-                self.id = id
+            self.id = id
         }
         
         public init?(documentSnapshot: DocumentSnapshot) {
@@ -50,7 +43,7 @@ extension MiseboxUserManager {
         }
         
         public func toFirestore() -> [String: Any] {
-            return [
+            [
                 "handle": handle,
                 "email": email,
                 "misecode": miseCODE,
@@ -59,6 +52,7 @@ extension MiseboxUserManager {
                 "user_roles": userRoles.map { $0.toFirestore() }
             ]
         }
+        
         public func resetFields() {
             id = ""
             handle = ""
@@ -84,5 +78,3 @@ extension MiseboxUserManager.MiseboxUser {
         return user
     }
 }
-
-

@@ -13,62 +13,53 @@ public struct MiseboxUserCard<DashboardVM: DashboardViewModelProtocol>: View {
     @ObservedObject var vm: DashboardVM
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
-
+    
     public init(photoVM: PhotosPickerVM, vm: DashboardVM) {
         self.photoVM = photoVM
         self.vm = vm
     }
     
     public var body: some View {
-            HStack(alignment: .top) {
-                leftSide
-                    .padding(.top, 10)
-                    .padding(.leading, 10)
-            main
+        HStack(alignment: .top) {
+            leftSide
+            VStack(alignment: .leading) {
+                MainTopView(title: miseboxUser.handle, subtitle: "@\(miseboxUser.handle)")
+                mainBottom
+            }
+            .padding(.vertical)
         }
         .modifier(ProfileCardStyle())
     }
-
-    private var main: some View {
+    
+    
+    private var mainBottom: some View {
         VStack(alignment: .leading) {
-            Text(miseboxUserProfile.fullName.formattedCard)
-                .font(.headline)
-                .foregroundColor(.primary)
-            Text("@\(miseboxUser.handle)")
-                .font(.subheadline)
-                .foregroundColor(.purple.opacity(1))
-            Divider()
-            Text("\(miseboxUserProfile.subscription.type.rawValue) subscription")
+            Text(miseboxUser.subscription.type.rawValue)
                 .font(.caption)
                 .foregroundColor(.purple.opacity(0.8))
             Text("MiseCODE: \(miseboxUser.miseCODE)")
                 .font(.caption)
                 .foregroundColor(.purple.opacity(0.8))
         }
-        .padding(.top, 13)
-        .padding(.leading, 5)
     }
+    
     
     private var leftSide: some View {
         VStack {
-            avatarView
-            Spacer()
-        }
-    }
-    
-    private var avatarView: some View {
-        PhotosPicker(selection: $photoVM.imageSelection, matching: .images) {
-            Group {
-                if miseboxUser.imageUrl.isEmpty {
-                    Image(systemName: "person.crop.circle.badge.plus")
-                        .resizable()
-                } else {
-                    AvatarView(imageUrl: miseboxUser.imageUrl, width: 60, height: 60, kind: .edit)
+            PhotosPicker(selection: $photoVM.imageSelection, matching: .images) {
+                Group {
+                    if miseboxUser.imageUrl.isEmpty {
+                        Image(systemName: "person.crop.circle.badge.plus")
+                            .resizable()
+                    } else {
+                        AvatarView(imageUrl: miseboxUser.imageUrl, width: 60, height: 60, kind: .edit)
+                    }
                 }
+                .frame(width: 60, height: 60)
+                .contentShape(Rectangle())
             }
-            .frame(width: 60, height: 60)
-            .contentShape(Rectangle())
         }
+        .padding(15)
     }
 }
 

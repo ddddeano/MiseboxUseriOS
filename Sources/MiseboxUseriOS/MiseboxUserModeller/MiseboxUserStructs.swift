@@ -68,19 +68,31 @@ extension MiseboxUserManager {
         public var endDate: Timestamp = Timestamp()
         
         public init() {}
-        public init(type: SubscriptionType) {
+        
+        public init(type: SubscriptionType, startDate: Timestamp, endDate: Timestamp) {
             self.type = type
+            self.startDate = startDate
+            self.endDate = endDate
         }
         
         public init?(fromDictionary fire: [String: Any]) {
-            self.type = SubscriptionType(rawValue: fire["type"] as? String ?? "") ?? .basic
-            self.startDate = fire["start_date"] as? Timestamp ?? Timestamp()
-            self.endDate = fire["end_date"] as? Timestamp ?? Timestamp()
+            guard let typeString = fire["type"] as? String,
+                  let type = SubscriptionType(rawValue: typeString),
+                  let startDate = fire["start_date"] as? Timestamp,
+                  let endDate = fire["end_date"] as? Timestamp
+            else {
+                return nil
+            }
+            
+            self.type = type
+            self.startDate = startDate
+            self.endDate = endDate
         }
         
         public func toFirestore() -> [String: Any] {
-            [ "type": type.rawValue, "start_date": startDate, "end_date": endDate]
+            [ "type": type.rawValue, "start_date": startDate, "end_date": endDate ]
         }
+        
         public enum SubscriptionType: String {
             case basic
             case trial
@@ -88,4 +100,3 @@ extension MiseboxUserManager {
         }
     }
 }
-

@@ -59,12 +59,10 @@ public struct Dashboard<RoleManagerType: RoleManager, ProfileView: RoleProfileVi
                     vm: vm
                 )
             }
-            .padding()
             if let profileView = profileView, let cardView = cardView {
                 NavigationLink(destination: profileView) {
                     cardView
                 }
-                .padding()
             }
             
             Button("Sign Out") {

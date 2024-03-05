@@ -30,7 +30,7 @@ extension MiseboxUserManager {
     }
     
     public static var exampleUserRole: UserRole {
-        let userRole = UserRole(role: .chef, handle: "Deanos Chef Profile")
+        let userRole = UserRole(role: .chef)
         return userRole
     }
     

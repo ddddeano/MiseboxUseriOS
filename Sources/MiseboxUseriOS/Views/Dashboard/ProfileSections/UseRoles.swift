@@ -39,18 +39,9 @@ struct UpdateableUserRoles: View {
             SectionTitle(title: "Your Roles")
             
             ForEach(Array(userRoles.enumerated()), id: \.element.role.doc) { index, userRole in
-                HStack {
                     Text(userRole.role.doc.capitalized)
                         .padding(.vertical, 2)
                         .font(.subheadline) // Consistent font styling
-                    
-                    Spacer()
-                    
-                    TextField("Handle", text: $userRoles[index].handle)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .frame(width: 200)
-                        .padding(.vertical, 2) // Ensure there's padding around the TextField for touch targets
-                }
                 .padding(.vertical, 2)
             }
         }

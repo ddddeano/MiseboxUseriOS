@@ -60,7 +60,7 @@ extension MiseboxUserManager {
             case .fullName:
                 print("Updated fullName: \(self.miseboxUserProfile.fullName)")
             case .subscription:
-                print("Updated subscription: \(self.miseboxUserProfile.subscription)")
+                print("Updated subscription: \(self.miseboxUser.subscription)")
             case .accountProviders:
                 print("Updated accountProviders: \(self.miseboxUserProfile.accountProviders)")
             }

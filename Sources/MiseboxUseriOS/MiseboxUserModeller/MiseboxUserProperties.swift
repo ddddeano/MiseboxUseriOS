@@ -54,6 +54,6 @@ extension MiseboxUserManager {
     }
     
     public var subscription: Subscription {
-        miseboxUserProfile.subscription
+        miseboxUser.subscription
     }
 }

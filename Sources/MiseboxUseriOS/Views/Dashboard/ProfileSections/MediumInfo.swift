@@ -15,7 +15,7 @@ struct MediumInfoView: View {
         VStack {
             Text("Medium Information")
                 .font(.title)
-            Text("Subscription Type: \(vm.miseboxUserManager.miseboxUserProfile.subscription.type.rawValue)")
+            //Text("Subscription Type: \(vm.miseboxUserManager.miseboxUserProfile.subscription.type.rawValue)")
             Text("Account Providers: \(vm.miseboxUserManager.miseboxUserProfile.accountProviders.joined(separator: ", "))")
         }
         .padding()

@@ -48,7 +48,7 @@ extension MiseboxUserManager {
         let mockUserProfile = MiseboxUserProfile()
         mockUserProfile.id = mockMiseboxUser().id
         mockUserProfile.fullName = exampleFullName
-        mockUserProfile.subscription = exampleSubscription
+       // mockUserProfile.subscription = exampleSubscription
         mockUserProfile.accountProviders = ["email"]
         return mockUserProfile
     }

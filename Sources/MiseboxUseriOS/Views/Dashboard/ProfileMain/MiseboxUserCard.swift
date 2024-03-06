@@ -17,10 +17,12 @@ public struct MiseboxUserCard: CardViewProtocol, View {
     @ObservedObject var photoVM: PhotosPickerVM
     @EnvironmentObject var miseboxUserManager: MiseboxUserManager
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
+    
     public init(photoVM: PhotosPickerVM, navigationPath: Binding<NavigationPath>) {
         self.photoVM = photoVM
         self._navigationPath = navigationPath
     }
+    
     public var body: some View {
         HStack(alignment: .top) {
             leftSide

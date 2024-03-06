@@ -36,10 +36,23 @@ public struct Misebox<ContentView: ContentViewProtocol>: View where ContentView.
                     roleManager: roleManager
                 )
             )
-            .environmentObject(Env.env)
             .environmentObject(miseboxUserManager.miseboxUser)
             .environmentObject(miseboxUserManager.miseboxUserProfile)
         }
     }
 }
 
+public class NoRoleManager: ObservableObject, RoleManager {
+    public var firestoreManager = FirestoreManager()
+    public var listener: ListenerRegistration?
+    
+    public init() {}
+    
+    public func onboard(miseboxId: String) async {
+        // Implementation for no specific role
+    }
+    
+    public func reset() {
+        // Reset or clear data if necessary
+    }
+}

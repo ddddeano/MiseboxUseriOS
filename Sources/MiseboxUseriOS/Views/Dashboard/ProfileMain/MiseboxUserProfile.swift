@@ -19,25 +19,30 @@ public struct MiseboxUserProfile: ProfileViewProtocol, View {
     @Binding public var navigationPath: NavigationPath
     @StateObject var nav = UserProfileViewNavigation()
     
-    let sections: [UserProfileViewNavigation.ProfileSections] = [.basicInfo]
-    
     public init(navigationPath: Binding<NavigationPath>) {
         self._navigationPath = navigationPath
         self._nav = StateObject(wrappedValue: UserProfileViewNavigation())
     }
     
     public var body: some View {
-        ProfileListView(sections: sections, navigationPath: $navigationPath) { section in
+        ProfileListView(sections: UserProfileViewNavigation.ProfileSections.allCases, navigationPath: $navigationPath) { section in
             section.view()
         }
         .navigationDestination(for: UserProfileViewNavigation.ProfileSections.self) { profileSection in
             switch profileSection {
             case .basicInfo:
                 BasicInfoView()
+            // Uncomment and implement additional cases as needed
+            // case .mediumInfo:
+            //     MediumInfoView()
+            // case .advancedInfo:
+            //     AdvancedInfoView()
             }
         }
     }
 }
+
+
 
 public struct ProfileListView<Section: ProfileSection, Destination: View>: View {
     @EnvironmentObject var env: EnvironmentManager

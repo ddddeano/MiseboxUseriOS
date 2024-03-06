@@ -21,6 +21,11 @@ public struct MiseboxUserProfile: ProfileViewProtocol, View {
     
     let sections: [UserProfileViewNavigation.ProfileSections] = [.basicInfo]
     
+    public init(navigationPath: Binding<NavigationPath>) {
+        self._navigationPath = navigationPath
+        self._nav = StateObject(wrappedValue: UserProfileViewNavigation())
+    }
+    
     public var body: some View {
         ProfileListView(sections: sections, navigationPath: $navigationPath) { section in
             section.view()
@@ -33,7 +38,6 @@ public struct MiseboxUserProfile: ProfileViewProtocol, View {
         }
     }
 }
-
 
 public struct ProfileListView<Section: ProfileSection, Destination: View>: View {
     @EnvironmentObject var env: EnvironmentManager

@@ -60,6 +60,9 @@ extension MiseboxUserManager {
         public var formatted: String {
             [first, middle, last].filter { !$0.isEmpty }.joined(separator: " ")
         }
+        public var firstAndLast: String {
+            [first, last].filter { !$0.isEmpty }.joined(separator: " ")
+        }
     }
     
     public struct Subscription {

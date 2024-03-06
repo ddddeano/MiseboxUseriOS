@@ -18,6 +18,9 @@ extension MiseboxUserManager {
     public var fullNameFormatted: String {
         fullName.formatted
     }
+    public var nameFirstAndLast: String {
+        fullName.firstAndLast
+    }
     
     // MiseboxUser Properties
     

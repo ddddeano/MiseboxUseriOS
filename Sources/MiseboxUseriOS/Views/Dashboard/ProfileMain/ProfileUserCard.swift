@@ -15,8 +15,8 @@ public protocol CardViewProtocol: View {
 public struct MiseboxUserCard: CardViewProtocol, View {
     @Binding public var navigationPath: NavigationPath
     @ObservedObject var photoVM: PhotosPickerVM
+    @EnvironmentObject var miseboxUserManager: MiseboxUserManager
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
-    
     public init(photoVM: PhotosPickerVM, navigationPath: Binding<NavigationPath>) {
         self.photoVM = photoVM
         self._navigationPath = navigationPath
@@ -25,7 +25,7 @@ public struct MiseboxUserCard: CardViewProtocol, View {
         HStack(alignment: .top) {
             leftSide
             VStack(alignment: .leading) {
-                MainTopView(title: miseboxUser.handle, subtitle: "@\(miseboxUser.handle)")
+                MainTopView(title: miseboxUserManager.nameFirstAndLast, subtitle: "@\(miseboxUser.handle)")
                 mainBottom
             }
             .padding(.vertical)

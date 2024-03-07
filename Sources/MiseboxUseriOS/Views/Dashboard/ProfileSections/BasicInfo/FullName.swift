@@ -17,48 +17,77 @@ struct FullNameProfileView: View {
     @State private var lastValidName: MiseboxUserManager.FullName = .init()
 
     var body: some View {
-        VStack {
+        VStack(alignment: .leading, spacing: 10) {
             if !isEditing {
-                Text(miseboxUserProfile.fullName.formatted)
-                    .displayValid(backgroundColor: .purple.opacity(0.1), borderColor: .purple)
+                HStack {
+                    Text(miseboxUserProfile.fullName.formatted)
+                        .displayValid(backgroundColor: .purple.opacity(0.1), borderColor: .purple)
+                    Spacer()
+                    EditToggleImageButton(
+                        isEditing: $isEditing,
+                        isValid: isValid,
+                        onEdit: {
+                            lastValidName = miseboxUserProfile.fullName
+                            isEditing = true
+                        },
+                        onDone: {
+                            Task {
+                                await post()
+                            }
+                        },
+                        onCancel: {
+                            miseboxUserProfile.fullName = lastValidName
+                            isEditing = false
+                        }
+                    )
+                }
             } else {
                 VStack {
-                    TextField("First Name", text: $miseboxUserProfile.fullName.first)
-                        .displayEdit(backgroundColor: .purple.opacity(0.2), borderColor: .purple)
-                    TextField("Middle Name", text: $miseboxUserProfile.fullName.middle)
-                        .displayEdit(backgroundColor: .purple.opacity(0.2), borderColor: .purple)
-                    TextField("Last Name", text: $miseboxUserProfile.fullName.last)
-                        .displayEdit(backgroundColor: .purple.opacity(0.2), borderColor: .purple)
+                    HStack {
+                        TextField("First Name", text: $miseboxUserProfile.fullName.first)
+                            .displayEdit(backgroundColor: .purple.opacity(0.2), borderColor: .purple)
+                        Spacer()
+                    }
+                    HStack {
+                        TextField("Middle Name", text: $miseboxUserProfile.fullName.middle)
+                            .displayEdit(backgroundColor: .purple.opacity(0.2), borderColor: .purple)
+                        Spacer()
+                    }
+                    HStack {
+                        TextField("Last Name", text: $miseboxUserProfile.fullName.last)
+                            .displayEdit(backgroundColor: .purple.opacity(0.2), borderColor: .purple)
+                        Spacer()
+                        EditToggleImageButton(
+                            isEditing: $isEditing,
+                            isValid: isValid,
+                            onEdit: {
+                                lastValidName = miseboxUserProfile.fullName
+                                isEditing = true
+                            },
+                            onDone: {
+                                Task {
+                                    await post()
+                                }
+                            },
+                            onCancel: {
+                                miseboxUserProfile.fullName = lastValidName
+                                isEditing = false
+                            }
+                        )
+                    }
                 }
                 .onChange(of: miseboxUserProfile.fullName) { _ in
                     checkValidity()
                 }
             }
-            Spacer()
-            EditToggleImageButton(
-                isEditing: $isEditing,
-                isValid: isValid,
-                onEdit: {
-                    lastValidName = miseboxUserProfile.fullName
-                    isEditing = true
-                },
-                onDone: {
-                    Task {
-                        await post()
-                    }
-                },
-                onCancel: {
-                    miseboxUserProfile.fullName = lastValidName
-                    isEditing = false
-                }
-            )
-            
+
             if !isValid && isEditing {
                 Text("First and last names cannot be empty.")
                     .foregroundColor(.red)
                     .padding(.top, 5)
             }
         }
+        .padding() // Add padding around the entire VStack
         .onAppear {
             lastValidName = miseboxUserProfile.fullName
             checkValidity()

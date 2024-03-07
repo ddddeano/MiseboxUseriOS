@@ -86,7 +86,7 @@ public struct LogInView<RoleManagerType: RoleManager>: View {
         }
     }
     private var messages: [String] {
-           [env.welcome, env.motto, env.smallPrint]
+        [Env.env.welcome, Env.env.motto, Env.env.smallPrint]
        }
     var animatedWelcome: some View {
         

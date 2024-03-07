@@ -1,6 +1,6 @@
 import XCTest
-import MiseboxiOS
-final class MiseboxiOSTests: XCTestCase {
+import MiseboxUseriOS
+final class MiseboxUseriOSTests: XCTestCase {
     func testExample() throws {
         // XCTest Documentation
         // https://developer.apple.com/documentation/xctest

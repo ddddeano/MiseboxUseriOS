@@ -55,7 +55,6 @@ public struct HandleProfileView: View {
                     }
                 )
             }
-            
             if !isValid && isEditing {
                 Text("Handle cannot be empty.")
                     .foregroundColor(.red)

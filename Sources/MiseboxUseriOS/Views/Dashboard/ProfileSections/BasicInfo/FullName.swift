@@ -10,81 +10,72 @@ import SwiftUI
 import MiseboxiOSGlobal
 
 struct FullNameProfileView: View {
-    let vm: DashboardVM
-    @Binding var fullName: MiseboxUserManager.FullName
+    @EnvironmentObject var miseboxUserManager: MiseboxUserManager
+    @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
     @State private var isValid: Bool = true
     @State private var isEditing: Bool = false
-    @State private var lastValidFullName = MiseboxUserManager.FullName()
+    @State private var lastValidName: MiseboxUserManager.FullName = .init()
+
     var body: some View {
         VStack {
-            HStack {
-                if !isEditing {
-                    Text(fullName.formattedCard)
-                        .displayValid(backgroundColor: .purple.opacity(0.1), borderColor: .purple)
-                } else {
-                    VStack {
-                        TextField("First Name", text: $fullName.first)
-                            .displayEdit(backgroundColor: .purple.opacity(0.2), borderColor: .purple)
-                            .onChange(of: fullName.first) { newValue in checkValidity() }
-                        
-                        TextField("Last Name", text: $fullName.last)
-                            .displayEdit(backgroundColor: .purple.opacity(0.2), borderColor: .purple)
-                            .onChange(of: fullName.last) { newValue in checkValidity() }
-                        
-                        TextField("Middle Name (Optional)", text: $fullName.middle)
-                            .displayEdit(backgroundColor: .purple.opacity(0.2), borderColor: .purple)
-                    }
+            if !isEditing {
+                Text(miseboxUserProfile.fullName.formatted)
+                    .displayValid(backgroundColor: .purple.opacity(0.1), borderColor: .purple)
+            } else {
+                VStack {
+                    TextField("First Name", text: $miseboxUserProfile.fullName.first)
+                        .displayEdit(backgroundColor: .purple.opacity(0.2), borderColor: .purple)
+                    TextField("Middle Name", text: $miseboxUserProfile.fullName.middle)
+                        .displayEdit(backgroundColor: .purple.opacity(0.2), borderColor: .purple)
+                    TextField("Last Name", text: $miseboxUserProfile.fullName.last)
+                        .displayEdit(backgroundColor: .purple.opacity(0.2), borderColor: .purple)
                 }
-                Spacer()
-                EditToggleImageButton(
-                    isEditing: $isEditing,
-                    isValid: isValid,
-                    onEdit: {
-                        isEditing = true
-                    },
-                    onDone: {
-                        Task {
-                            await post()
-                        }
-                    },
-                    onCancel: {
-                        fullName = lastValidFullName
-                        isEditing = false
-                    }
-                )
+                .onChange(of: miseboxUserProfile.fullName) { _ in
+                    checkValidity()
+                }
             }
+            Spacer()
+            EditToggleImageButton(
+                isEditing: $isEditing,
+                isValid: isValid,
+                onEdit: {
+                    lastValidName = miseboxUserProfile.fullName
+                    isEditing = true
+                },
+                onDone: {
+                    Task {
+                        await post()
+                    }
+                },
+                onCancel: {
+                    miseboxUserProfile.fullName = lastValidName
+                    isEditing = false
+                }
+            )
             
             if !isValid && isEditing {
-                Text("First and Last names cannot be empty.")
+                Text("First and last names cannot be empty.")
                     .foregroundColor(.red)
                     .padding(.top, 5)
             }
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                checkValidity()
-            }
+            lastValidName = miseboxUserProfile.fullName
+            checkValidity()
         }
     }
-    
+
     private func checkValidity() {
-        isValid = !fullName.first.isEmpty && !fullName.last.isEmpty
-        if isValid {
-            lastValidFullName = fullName
-        }
+        isValid = !miseboxUserProfile.fullName.first.isEmpty && !miseboxUserProfile.fullName.last.isEmpty
     }
-    
+
     private func post() async {
         checkValidity()
         if isValid {
-            await vm.update([.fullName])
+            await miseboxUserManager.update(contexts: [.fullName])
         } else {
-            print("FullName is invalid, cannot post.")
-            fullName = lastValidFullName
+            print("Full name is invalid, cannot post.")
+            miseboxUserProfile.fullName = lastValidName
         }
     }
-}
-
-#Preview {
-    FullNameProfileView(vm: DashboardVM(miseboxUserManager: MiseboxUserManager(role: .miseboxUser), signOutAction: {}), fullName: .constant(MiseboxUserManager.FullName(first: "Daniel", middle: "Marc", last: "Watson")))
 }

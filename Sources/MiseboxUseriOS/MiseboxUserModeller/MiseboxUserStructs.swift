@@ -31,7 +31,7 @@ extension MiseboxUserManager {
         }
     }
     
-    public struct FullName {
+    public struct FullName: Equatable {
         public var first = ""
         public var middle = ""
         public var last = ""

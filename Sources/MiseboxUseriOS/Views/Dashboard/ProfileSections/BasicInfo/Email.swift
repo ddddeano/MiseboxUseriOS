@@ -19,10 +19,10 @@ struct EmailProfileView: View {
         VStack {
             HStack {
                 if !isEditing {
-                    Text(miseboxUser.email) // Access email from miseboxUser
+                    Text(miseboxUser.email)
                         .displayValid(backgroundColor: .purple.opacity(0.1), borderColor: .purple)
                 } else {
-                    TextField("Enter Email", text: $miseboxUser.email) // Bind directly to miseboxUser.email
+                    TextField("Enter Email", text: $miseboxUser.email)
                         .displayEdit(backgroundColor: .purple.opacity(0.2), borderColor: .purple)
                         .keyboardType(.emailAddress)
                         .onChange(of: miseboxUser.email) { newValue in

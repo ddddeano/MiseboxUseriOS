@@ -27,7 +27,7 @@ public struct Misebox<ContentView: ContentViewProtocol>: View where ContentView.
     }
 
     public var body: some View {
-        
+        //
         ZStack {
             GradientBackgroundView(colors: [Env.env.appDark, Env.env.appLight])
             AuthenticationView<ContentView>(

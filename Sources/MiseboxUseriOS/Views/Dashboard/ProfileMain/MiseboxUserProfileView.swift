@@ -45,8 +45,6 @@ public struct MiseboxUserProfile: ProfileViewProtocol, View {
 
 
 public struct ProfileListView<Section: ProfileSection, Destination: View>: View {
-    @EnvironmentObject var env: EnvironmentManager
-    
     let sections: [Section]
     let destinationView: (Section) -> Destination
     @Binding var navigationPath: NavigationPath  // Now using a binding passed from the parent
@@ -70,16 +68,16 @@ public struct ProfileListView<Section: ProfileSection, Destination: View>: View 
                         Spacer()
                         iconView(systemName: "chevron.right")
                     }
-                    .foregroundColor(env.appLight)
+                    .foregroundColor(Env.env.appLight)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .buttonStyle(PlainButtonStyle())
                 .contentShape(Rectangle())
             }
-            .sectionStyle(borderColor: env.appLight)
+            .sectionStyle(borderColor: Env.env.appLight)
         }
         .padding()
-        .pageStyle(backgroundColor: env.appDark.opacity(0.1))
+        .pageStyle(backgroundColor: Env.env.appDark.opacity(0.1))
     }
 
     @ViewBuilder

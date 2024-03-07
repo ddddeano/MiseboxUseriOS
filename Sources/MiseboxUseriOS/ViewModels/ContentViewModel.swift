@@ -27,7 +27,7 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
         self.roleManager = roleManager
         Task {
             await authenticate()
-            if EnvironmentManager.env.mode == .development {
+            if Env.env.mode == .development {
                 self.isAuthenticated = true
             }
         }

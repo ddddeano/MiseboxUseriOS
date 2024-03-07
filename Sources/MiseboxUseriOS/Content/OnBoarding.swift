@@ -47,7 +47,6 @@ struct AuthenticationView<ContentView: ContentViewProtocol>: View where ContentV
 
 public struct LogInView<RoleManagerType: RoleManager>: View {
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var env: EnvironmentManager
     @ObservedObject var cvm: ContentViewModel<RoleManagerType>
     @State private var showEmailSignIn = false
     @State private var errorMessage: String? = ""

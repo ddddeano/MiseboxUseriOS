@@ -23,7 +23,7 @@ public struct BasicInfoView: View {
             SectionTitle(title: "Basic Information")
             Divider()
             HandleProfileView()
-          //  FullNameProfileView()
+            FullNameProfileView()
             EmailProfileView()
             Divider()
             Spacer()

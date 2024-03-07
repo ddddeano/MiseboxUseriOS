@@ -37,7 +37,7 @@ public class UserProfileViewNavigation: ObservableObject {
         public func view() -> some View {
             switch self {
             case .basicInfo:
-                BasicInfoView()
+                Text("BasicInfoView")
            // case .mediumInfo:
              //   MediumInfoView(vm: vm)
             //case .advancedInfo:

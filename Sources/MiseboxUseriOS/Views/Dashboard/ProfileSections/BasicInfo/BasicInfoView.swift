@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import MiseboxiOSGlobal
 
-public struct BasicInfoView: View {
+/*public struct BasicInfoView: View {
     @EnvironmentObject var miseboxUserManager: MiseboxUserManager
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
@@ -32,3 +32,4 @@ public struct BasicInfoView: View {
         .sheetStyle(backgroundColor: .purple.opacity(0.1))
     }
 }
+*/

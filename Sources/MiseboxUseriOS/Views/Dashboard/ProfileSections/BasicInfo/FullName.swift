@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 import MiseboxiOSGlobal
-
+/*
 struct FullNameProfileView: View {
     @EnvironmentObject var miseboxUserManager: MiseboxUserManager
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
@@ -108,3 +108,4 @@ struct FullNameProfileView: View {
         }
     }
 }
+*/

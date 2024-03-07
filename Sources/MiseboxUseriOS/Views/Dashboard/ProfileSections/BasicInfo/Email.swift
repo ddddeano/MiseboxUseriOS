@@ -8,7 +8,7 @@
 import SwiftUI
 import MiseboxiOSGlobal
 
-struct EmailProfileView: View {
+/*struct EmailProfileView: View {
     @EnvironmentObject var miseboxUserManager: MiseboxUserManager
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @State private var isValid: Bool = true
@@ -74,3 +74,4 @@ struct EmailProfileView: View {
         }
     }
 }
+*/

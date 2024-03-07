@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 import MiseboxiOSGlobal
-
+/*
 public struct HandleProfileView: View {
     @EnvironmentObject var miseboxUserManager: MiseboxUserManager
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
@@ -77,3 +77,4 @@ public struct HandleProfileView: View {
         }
     }
 }
+*/

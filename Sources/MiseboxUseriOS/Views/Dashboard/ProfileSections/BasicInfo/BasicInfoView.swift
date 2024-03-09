@@ -10,10 +10,10 @@ import SwiftUI
 import MiseboxiOSGlobal
 
 struct BasicInfo: View {
-    @StateObject var miseboxUserManager = MiseboxUserManager(role: .miseboxUser)
-    @StateObject var miseboxUser = MiseboxUserManager.MiseboxUser.sandboxUser
-    @StateObject var miseboxUserProfile = MiseboxUserManager.MiseboxUserProfile.sandboxUserProfile
-    
+    @EnvironmentObject var miseboxUserManager: MiseboxUserManager
+    @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
+    @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
+
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
             SectionTitle(title: "User Information")

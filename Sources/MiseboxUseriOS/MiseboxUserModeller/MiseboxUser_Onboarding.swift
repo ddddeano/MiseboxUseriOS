@@ -47,6 +47,7 @@ extension MiseboxUserManager {
     }
     
     private func attachUserDocumentListener() {
+        print("MiseboxUserManager [attachUserDocumentListener] Attaching document listener for user")
         documentListener(for: self.miseboxUser) { result in
             switch result {
             case .success(let updatedUser):
@@ -57,7 +58,20 @@ extension MiseboxUserManager {
                 print("MiseboxUserManager [attachUserDocumentListener] Error: \(error.localizedDescription)")
             }
         }
+
+        print("MiseboxUserManager [attachUserDocumentListener] Attaching document listener for user profile")
+        documentListener(for: self.miseboxUserProfile) { result in
+            switch result {
+            case .success(let updatedProfile):
+                DispatchQueue.main.async {
+                    print("MiseboxUserManager [attachUserDocumentListener] User profile updated: \(updatedProfile.id)")
+                }
+            case .failure(let error):
+                print("MiseboxUserManager [attachUserDocumentListener] Error: \(error.localizedDescription)")
+            }
+        }
     }
+
     public func documentListener<T: Listenable>(for entity: T, completion: @escaping (Result<T, Error>) -> Void) {
         self.listener = firestoreManager.addDocumentListener(for: entity) { result in
             completion(result)

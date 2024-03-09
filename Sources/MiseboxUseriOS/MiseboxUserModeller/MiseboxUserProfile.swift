@@ -4,6 +4,7 @@
 //
 //  Created by Daniel Watson on 26.01.24.
 //
+
 import Foundation
 import FirebaseFirestore
 import FirebaseiOSMisebox
@@ -27,19 +28,11 @@ extension MiseboxUserManager {
         public init?(documentSnapshot: DocumentSnapshot) {
             guard let data = documentSnapshot.data() else { return nil }
             self.id = documentSnapshot.documentID
-            print("Initializing MiseboxUserProfile with documentSnapshot: \(data)")
             update(with: data)
         }
         
         public func update(with data: [String: Any]) {
-            print("Updating MiseboxUserProfile with data: \(data)")
-            if let fullNameData = data["full_name"] as? [String: Any] {
-                print("Found fullName data: \(fullNameData)")
-                self.fullName = fireObject(from: fullNameData, using: FullName.init) ?? FullName()
-            } else {
-                print("No fullName data found.")
-                self.fullName = FullName()
-            }
+            self.fullName = fireObject(from: data["full_name"] as? [String: Any] ?? [:], using: FullName.init) ?? FullName()
             self.accountProviders = data["account_providers"] as? [String] ?? []
         }
         
@@ -49,9 +42,7 @@ extension MiseboxUserManager {
                 "account_providers": accountProviders
             ]
         }
-        
         public func resetFields() {
-            print("Resetting MiseboxUserProfile fields")
             id = ""
             fullName = FullName()
             accountProviders = []
@@ -67,7 +58,6 @@ extension MiseboxUserManager.MiseboxUserProfile {
         profile.fullName.first = "John"
         profile.fullName.middle = "D"
         profile.fullName.last = "Doe"
-        print("Setting up sandboxUserProfile: \(profile.fullName)")
         return profile
     }
 }

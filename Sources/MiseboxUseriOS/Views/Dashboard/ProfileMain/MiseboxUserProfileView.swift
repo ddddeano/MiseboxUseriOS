@@ -31,7 +31,7 @@ public struct MiseboxUserProfile: ProfileViewProtocol, View {
         .navigationDestination(for: UserProfileViewNavigation.ProfileSections.self) { profileSection in
             switch profileSection {
             case .basicInfo:
-                Text("BasicInfoView")
+                BasicInfo()
             // Uncomment and implement additional cases as needed
             // case .mediumInfo:
             //     MediumInfoView()

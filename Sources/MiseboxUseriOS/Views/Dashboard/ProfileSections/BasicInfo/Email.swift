@@ -8,70 +8,43 @@
 import SwiftUI
 import MiseboxiOSGlobal
 
-/*struct EmailProfileView: View {
+struct EmailProfileView: View {
     @EnvironmentObject var miseboxUserManager: MiseboxUserManager
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
-    @State private var isValid: Bool = true
     @State private var isEditing: Bool = false
-    @State private var lastValidEmail: String = ""
-    
+    @State private var lastValid: String = ""
+
     var body: some View {
-        VStack {
-            HStack {
-                if !isEditing {
-                    Text(miseboxUser.email)
-                        .displayValid(backgroundColor: .purple.opacity(0.1), borderColor: .purple)
-                } else {
-                    TextField("Enter Email", text: $miseboxUser.email)
-                        .displayEdit(backgroundColor: .purple.opacity(0.2), borderColor: .purple)
-                        .keyboardType(.emailAddress)
-                        .onChange(of: miseboxUser.email) { newValue in
-                            checkValidity()
-                        }
-                }
-                Spacer()
-                EditToggleImageButton(
-                    isEditing: $isEditing,
-                    isValid: isValid,
-                    onEdit: {},
-                    onDone: {
-                        await post()
-                    },
-                    onCancel: {
-                        miseboxUser.email = lastValidEmail
-                    }
-                )
-            }
-            
-            if !isValid && isEditing {
-                Text("Email cannot be empty and must be valid.")
-                    .foregroundColor(.red)
-                    .padding(.top, 5)
-            }
-        }
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                checkValidity()
-            }
-        }
+        ProfileInput(
+            inputs: [FieldInput(title: "Email", text: $miseboxUser.email)],
+            isEditing: $isEditing,
+            onEdit: { lastValid = miseboxUser.email },
+            onDone: { post() },
+            onCancel: { miseboxUser.email = lastValid },
+            onCheck: check
+        )
     }
-    
-    private func checkValidity() {
-        isValid = !miseboxUser.email.isEmpty && miseboxUser.email.contains("@") && miseboxUser.email.contains(".")
-        
-        if isValid {
-            lastValidEmail = miseboxUser.email
-        }
-    }
-    
-    private func post() async {
-        checkValidity()
-        if isValid {
-            await miseboxUserManager.update(contexts: [.email]) // Use miseboxUserManager to update email
+
+    private func post() {
+        let result = check()
+        if result.isValid {
+            Task {
+                await miseboxUserManager.update(contexts: [.email])
+            }
         } else {
-            print("Email is invalid, cannot post.")
-            miseboxUser.email = lastValidEmail
+            miseboxUser.email = lastValid
         }
+    }
+
+    private func check() -> (isValid: Bool, message: String) {
+        if miseboxUser.email.isEmpty {
+            return (false, "Email cannot be empty.")
+        }
+        
+        if !miseboxUser.email.contains("@") {
+            return (false, "Email must contain an '@' symbol.")
+        }
+
+        return (true, "")
     }
 }
-*/

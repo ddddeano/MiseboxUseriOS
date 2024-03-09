@@ -9,27 +9,27 @@ import Foundation
 import SwiftUI
 import MiseboxiOSGlobal
 
-/*public struct BasicInfoView: View {
-    @EnvironmentObject var miseboxUserManager: MiseboxUserManager
-    @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
-    @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
-    public init() {
-    }
+struct BasicInfo: View {
+    @StateObject var miseboxUserManager = MiseboxUserManager(role: .miseboxUser)
+    @StateObject var miseboxUser = MiseboxUserManager.MiseboxUser.sandboxUser
+    @StateObject var miseboxUserProfile = MiseboxUserManager.MiseboxUserProfile.sandboxUserProfile
     
-    public var body: some View {
-        VStack(alignment: .leading, spacing: 15) {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 25) {
+            SectionTitle(title: "User Information")
             Divider()
-                .padding(.top, 100)
-            SectionTitle(title: "Basic Information")
-            Divider()
-            HandleProfileView()
-            FullNameProfileView()
-            EmailProfileView()
+            ScrollView {
+                HandleProfileView()
+                FullNameProfileView()
+                EmailProfileView()
+            }
             Divider()
             Spacer()
         }
+        .environmentObject(miseboxUserManager)
+        .environmentObject(miseboxUser)
+        .environmentObject(miseboxUserProfile)
         .padding()
         .sheetStyle(backgroundColor: .purple.opacity(0.1))
     }
 }
-*/

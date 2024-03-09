@@ -8,73 +8,53 @@
 import Foundation
 import SwiftUI
 import MiseboxiOSGlobal
-/*
-public struct HandleProfileView: View {
+
+
+
+struct HandleProfileView: View {
     @EnvironmentObject var miseboxUserManager: MiseboxUserManager
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
-    @State private var isValid: Bool = true
+
     @State private var isEditing: Bool = false
-    @State private var lastValidHandle: String = ""
-    public init() {
-    }
-    public var body: some View {
-        VStack {
-            HStack {
-                if !isEditing {
-                    Text("@\(miseboxUser.handle)")
-                        .displayValid(backgroundColor: .purple.opacity(0.1), borderColor: .purple)
-                } else {
-                    TextField("Enter Handle", text: $miseboxUser.handle, onEditingChanged: { isEditing in
-                        self.isEditing = isEditing
-                        if !isEditing {
-                            lastValidHandle = miseboxUser.handle
-                        }
-                    }, onCommit: {
-                        Task {
-                            await post()
-                        }
-                    })
-                    .displayEdit(backgroundColor: .purple.opacity(0.2), borderColor: .purple)
-                }
-                Spacer()
-                EditToggleImageButton(
+    @State private var lastValid: String = ""
+    @State private var validationResult: (isValid: Bool, message: String) = (true, "")
+
+    var body: some View {
+     
+            VStack {
+                ProfileInput(
+                    inputs: [FieldInput(title: "Handle", text: $miseboxUser.handle)],
                     isEditing: $isEditing,
-                    isValid: isValid,
-                    onEdit: {
-                        lastValidHandle = miseboxUser.handle
-                        isEditing = true
-                    },
-                    onDone: {
-                        Task {
-                            await post()
-                        }
-                    },
-                    onCancel: {
-                        miseboxUser.handle = lastValidHandle
-                        isEditing = false
-                    }
+                    onEdit: { lastValid = miseboxUser.handle},
+                    onDone: { post() },
+                    onCancel: { miseboxUser.handle = lastValid },
+                    onCheck: check
                 )
             }
-            if !isValid && isEditing {
-                Text("Handle cannot be empty.")
-                    .foregroundColor(.red)
-                    .padding(.top, 5)
+        }
+    
+    private func post() {
+        let result = check()
+        if result.isValid {
+            Task {
+                await miseboxUserManager.update(contexts: [.handle])
             }
+        } else {
+            miseboxUser.handle = lastValid
         }
     }
 
-    private func checkValidity() {
-        isValid = !miseboxUser.handle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-    }
-    
-    private func post() async {
-        checkValidity()
-        if isValid {
-            await miseboxUserManager.update(contexts: [.handle])
-        } else {
-            print("Handle is invalid, reverting to last valid handle.")
-            miseboxUser.handle = lastValidHandle
+    private func check() -> (isValid: Bool, message: String) {
+        if miseboxUser.handle.isEmpty {
+            return (false, "Handle cannot be empty.")
         }
+
+        // Placeholder for a more complex uniqueness check
+        let isUnique = true  // Replace with actual check
+        if !isUnique {
+            return (false, "Handle must be unique.")
+        }
+
+        return (true, "")
     }
 }
-*/

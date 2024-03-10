@@ -9,7 +9,6 @@ import SwiftUI
 
 struct PersonalInfoView: View {
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
-    @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         VStack {
@@ -17,11 +16,17 @@ struct PersonalInfoView: View {
             FullNameProfileView()
             Spacer()
         }
-         .navigationBarBackButtonHidden(true)
-         .navigationBarItems(leading: Button(action: {
-             self.presentationMode.wrappedValue.dismiss()
-         }) {
-             Text("Custom Back")
-         })
-     }
- }
+        .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading: backButton)
+        }
+        
+        private var backButton: some View {
+            Button(action: {}) {
+                HStack {
+                    Image(systemName: "arrow.left")
+                    Text("Back")
+                }
+            }
+            .foregroundColor(.blue) // Customize button appearance
+        }
+    }

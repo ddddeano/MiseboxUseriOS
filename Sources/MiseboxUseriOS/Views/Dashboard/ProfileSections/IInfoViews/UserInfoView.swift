@@ -30,7 +30,7 @@ struct UserInfoView: View {
         .environmentObject(miseboxUserProfile)
         .padding()
         .sheetStyle(backgroundColor: Env.env.appDark.opacity(0.1))
-        .navigationViewStyle(.stack)
+        //.navigationViewStyle(.stack)
     }
 }
 

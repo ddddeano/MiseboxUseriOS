@@ -11,9 +11,9 @@ extension MiseboxUserManager {
         
         @Published public var id: String = ""
         @Published public var handle: String = ""
-        @Published public var imageUrl: String = "" // Essential
+        @Published public var imageUrl: String = ""
         @Published public var verified: Bool = false
-        @Published public var fullName = FullName() // Added fullName here
+        @Published public var fullName = FullName()
         
         public init() {}
         

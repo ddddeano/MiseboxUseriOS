@@ -21,33 +21,65 @@ public struct MiseboxUserProfile: ProfileViewProtocol, View {
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
 
     @Binding public var navigationPath: NavigationPath
-    @StateObject var nav = UserProfileViewNavigation()
+    @State private var isPersonalInfoExpanded: Bool = true
+    @State private var isContactInfoExpanded: Bool = false
+    @State private var isAdditionalInfoExpanded: Bool = false
     
     public init(navigationPath: Binding<NavigationPath>) {
         self._navigationPath = navigationPath
-        self._nav = StateObject(wrappedValue: UserProfileViewNavigation())
     }
     
     public var body: some View {
-        VStack {
-            Text("Account Created: \(miseboxUserProfile.formattedAccountCreated)")
-            ProfileListView(sections: UserProfileViewNavigation.ProfileSections.allCases, navigationPath: $navigationPath) { section in
-                section.view()
+        List {
+            DisclosureGroup("Personal Information", isExpanded: $isPersonalInfoExpanded) {
+                HandleProfileView()
+                FullNameProfileView()
+                ImageProfileView()  // Placeholder for the image URL view
+                VerifiedStatusView()  // Placeholder for the verified status view
+            }
+
+            DisclosureGroup("Contact Information", isExpanded: $isContactInfoExpanded) {
+                EmailProfileView()
+                // Add more contact information fields as they become available
+            }
+
+            DisclosureGroup("Additional Information", isExpanded: $isAdditionalInfoExpanded) {
+                Text("Account Created: \(miseboxUserProfile.formattedAccountCreated)")
+                Text("MiseCODE: \(miseboxUserProfile.miseCODE)")
+                SubscriptionView()  // Placeholder for subscription info
+                UserRolesView()  // Placeholder for user roles info
+                // Add more additional information fields as they become available
             }
         }
-        .navigationDestination(for: UserProfileViewNavigation.ProfileSections.self) { profileSection in
-            switch profileSection {
-            case .basicInfo:
-                BasicInfo()
-            // Uncomment and implement additional cases as needed
-            // case .mediumInfo:
-            //     MediumInfoView()
-            // case .advancedInfo:
-            //     AdvancedInfoView()
-            }
-        }
+        .listStyle(GroupedListStyle())
     }
 }
+
+// Placeholder views for the not yet implemented views
+struct ImageProfileView: View {
+    var body: some View {
+        Text("Image URL placeholder")
+    }
+}
+
+struct VerifiedStatusView: View {
+    var body: some View {
+        Text("Verified status placeholder")
+    }
+}
+
+struct SubscriptionView: View {
+    var body: some View {
+        Text("Subscription info placeholder")
+    }
+}
+
+struct UserRolesView: View {
+    var body: some View {
+        Text("User roles info placeholder")
+    }
+}
+
 
 
 

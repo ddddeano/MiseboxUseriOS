@@ -21,82 +21,33 @@ public struct MiseboxUserProfile: ProfileViewProtocol, View {
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
 
     @Binding public var navigationPath: NavigationPath
-    
+    @StateObject var nav = UserProfileViewNavigation()
+
     public init(navigationPath: Binding<NavigationPath>) {
         self._navigationPath = navigationPath
+        self._nav = StateObject(wrappedValue: UserProfileViewNavigation())
     }
-    
+
     public var body: some View {
-        List {
-            DisclosureGroup("Personal Information") {
-                HandleProfileView()
-                FullNameProfileView()
+        VStack {
+            Text("Account Created: \(miseboxUserProfile.formattedAccountCreated)")
+            ProfileListView(sections: UserProfileViewNavigation.ProfileSections.allCases, navigationPath: $navigationPath) { section in
+                section.view()
             }
-            .background(Color.white) // Change the color as needed
-
-            DisclosureGroup("Contact Information") {
-                EmailProfileView()
-                AddressProfileView()  // Add your address view here
-            }
-            .background(Color.white) // Change the color as needed
-
-            DisclosureGroup("Additional Information") {
-                Text("Account Created: \(miseboxUserProfile.formattedAccountCreated)")
-                Text("MiseCODE: \(miseboxUserProfile.miseCODE)")
-                SubscriptionView()
-                UserRolesView()
-            }
-            .background(Color.white) // Change the color as needed
         }
-        .listStyle(GroupedListStyle())
-        .background(Color.white) // Change the background color of the List
+    
+        .navigationDestination(for: UserProfileViewNavigation.ProfileSections.self) { profileSection in
+            switch profileSection {
+            case .personalInfo:
+                PersonalInfoView()
+            case .contactInfo:
+                ContactInfoView()
+            case .additionalInfo:
+                AdditionalInfoView()
+            }
+        }
     }
 }
-
-struct MiseboxUserProfile_Previews: PreviewProvider {
-    static var previews: some View {
-     
-        let navigationPath = Binding.constant(NavigationPath())
-
-        MiseboxUserProfile(navigationPath: navigationPath)
-            .environmentObject(MiseboxUserManager(role: .agent))
-            .environmentObject(MiseboxUserManager.MiseboxUser.sandboxUser)
-            .environmentObject(MiseboxUserManager.MiseboxUserProfile.sandboxUserProfile)
-    }
-}
-
-struct AddressProfileView: View {
-    var body: some View {
-        Text("Address placeholder")
-        // Replace this with your actual address view
-    }
-}
-// Placeholder views for the not yet implemented views
-struct ImageProfileView: View {
-    var body: some View {
-        Text("Image URL placeholder")
-    }
-}
-
-struct VerifiedStatusView: View {
-    var body: some View {
-        Text("Verified status placeholder")
-    }
-}
-
-struct SubscriptionView: View {
-    var body: some View {
-        Text("Subscription info placeholder")
-    }
-}
-
-struct UserRolesView: View {
-    var body: some View {
-        Text("User roles info placeholder")
-    }
-}
-
-
 
 public struct ProfileListView<Section: ProfileSection, Destination: View>: View {
     let sections: [Section]

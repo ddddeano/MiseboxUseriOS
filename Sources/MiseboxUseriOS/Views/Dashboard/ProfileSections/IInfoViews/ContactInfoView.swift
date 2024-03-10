@@ -7,12 +7,17 @@
 
 import SwiftUI
 
-struct SwiftUIView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+struct ContactInfoView: View {
+    @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
 
-#Preview {
-    SwiftUIView()
+    var body: some View {
+        VStack {
+            EmailProfileView()
+            // Assuming AddressProfileView is implemented to edit the address
+           // AddressProfileView()
+            Spacer()
+        }
+        .padding()
+        .navigationTitle("Contact Information")
+    }
 }

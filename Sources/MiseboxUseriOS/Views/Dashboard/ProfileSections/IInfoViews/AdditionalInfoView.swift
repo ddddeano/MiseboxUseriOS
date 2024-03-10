@@ -7,12 +7,44 @@
 
 import SwiftUI
 
-struct SwiftUIView: View {
+struct AdditionalInfoView: View {
+    @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text("Account Created: \(miseboxUserProfile.formattedAccountCreated)")
+            Text("MiseCODE: \(miseboxUserProfile.miseCODE)")
+            AppSubscriptionView()
+            UserRolesView()
+            Spacer()
+        }
+        .padding()
+        .navigationTitle("Additional Information")
+    }
+}
+struct AppSubscriptionView: View {
+    var body: some View {
+        VStack {
+            Text("Subscription Details Placeholder")
+        }
+        .padding()
+        .background(Color.gray.opacity(0.2))
+        .cornerRadius(10)
     }
 }
 
-#Preview {
-    SwiftUIView()
+struct UserRolesView: View {
+    @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
+    
+    var body: some View {
+        VStack {
+            Text("User Roles Placeholder")
+            ForEach(miseboxUserProfile.userRoles, id: \.role.doc) { role in
+                Text(role.role.doc)
+            }
+        }
+        .padding()
+        .background(Color.gray.opacity(0.2))
+        .cornerRadius(10)
+    }
 }

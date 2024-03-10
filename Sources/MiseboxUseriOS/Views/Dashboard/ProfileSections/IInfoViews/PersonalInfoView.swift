@@ -7,12 +7,16 @@
 
 import SwiftUI
 
-struct SwiftUIView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+struct PersonalInfoView: View {
+    @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
 
-#Preview {
-    SwiftUIView()
+    var body: some View {
+        VStack {
+            HandleProfileView()
+            FullNameProfileView()
+            Spacer()
+        }
+        .padding()
+        .navigationTitle("Personal Information")
+    }
 }

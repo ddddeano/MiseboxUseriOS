@@ -32,6 +32,10 @@ extension MiseboxUserManager {
         self.miseboxUserProfile.accountProviders.append(firebaseUser.provider.rawValue)
         
         self.miseboxUserProfile.accountCreated = Date()
+        
+        self.miseboxUserProfile.fullName.first = firebaseUser.firstName
+        self.miseboxUserProfile.fullName.first = firebaseUser.lastName
+
     }
     
     public func setMiseboxUserAndProfile() async throws {

@@ -8,7 +8,6 @@
 import Foundation
 import MiseboxiOSGlobal
 import FirebaseiOSMisebox
-
 extension MiseboxUserManager {
     
     public func primeNewUserAndProfile(firebaseUser: AuthenticationManager.FirebaseUser) async {
@@ -18,15 +17,20 @@ extension MiseboxUserManager {
         // Set the handle
         self.miseboxUser.handle = await generateHandle(firebaseUser: firebaseUser)
         
-        // Set the photo URL
+        // Set the email if available
+        if let email = firebaseUser.email {
+            self.miseboxUser.email = email
+        }
+        
+        // Set the photo URL or default value if not provided
         if let photoUrl = firebaseUser.photoUrl {
             self.miseboxUser.imageUrl = photoUrl
         } else {
-            // Set a default photo URL if none provided
             self.miseboxUser.imageUrl = "default_photo_url"
         }
+
+        self.miseboxUserProfile.accountProviders.append(firebaseUser.provider.rawValue)
         
-        // Set the current date as the account creation date during onboarding
         self.miseboxUserProfile.accountCreated = Date()
     }
     

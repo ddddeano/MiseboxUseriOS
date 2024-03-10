@@ -103,7 +103,7 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
     @MainActor
     private func verifyWithEmail(email: String, password: String, intent: AuthenticationManager.UserIntent) async throws {
         let firebaseUser = try await authenticationManager.processWithEmail(email: email, password: password, intent: intent)
-        await updateAndOnboardUser(provider: .email, firebaseUser: firebaseUser)
+        self.currentUser = firebaseUser
     }
     
     @MainActor
@@ -111,21 +111,16 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
         let helper = SignInGoogleHelper()
         let tokens = try await helper.signIn()
         let firebaseUser = try await authenticationManager.processWithGoogle(tokens: tokens)
-        await updateAndOnboardUser(provider: .google, firebaseUser: firebaseUser)
+        self.currentUser = firebaseUser
     }
     
     @MainActor
     private func verifyWithApple() async throws {
         let appleSignInResult = try await SignInAppleHelper().startSignInWithAppleFlow()
         let firebaseUser = try await authenticationManager.processWithApple(tokens: appleSignInResult)
-        await updateAndOnboardUser(provider: .apple, firebaseUser: firebaseUser)
+        self.currentUser = firebaseUser
     }
-    
-    @MainActor
-     private func updateAndOnboardUser(provider: AuthenticationManager.AuthenticationMethod, firebaseUser: AuthenticationManager.FirebaseUser) async {
-         self.currentUser = firebaseUser
-         await miseboxUserManager.updateUserInfo(provider: provider, firebaseUser: firebaseUser)
-     }
+
     public func signOut() async {
         miseboxUserManager.reset()
         await authenticationManager.signOut()

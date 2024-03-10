@@ -13,9 +13,7 @@ import Firebase
 public protocol RoleManager: ObservableObject {
     var firestoreManager: FirestoreManager { get }
     var listener: ListenerRegistration? { get set }
-    
-    func onboard(miseboxId: String) async
+
+    func onboard(firebaseUser: AuthenticationManager.FirebaseUser) async
     func reset()
 }
-
-

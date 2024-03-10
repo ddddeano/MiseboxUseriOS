@@ -11,37 +11,29 @@ import FirebaseiOSMisebox
 
 extension MiseboxUserManager {
     
-    public func authoring(firebaseUser: AuthenticationManager.FirebaseUser) async {
-        guard !firebaseUser.uid.isEmpty else {
-            print("MiseboxUserManager [authoring] Invalid or missing miseboxId.")
-            return
-        }
-        
-        await MainActor.run {
-            self.miseboxUser.prime(id: firebaseUser.uid)
-            self.miseboxUserProfile.prime(id: firebaseUser.uid)
-        }
-        
-        await primeNewUserAndProfile(firebaseUser: firebaseUser)
-        
-        await onboard(miseboxId: firebaseUser.uid)
-    }
+    public func onboard(firebaseUser: AuthenticationManager.FirebaseUser) async {
+         guard !firebaseUser.uid.isEmpty else {
+             print("MiseboxUserManager [onboardUser] Invalid or missing Firebase UID.")
+             return
+         }
 
-    
-    public func onboard(miseboxId: String) async {
-       
-        do {
-            let userExists = try await checkMiseboxUserExistsInFirestore()
-            if !userExists {
-                print("MiseboxUserManager [onboard] User with ID \(miseboxId) not found, creating a new one...")
-                try await setMiseboxUserAndProfile()
-            }
-            attachUserDocumentListener()
-        } catch {
-            print("MiseboxUserManager [onboard] Error during onboarding: \(error.localizedDescription)")
-        }
-    }
-    
+         await MainActor.run {
+             self.miseboxUser.prime(id: firebaseUser.uid)
+             self.miseboxUserProfile.prime(id: firebaseUser.uid)
+         }
+
+         do {
+             let userExists = try await checkMiseboxUserExistsInFirestore()
+             if !userExists {
+                 print("MiseboxUserManager [onboardUser] User with ID \(firebaseUser.uid) not found, creating a new one...")
+                 try await setMiseboxUserAndProfile()
+             }
+             attachUserDocumentListener()
+         } catch {
+             print("MiseboxUserManager [onboardUser] Error during onboarding: \(error.localizedDescription)")
+         }
+     }
+ 
     public func checkMiseboxUserExistsInFirestore() async throws -> Bool {
         let exists = try await firestoreManager.checkDocumentExists(collection: miseboxUser.collection, documentID: id)
         return exists

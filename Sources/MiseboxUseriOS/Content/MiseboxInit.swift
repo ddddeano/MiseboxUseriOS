@@ -27,7 +27,6 @@ public struct Misebox<ContentView: ContentViewProtocol>: View where ContentView.
     }
 
     public var body: some View {
-        //
         ZStack {
             GradientBackgroundView(colors: [Env.env.appDark, Env.env.appLight])
             AuthenticationView<ContentView>(
@@ -48,7 +47,7 @@ public class NoRoleManager: ObservableObject, RoleManager {
     
     public init() {}
     
-    public func onboard(miseboxId: String) async {
+    public func onboard(firebaseUser: AuthenticationManager.FirebaseUser) async {
         // Implementation for no specific role
     }
     

@@ -33,7 +33,6 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
         }
     }
 
-
     @Published public var isAuthenticated = false
     @Published public var email = "test@test.com"
     @Published public var password = "12345678"
@@ -59,9 +58,9 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
                     } else {
                         self.isAuthenticated = true
                         Task {
-                            await self.miseboxUserManager.authoring(firebaseUser: firebaseUser)
+                            await self.miseboxUserManager.onboard(firebaseUser: firebaseUser)
                             if let roleManager = self.roleManager {
-                                await roleManager.onboard(miseboxId: user.uid)
+                                await roleManager.onboard(firebaseUser: firebaseUser)
                             }
                         }
                     }

@@ -16,6 +16,10 @@ public protocol ProfileViewProtocol: View {
 }
 
 public struct MiseboxUserProfile: ProfileViewProtocol, View {
+    @EnvironmentObject var miseboxUserManager: MiseboxUserManager
+    @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
+    @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
+
     @Binding public var navigationPath: NavigationPath
     @StateObject var nav = UserProfileViewNavigation()
     
@@ -25,8 +29,11 @@ public struct MiseboxUserProfile: ProfileViewProtocol, View {
     }
     
     public var body: some View {
-        ProfileListView(sections: UserProfileViewNavigation.ProfileSections.allCases, navigationPath: $navigationPath) { section in
-            section.view()
+        VStack {
+            Text("Account Created: \(miseboxUserProfile.formattedAccountCreated)")
+            ProfileListView(sections: UserProfileViewNavigation.ProfileSections.allCases, navigationPath: $navigationPath) { section in
+                section.view()
+            }
         }
         .navigationDestination(for: UserProfileViewNavigation.ProfileSections.self) { profileSection in
             switch profileSection {

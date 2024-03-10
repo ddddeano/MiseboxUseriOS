@@ -1,13 +1,7 @@
-//
-//  MiseboxUserProfile.swift
-//
-//
-//  Created by Daniel Watson on 26.01.24.
-//
-
 import Foundation
 import FirebaseFirestore
 import FirebaseiOSMisebox
+
 extension MiseboxUserManager {
     
     public final class MiseboxUserProfile: ObservableObject, Identifiable, Listenable {
@@ -17,17 +11,22 @@ extension MiseboxUserManager {
         @Published public var id = ""
         @Published public var fullName = FullName()
         @Published public var accountProviders: [String] = []
-        @Published public var accountCreated: Date?  
+        @Published public var accountCreated: Date
         
-        public init() {}
+        public init() {
+            self.accountCreated = Date()
+        }
         
         public func prime(id: String) {
             self.id = id
         }
         
         public init?(documentSnapshot: DocumentSnapshot) {
-            guard let data = documentSnapshot.data() else { return nil }
+            guard let data = documentSnapshot.data(),
+                  let accountCreatedTimestamp = data["account_created"] as? Timestamp else { return nil }
+            
             self.id = documentSnapshot.documentID
+            self.accountCreated = accountCreatedTimestamp.dateValue()
             update(with: data)
         }
         
@@ -36,27 +35,28 @@ extension MiseboxUserManager {
             self.accountProviders = data["account_providers"] as? [String] ?? []
             if let accountCreatedTimestamp = data["account_created"] as? Timestamp {
                 self.accountCreated = accountCreatedTimestamp.dateValue()
+            } else {
+                self.accountCreated = Date()
             }
         }
         
         public func toFirestore() -> [String: Any] {
-            var firestoreData: [String: Any] = [
+            [
                 "full_name": fullName.toFirestore(),
-                "account_providers": accountProviders
+                "account_providers": accountProviders,
+                "account_created": Timestamp(date: accountCreated)
             ]
-            if let accountCreated = accountCreated {
-                firestoreData["account_created"] = Timestamp(date: accountCreated)
-            }
-            return firestoreData
         }
         
         public func resetFields() {
             id = ""
             fullName = FullName()
             accountProviders = []
-            accountCreated = nil  // Reset the account creation date
+            accountCreated = Date()
         }
     }
+}
+extension MiseboxUserManager.MiseboxUserProfile {
     
     public static var sandboxUserProfile: MiseboxUserManager.MiseboxUserProfile {
         let profile = MiseboxUserManager.MiseboxUserProfile()
@@ -64,10 +64,13 @@ extension MiseboxUserManager {
         profile.fullName.first = "John"
         profile.fullName.middle = "D"
         profile.fullName.last = "Doe"
-        
-        // Use the utility function to set a specific date
-        profile.accountCreated = createDate(year: 2023, month: 4, day: 12)
-        
+        profile.accountCreated = DateUtility.createDate(year: 2023, month: 4, day: 12) 
         return profile
+    }
+}
+
+extension MiseboxUserManager.MiseboxUserProfile {
+    var formattedAccountCreated: String {
+        DateUtility.format(date: accountCreated)
     }
 }

@@ -42,9 +42,14 @@ extension MiseboxUserManager {
     }
     
     public func setMiseboxUserAndProfile() async throws {
-        try await firestoreManager.setDoc(entity: self.miseboxUser)
-        try await firestoreManager.setDoc(entity: self.miseboxUserProfile)
-    }
+           // Set the current date as the account creation date during onboarding
+           let currentDate = Date()
+           self.miseboxUserProfile.accountCreated = currentDate
+
+           // Add some initializing data
+           try await firestoreManager.setDoc(entity: self.miseboxUser)
+           try await firestoreManager.setDoc(entity: self.miseboxUserProfile)
+       }
     
     private func attachUserDocumentListener() {
         print("MiseboxUserManager [attachUserDocumentListener] Attaching document listener for user")

@@ -44,8 +44,8 @@ extension MiseboxUserManager {
                 rawHandle = prefix
             }
         default:
-            if let name = firebaseUser.name, !name.isEmpty {
-                rawHandle = name
+            if !firebaseUser.firstName.isEmpty || !firebaseUser.lastName.isEmpty {
+                rawHandle = "\(firebaseUser.firstName)\(firebaseUser.lastName)"
             }
         }
         

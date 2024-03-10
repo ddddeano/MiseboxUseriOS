@@ -24,8 +24,8 @@ extension MiseboxUserManager {
         }
 
         // Add the provider to accountProviders
-        //self.miseboxUserProfile.accountProviders.append(firebaseUser.provider)
-        
+        self.miseboxUserProfile.accountProviders.append(firebaseUser.provider)
+
         self.miseboxUserProfile.accountCreated = Date()
 
         // Prime the MiseboxUser

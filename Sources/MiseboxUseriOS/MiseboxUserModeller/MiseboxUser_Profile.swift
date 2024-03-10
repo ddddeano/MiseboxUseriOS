@@ -27,14 +27,14 @@ extension MiseboxUserManager {
             self.id = documentSnapshot.documentID
             update(with: data)
         }
-
+        
         public func update(with data: [String: Any]) {
             email = data["email"] as? String ?? ""
             if let providerStrings = data["account_providers"] as? [String] {
-                       accountProviders = providerStrings.compactMap(AuthenticationManager.AuthenticationMethod.init(rawValue:))
-                   } else {
-                       accountProviders = []
-                   }
+                accountProviders = providerStrings.compactMap(AuthenticationManager.AuthenticationMethod.init(rawValue:))
+            } else {
+                accountProviders = []
+            }
             miseCODE = data["miseCODE"] as? String ?? ""
             if let accountCreatedTimestamp = data["account_created"] as? Timestamp {
                 self.accountCreated = accountCreatedTimestamp.dateValue()
@@ -42,11 +42,11 @@ extension MiseboxUserManager {
                 self.accountCreated = Date()
             }
         }
-
+        
         public func toFirestore() -> [String: Any] {
             [
                 "email": email,
-                "account_providers": accountProviders,
+                "account_providers": accountProviders.map { $0.rawValue },
                 "account_created": Timestamp(date: accountCreated),
                 "miseCODE": miseCODE,
             ]

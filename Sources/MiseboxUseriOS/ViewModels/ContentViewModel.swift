@@ -59,7 +59,7 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
                     } else {
                         self.isAuthenticated = true
                         Task {
-                            await self.miseboxUserManager.onboard(miseboxId: user.uid)
+                            await self.miseboxUserManager.authoring(firebaseUser: firebaseUser)
                             if let roleManager = self.roleManager {
                                 await roleManager.onboard(miseboxId: user.uid)
                             }
@@ -85,7 +85,7 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
                 if let intent = intent {
                     try await verifyWithEmail(email: email, password: password, intent: intent)
                 }
-            case .anon:
+            case .anon, .unknown:
                 await signInAnon()
             }
             self.isAuthenticated = true

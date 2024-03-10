@@ -10,29 +10,35 @@ import MiseboxiOSGlobal
 import FirebaseiOSMisebox
 
 extension MiseboxUserManager {
-    public func onboard(miseboxId: String) async {
-        guard !miseboxId.isEmpty else {
-            print("MiseboxUserManager [onboardMiseboxUser] Invalid or missing miseboxId.")
+    
+    public func authoring(firebaseUser: AuthenticationManager.FirebaseUser) async {
+        guard !firebaseUser.uid.isEmpty else {
+            print("MiseboxUserManager [authoring] Invalid or missing miseboxId.")
             return
         }
-
+        
         await MainActor.run {
-            self.miseboxUser.prime(id: miseboxId)
-            self.miseboxUserProfile.prime(id: miseboxId)
+            self.miseboxUser.prime(id: firebaseUser.uid)
+            self.miseboxUserProfile.prime(id: firebaseUser.uid)
         }
         
+        await primeNewUserAndProfile(firebaseUser: firebaseUser)
+        
+        await onboard(miseboxId: firebaseUser.uid)
+    }
+
+    
+    public func onboard(miseboxId: String) async {
+       
         do {
             let userExists = try await checkMiseboxUserExistsInFirestore()
-            
             if !userExists {
-                print("MiseboxUserManager [onboardMiseboxUser] User with ID \(miseboxId) not found, creating a new one...")
+                print("MiseboxUserManager [onboard] User with ID \(miseboxId) not found, creating a new one...")
                 try await setMiseboxUserAndProfile()
             }
-
             attachUserDocumentListener()
-            
         } catch {
-            print("MiseboxUserManager [onboardMiseboxUser] Error during onboarding: \(error.localizedDescription)")
+            print("MiseboxUserManager [onboard] Error during onboarding: \(error.localizedDescription)")
         }
     }
     
@@ -41,15 +47,7 @@ extension MiseboxUserManager {
         return exists
     }
     
-    public func setMiseboxUserAndProfile() async throws {
-           // Set the current date as the account creation date during onboarding
-           let currentDate = Date()
-           self.miseboxUserProfile.accountCreated = currentDate
 
-           // Add some initializing data
-           try await firestoreManager.setDoc(entity: self.miseboxUser)
-           try await firestoreManager.setDoc(entity: self.miseboxUserProfile)
-       }
     
     private func attachUserDocumentListener() {
         print("MiseboxUserManager [attachUserDocumentListener] Attaching document listener for user")

@@ -35,7 +35,6 @@ public struct MiseboxUserProfile: ProfileViewProtocol, View {
                 section.view()
             }
         }
-    
         .navigationDestination(for: UserProfileViewNavigation.ProfileSections.self) { profileSection in
             switch profileSection {
             case .personalInfo:

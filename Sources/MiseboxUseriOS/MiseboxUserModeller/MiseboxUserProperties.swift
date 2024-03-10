@@ -6,27 +6,26 @@
 //
 
 import Foundation
+import Foundation
+import FirebaseiOSMisebox
+
 extension MiseboxUserManager {
     
     // Global Properties
     public var id: String {
         miseboxUser.id
     }
-    public var name: String {
-        fullName.first
-    }
+
+    // fullNameFormatted and nameFirstAndLast should now refer to miseboxUser.fullName
     public var fullNameFormatted: String {
-        fullName.formatted
+        miseboxUser.fullName.formatted
     }
+    
     public var nameFirstAndLast: String {
-        fullName.firstAndLast
+        "\(miseboxUser.fullName.first) \(miseboxUser.fullName.last)"
     }
     
     // MiseboxUser Properties
-    
-    public var email: String {
-        miseboxUser.email
-    }
     public var handle: String {
         miseboxUser.handle
     }
@@ -35,28 +34,32 @@ extension MiseboxUserManager {
         miseboxUser.imageUrl
     }
     
-    public var miseCODE: String {
-        miseboxUser.miseCODE
-    }
-    
     public var verified: Bool {
         miseboxUser.verified
     }
-    
-    public var userRoles: [UserRole] {
-        miseboxUser.userRoles
-    }
-    // MiseboxUserProfile Properties
-    
+
     public var fullName: FullName {
-        miseboxUserProfile.fullName
+        miseboxUser.fullName
     }
     
-    public var accountProviders: [String] {
-        miseboxUserProfile.accountProviders
+    // MiseboxUserProfile Properties
+    public var email: String {
+        miseboxUserProfile.email
     }
-    
+
+    public var miseCODE: String {
+        miseboxUserProfile.miseCODE
+    }
+
+    public var userRoles: [UserRole] {
+        miseboxUserProfile.userRoles
+    }
+
     public var subscription: Subscription {
-        miseboxUser.subscription
+        miseboxUserProfile.subscription
+    }
+
+    public var accountProviders: [AuthenticationManager.AuthenticationMethod] {
+        miseboxUserProfile.accountProviders
     }
 }

@@ -16,7 +16,7 @@ struct MediumInfoView<DashboardVM: DashboardViewModelProtocol>: View {
             Text("Medium Information")
                 .font(.title)
             //Text("Subscription Type: \(vm.miseboxUserManager.miseboxUserProfile.subscription.type.rawValue)")
-            Text("Account Providers: \(vm.miseboxUserManager.miseboxUserProfile.accountProviders.joined(separator: ", "))")
+           // Text("Account Providers: \(vm.miseboxUserManager.miseboxUserProfile.accountProviders.joined(separator: ", "))")
         }
         .padding()
     }

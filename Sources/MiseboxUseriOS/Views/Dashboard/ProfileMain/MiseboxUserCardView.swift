@@ -17,7 +17,8 @@ public struct MiseboxUserCard: CardViewProtocol, View {
     @ObservedObject var photoVM: PhotosPickerVM
     @EnvironmentObject var miseboxUserManager: MiseboxUserManager
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
-    
+    @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
+
     public init(photoVM: PhotosPickerVM, navigationPath: Binding<NavigationPath>) {
         self.photoVM = photoVM
         self._navigationPath = navigationPath
@@ -37,10 +38,10 @@ public struct MiseboxUserCard: CardViewProtocol, View {
     
     private var mainBottom: some View {
         VStack(alignment: .leading) {
-            Text(miseboxUser.subscription.type.rawValue)
+            Text(miseboxUserProfile.subscription.type.rawValue)
                 .font(.caption)
                 .foregroundColor(.purple.opacity(0.8))
-            Text("MiseCODE: \(miseboxUser.miseCODE)")
+            Text("MiseCODE: \(miseboxUserProfile.miseCODE)")
                 .font(.caption)
                 .foregroundColor(.purple.opacity(0.8))
         }

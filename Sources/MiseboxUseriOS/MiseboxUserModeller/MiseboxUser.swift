@@ -11,12 +11,9 @@ extension MiseboxUserManager {
         
         @Published public var id: String = ""
         @Published public var handle: String = ""
-        @Published public var miseCODE: String = ""
-        @Published public var email: String = ""
-        @Published public var imageUrl: String = ""
+        @Published public var imageUrl: String = "" // Essential
         @Published public var verified: Bool = false
-        @Published public var subscription = Subscription()
-        @Published public var userRoles: [UserRole] = []
+        @Published public var fullName = FullName() // Added fullName here
         
         public init() {}
         
@@ -31,36 +28,27 @@ extension MiseboxUserManager {
         }
         
         public func update(with data: [String: Any]) {
-            handle = data["handle"] as? String ?? ""
-            email = data["email"] as? String ?? ""
-            miseCODE = data ["misecode"] as? String ?? ""
-            imageUrl = data["image_url"] as? String ?? defaultImage
-            verified = data["verified"] as? Bool ?? false
-            
-            if let rolesData = data["user_roles"] as? [[String: Any]] {
-                userRoles = rolesData.compactMap(UserRole.init)
-            }
-        }
+                   handle = data["handle"] as? String ?? ""
+                   imageUrl = data["image_url"] as? String ?? ""
+                   verified = data["verified"] as? Bool ?? false
+                   self.fullName = fireObject(from: data["full_name"] as? [String: Any] ?? [:], using: FullName.init) ?? FullName()
+               }
         
         public func toFirestore() -> [String: Any] {
             [
                 "handle": handle,
-                "email": email,
-                "misecode": miseCODE,
                 "image_url": imageUrl,
                 "verified": verified,
-                "user_roles": userRoles.map { $0.toFirestore() }
+                "full_name": fullName.toFirestore(),
             ]
         }
         
         public func resetFields() {
             id = ""
             handle = ""
-            email = ""
-            miseCODE = ""
-            imageUrl = defaultImage
+            imageUrl = ""
             verified = false
-            userRoles = []
+            fullName = FullName()
         }
     }
 }
@@ -69,12 +57,11 @@ extension MiseboxUserManager.MiseboxUser {
     public static var sandboxUser: MiseboxUserManager.MiseboxUser {
         let user = MiseboxUserManager.MiseboxUser()
         user.id = "sandboxUser123"
-        user.handle = "johnDoe"
-        user.miseCODE = "MISE1234"
-        user.email = "john.doe@example.com"
+        user.handle = "johndoe1991"
         user.imageUrl = "https://i.pravatar.cc/300"
         user.verified = true
-        user.userRoles = [.init(role: .miseboxUser), .init(role: .agent)]
+        user.fullName = MiseboxUserManager.FullName(first: "John", middle: "Q", last: "Doe")
         return user
     }
 }
+

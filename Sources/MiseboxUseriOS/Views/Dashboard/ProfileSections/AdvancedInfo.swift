@@ -15,7 +15,6 @@ struct AdvancedInfoView<DashboardVM: DashboardViewModelProtocol>: View {
         VStack {
             Text("Advanced Information")
                 .font(.title)
-            Text("MiseCODE: \(vm.miseboxUserManager.miseboxUser.miseCODE)")
             Text("Verified: \(vm.miseboxUserManager.miseboxUser.verified ? "Yes" : "No")")
             // Add more advanced info fields here
         }

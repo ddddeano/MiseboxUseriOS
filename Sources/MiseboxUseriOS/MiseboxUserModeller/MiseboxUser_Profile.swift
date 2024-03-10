@@ -8,63 +8,74 @@ extension MiseboxUserManager {
         public var doc = "misebox-user-profile"
         public var collection = "misebox-user-profiles"
         
-        @Published public var id = ""
-        @Published public var fullName = FullName()
-        @Published public var accountProviders: [String] = []
-        @Published public var accountCreated: Date
+        @Published public var id: String = ""
+        @Published public var email: String = ""
+        @Published public var accountProviders: [AuthenticationManager.AuthenticationMethod] = []
+        @Published public var accountCreated = Date()
+        @Published public var miseCODE: String = ""
+        @Published public var subscription: Subscription = Subscription()
+        @Published public var userRoles: [UserRole] = []
         
-        public init() {
-            self.accountCreated = Date()
-        }
+        public init() {}
         
         public func prime(id: String) {
             self.id = id
         }
         
         public init?(documentSnapshot: DocumentSnapshot) {
-            guard let data = documentSnapshot.data(),
-                  let accountCreatedTimestamp = data["account_created"] as? Timestamp else { return nil }
-            
+            guard let data = documentSnapshot.data() else { return nil }
             self.id = documentSnapshot.documentID
-            self.accountCreated = accountCreatedTimestamp.dateValue()
             update(with: data)
         }
-        
+
         public func update(with data: [String: Any]) {
-            self.fullName = fireObject(from: data["full_name"] as? [String: Any] ?? [:], using: FullName.init) ?? FullName()
-            self.accountProviders = data["account_providers"] as? [String] ?? []
+            email = data["email"] as? String ?? ""
+            if let providerStrings = data["account_providers"] as? [String] {
+                       accountProviders = providerStrings.compactMap(AuthenticationManager.AuthenticationMethod.init(rawValue:))
+                   } else {
+                       accountProviders = []
+                   }
+            miseCODE = data["miseCODE"] as? String ?? ""
             if let accountCreatedTimestamp = data["account_created"] as? Timestamp {
                 self.accountCreated = accountCreatedTimestamp.dateValue()
             } else {
                 self.accountCreated = Date()
             }
         }
-        
+
         public func toFirestore() -> [String: Any] {
             [
-                "full_name": fullName.toFirestore(),
+                "email": email,
                 "account_providers": accountProviders,
-                "account_created": Timestamp(date: accountCreated)
+                "account_created": Timestamp(date: accountCreated),
+                "miseCODE": miseCODE,
             ]
         }
         
         public func resetFields() {
             id = ""
-            fullName = FullName()
+            email = ""
             accountProviders = []
             accountCreated = Date()
+            miseCODE = ""
+            subscription = Subscription()
+            userRoles = []
         }
     }
 }
+
+
 extension MiseboxUserManager.MiseboxUserProfile {
     
     public static var sandboxUserProfile: MiseboxUserManager.MiseboxUserProfile {
         let profile = MiseboxUserManager.MiseboxUserProfile()
         profile.id = "sandboxUserProfile123"
-        profile.fullName.first = "John"
-        profile.fullName.middle = "D"
-        profile.fullName.last = "Doe"
-        profile.accountCreated = DateUtility.createDate(year: 2023, month: 4, day: 12) 
+        profile.email = "john.doe@example.com"
+        profile.accountProviders = [.email, .google, .apple] 
+        profile.accountCreated = Date()
+        profile.miseCODE = "MISO123456"
+        profile.subscription = MiseboxUserManager.Subscription()
+        profile.userRoles = [.init(role: .agent), .init(role: .miseboxUser)]
         return profile
     }
 }

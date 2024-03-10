@@ -11,17 +11,11 @@ import FirebaseiOSMisebox
 extension MiseboxUserManager {
     
     public func primeNewUserAndProfile(firebaseUser: AuthenticationManager.FirebaseUser) async {
-        // Generate and set the MiseCODE
-        self.miseboxUser.miseCODE = await generateMiseCODE()
-        
-        // Set the handle
-        self.miseboxUser.handle = await generateHandle(firebaseUser: firebaseUser)
-        
-        // Set the email if available
+        // Prime the MiseboxUserProfile
         if let email = firebaseUser.email {
-            self.miseboxUser.email = email
+            self.miseboxUserProfile.email = email
         }
-        
+
         // Set the photo URL or default value if not provided
         if let photoUrl = firebaseUser.photoUrl {
             self.miseboxUser.imageUrl = photoUrl
@@ -29,13 +23,20 @@ extension MiseboxUserManager {
             self.miseboxUser.imageUrl = "default_photo_url"
         }
 
-        self.miseboxUserProfile.accountProviders.append(firebaseUser.provider.rawValue)
+        // Add the provider to accountProviders
+        self.miseboxUserProfile.accountProviders.append(firebaseUser.provider)
         
         self.miseboxUserProfile.accountCreated = Date()
-        
-        self.miseboxUserProfile.fullName.first = firebaseUser.firstName
-        self.miseboxUserProfile.fullName.last = firebaseUser.lastName
 
+        // Prime the MiseboxUser
+        self.miseboxUser.handle = await generateHandle(firebaseUser: firebaseUser)
+
+        // Set the fullName for MiseboxUser
+        self.miseboxUser.fullName.first = firebaseUser.firstName
+        self.miseboxUser.fullName.last = firebaseUser.lastName
+        
+        // Generate and set the MiseCODE for the user profile
+        self.miseboxUserProfile.miseCODE = await generateMiseCODE()
     }
     
     public func setMiseboxUserAndProfile() async throws {

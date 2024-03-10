@@ -7,20 +7,19 @@
 
 import SwiftUI
 import MiseboxiOSGlobal
-
 struct EmailProfileView: View {
     @EnvironmentObject var miseboxUserManager: MiseboxUserManager
-    @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
+    @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile  // Using MiseboxUserProfile
     @State private var isEditing: Bool = false
     @State private var lastValid: String = ""
 
     var body: some View {
         ProfileInput(
-            inputs: [FieldInput(title: "Email", text: $miseboxUser.email)],
+            inputs: [FieldInput(title: "Email", text: $miseboxUserProfile.email)],  // Using email from MiseboxUserProfile
             isEditing: $isEditing,
-            onEdit: { lastValid = miseboxUser.email },
+            onEdit: { lastValid = miseboxUserProfile.email },
             onDone: { post() },
-            onCancel: { miseboxUser.email = lastValid },
+            onCancel: { miseboxUserProfile.email = lastValid },
             onCheck: check
         )
     }
@@ -29,19 +28,19 @@ struct EmailProfileView: View {
         let result = check()
         if result.isValid {
             Task {
-                await miseboxUserManager.update(contexts: [.email])
+                await miseboxUserManager.update(contexts: [.email])  // Ensure this updates the profile
             }
         } else {
-            miseboxUser.email = lastValid
+            miseboxUserProfile.email = lastValid
         }
     }
 
     private func check() -> (isValid: Bool, message: String) {
-        if miseboxUser.email.isEmpty {
+        if miseboxUserProfile.email.isEmpty {
             return (false, "Email cannot be empty.")
         }
         
-        if !miseboxUser.email.contains("@") {
+        if !miseboxUserProfile.email.contains("@") {
             return (false, "Email must contain an '@' symbol.")
         }
 

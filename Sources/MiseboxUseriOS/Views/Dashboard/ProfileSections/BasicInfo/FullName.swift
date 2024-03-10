@@ -9,42 +9,41 @@ import Foundation
 import SwiftUI
 import MiseboxiOSGlobal
 
- 
 struct FullNameProfileView: View {
     @EnvironmentObject var miseboxUserManager: MiseboxUserManager
-    @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
-    
+    @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser  // Adjusted to MiseboxUser
+
     @State private var isEditing: Bool = false
     @State private var lastValid: MiseboxUserManager.FullName = MiseboxUserManager.FullName()
-    
+
     var body: some View {
         ProfileInput(
             inputs: [
-                FieldInput(title: "First Name", text: $miseboxUserProfile.fullName.first),
-                FieldInput(title: "Middle Name", text: $miseboxUserProfile.fullName.middle),
-                FieldInput(title: "Last Name", text: $miseboxUserProfile.fullName.last)
+                FieldInput(title: "First Name", text: $miseboxUser.fullName.first),
+                FieldInput(title: "Middle Name", text: $miseboxUser.fullName.middle),
+                FieldInput(title: "Last Name", text: $miseboxUser.fullName.last)
             ],
             isEditing: $isEditing,
-            onEdit: { lastValid = miseboxUserProfile.fullName },
+            onEdit: { lastValid = miseboxUser.fullName },
             onDone: { post() },
-            onCancel: { miseboxUserProfile.fullName = lastValid },
+            onCancel: { miseboxUser.fullName = lastValid },
             onCheck: check
         )
     }
-    
+
     private func post() {
         let result = check()
         if result.isValid {
             Task {
-                await miseboxUserManager.update(contexts: [.fullName])
+                await miseboxUserManager.update(contexts: [.fullName])  // Make sure this method updates the user, not the profile
             }
         } else {
-            miseboxUserProfile.fullName = lastValid
+            miseboxUser.fullName = lastValid
         }
     }
-    
+
     private func check() -> (isValid: Bool, message: String) {
-        let isValid = !miseboxUserProfile.fullName.first.isEmpty && !miseboxUserProfile.fullName.last.isEmpty
+        let isValid = !miseboxUser.fullName.first.isEmpty && !miseboxUser.fullName.last.isEmpty
         return (isValid, isValid ? "" : "First and last names cannot be empty.")
     }
 }

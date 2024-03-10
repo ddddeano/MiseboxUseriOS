@@ -92,7 +92,7 @@ struct AccountProvidersSectionView: View {
                 })
                 .padding()
             } else {
-                Text("Linked with: \(miseboxUserProfile.accountProviders.joined(separator: ", "))")
+              //  Text("Linked with: \(miseboxUserProfile.accountProviders.joined(separator: ", "))")
             }
         }
     }

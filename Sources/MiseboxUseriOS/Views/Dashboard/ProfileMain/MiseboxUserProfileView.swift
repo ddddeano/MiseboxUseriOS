@@ -21,9 +21,6 @@ public struct MiseboxUserProfile: ProfileViewProtocol, View {
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
 
     @Binding public var navigationPath: NavigationPath
-    @State private var isPersonalInfoExpanded: Bool = true
-    @State private var isContactInfoExpanded: Bool = false
-    @State private var isAdditionalInfoExpanded: Bool = false
     
     public init(navigationPath: Binding<NavigationPath>) {
         self._navigationPath = navigationPath
@@ -31,30 +28,49 @@ public struct MiseboxUserProfile: ProfileViewProtocol, View {
     
     public var body: some View {
         List {
-            DisclosureGroup("Personal Information", isExpanded: $isPersonalInfoExpanded) {
+            DisclosureGroup("Personal Information") {
                 HandleProfileView()
                 FullNameProfileView()
-                ImageProfileView()  // Placeholder for the image URL view
-                VerifiedStatusView()  // Placeholder for the verified status view
             }
+            .background(Color.white) // Change the color as needed
 
-            DisclosureGroup("Contact Information", isExpanded: $isContactInfoExpanded) {
+            DisclosureGroup("Contact Information") {
                 EmailProfileView()
-                // Add more contact information fields as they become available
+                AddressProfileView()  // Add your address view here
             }
+            .background(Color.white) // Change the color as needed
 
-            DisclosureGroup("Additional Information", isExpanded: $isAdditionalInfoExpanded) {
+            DisclosureGroup("Additional Information") {
                 Text("Account Created: \(miseboxUserProfile.formattedAccountCreated)")
                 Text("MiseCODE: \(miseboxUserProfile.miseCODE)")
-                SubscriptionView()  // Placeholder for subscription info
-                UserRolesView()  // Placeholder for user roles info
-                // Add more additional information fields as they become available
+                SubscriptionView()
+                UserRolesView()
             }
+            .background(Color.white) // Change the color as needed
         }
         .listStyle(GroupedListStyle())
+        .background(Color.white) // Change the background color of the List
     }
 }
 
+struct MiseboxUserProfile_Previews: PreviewProvider {
+    static var previews: some View {
+     
+        let navigationPath = Binding.constant(NavigationPath())
+
+        MiseboxUserProfile(navigationPath: navigationPath)
+            .environmentObject(MiseboxUserManager(role: .agent))
+            .environmentObject(MiseboxUserManager.MiseboxUser.sandboxUser)
+            .environmentObject(MiseboxUserManager.MiseboxUserProfile.sandboxUserProfile)
+    }
+}
+
+struct AddressProfileView: View {
+    var body: some View {
+        Text("Address placeholder")
+        // Replace this with your actual address view
+    }
+}
 // Placeholder views for the not yet implemented views
 struct ImageProfileView: View {
     var body: some View {
@@ -79,7 +95,6 @@ struct UserRolesView: View {
         Text("User roles info placeholder")
     }
 }
-
 
 
 

@@ -12,7 +12,6 @@ struct UserInfoView: View {
     @EnvironmentObject var miseboxUserManager: MiseboxUserManager
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
-    @Binding var navigationPath: NavigationPath
     
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {

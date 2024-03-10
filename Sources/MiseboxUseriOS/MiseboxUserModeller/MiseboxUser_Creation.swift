@@ -34,7 +34,7 @@ extension MiseboxUserManager {
         self.miseboxUserProfile.accountCreated = Date()
         
         self.miseboxUserProfile.fullName.first = firebaseUser.firstName
-        self.miseboxUserProfile.fullName.first = firebaseUser.lastName
+        self.miseboxUserProfile.fullName.last = firebaseUser.lastName
 
     }
     

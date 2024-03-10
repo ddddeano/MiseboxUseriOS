@@ -32,13 +32,13 @@ public struct MiseboxUserProfile: ProfileViewProtocol, View {
         VStack {
             Text("Account Created: \(miseboxUserProfile.formattedAccountCreated)")
             ProfileListView(sections: UserProfileViewNavigation.ProfileSections.allCases, navigationPath: $navigationPath) { section in
-                section.view()
+                section.view(navigationPath: $navigationPath)
             }
         }
         .navigationDestination(for: UserProfileViewNavigation.ProfileSections.self) { profileSection in
             switch profileSection {
             case .personalInfo:
-                PersonalInfoView()
+                UserInfoView(navigationPath: $navigationPath)
             case .contactInfo:
                 ContactInfoView()
             case .additionalInfo:

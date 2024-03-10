@@ -34,10 +34,10 @@ public class UserProfileViewNavigation: ObservableObject {
         public var displayName: String { self.rawValue }
 
         @ViewBuilder
-        public func view() -> some View {
+        public func view(navigationPath: Binding<NavigationPath>) -> some View {
             switch self {
             case .personalInfo:
-                PersonalInfoView()
+                UserInfoView(navigationPath: navigationPath)
             case .contactInfo:
                 ContactInfoView()
             case .additionalInfo:

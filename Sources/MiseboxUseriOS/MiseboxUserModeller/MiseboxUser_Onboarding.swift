@@ -22,21 +22,21 @@ extension MiseboxUserManager {
             self.miseboxUserProfile.prime(id: firebaseUser.uid)
         }
         
-        // Ensure user and profile are primed with necessary initial data
+        // Prime the user and profile with necessary initial data
         await primeNewUserAndProfile(firebaseUser: firebaseUser)
         
         do {
             let userExists = try await checkMiseboxUserExistsInFirestore()
-            let userProfileExists = try await checkMiseboxUserProfileExistsInFirestore()  // Assume this method is implemented
+            let userProfileExists = try await checkMiseboxUserProfileExistsInFirestore()
             
             if !userExists {
                 print("MiseboxUserManager [onboardUser] User with ID \(firebaseUser.uid) not found, creating a new one...")
-                try await setMiseboxUser()  // Assume this method is implemented
+                try await setMiseboxUser()
             }
             
             if !userProfileExists {
                 print("MiseboxUserManager [onboardUser] User profile with ID \(firebaseUser.uid) not found, creating a new one...")
-                try await setMiseboxUserProfile()  // Assume this method is implemented
+                try await setMiseboxUserProfile()
             }
             
             attachUserDocumentListener()
@@ -46,18 +46,18 @@ extension MiseboxUserManager {
     }
 
     public func checkMiseboxUserExistsInFirestore() async throws -> Bool {
-        let exists = try await firestoreManager.checkDocumentExists(collection: miseboxUser.collection, documentID: id)
-        return exists
+        return try await firestoreManager.checkDocumentExists(collection: miseboxUser.collection, documentID: miseboxUser.id)
+    }
+    public func checkMiseboxUserProfileExistsInFirestore() async throws -> Bool {
+        return try await firestoreManager.checkDocumentExists(collection: miseboxUserProfile.collection, documentID: miseboxUser.id)
     }
     
-
-    
     private func attachUserDocumentListener() {
-        print("MiseboxUserManager [attachUserDocumentListener] Attaching document listener for user")
         documentListener(for: self.miseboxUser) { result in
             switch result {
             case .success(let updatedUser):
                 DispatchQueue.main.async {
+                    self.miseboxUser = updatedUser
                     print("MiseboxUserManager [attachUserDocumentListener] User updated: \(updatedUser.id)")
                 }
             case .failure(let error):
@@ -65,11 +65,11 @@ extension MiseboxUserManager {
             }
         }
 
-        print("MiseboxUserManager [attachUserDocumentListener] Attaching document listener for user profile")
         documentListener(for: self.miseboxUserProfile) { result in
             switch result {
             case .success(let updatedProfile):
                 DispatchQueue.main.async {
+                    self.miseboxUserProfile = updatedProfile
                     print("MiseboxUserManager [attachUserDocumentListener] User profile updated: \(updatedProfile.id)")
                 }
             case .failure(let error):

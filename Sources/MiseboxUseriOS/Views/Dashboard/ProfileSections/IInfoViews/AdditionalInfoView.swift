@@ -40,7 +40,7 @@ struct UserRolesView: View {
         VStack {
             Text("User Roles Placeholder")
             ForEach(miseboxUserProfile.userRoles, id: \.role.doc) { role in
-                Text(role.role.doc)
+                Text("Role\(role.role.doc)")
             }
         }
         .padding()

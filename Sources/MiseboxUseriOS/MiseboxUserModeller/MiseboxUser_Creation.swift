@@ -39,8 +39,10 @@ extension MiseboxUserManager {
         self.miseboxUserProfile.miseCODE = await generateMiseCODE()
     }
     
-    public func setMiseboxUserAndProfile() async throws {
+    public func setMiseboxUser() async throws {
         try await firestoreManager.setDoc(entity: self.miseboxUser)
+    }
+    public func setMiseboxUserProfile() async throws {
         try await firestoreManager.setDoc(entity: self.miseboxUserProfile)
     }
 }

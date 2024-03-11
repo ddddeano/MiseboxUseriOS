@@ -12,28 +12,39 @@ import FirebaseiOSMisebox
 extension MiseboxUserManager {
     
     public func onboard(firebaseUser: AuthenticationManager.FirebaseUser) async {
-         guard !firebaseUser.uid.isEmpty else {
-             print("MiseboxUserManager [onboardUser] Invalid or missing Firebase UID.")
-             return
-         }
+        guard !firebaseUser.uid.isEmpty else {
+            print("MiseboxUserManager [onboardUser] Invalid or missing Firebase UID.")
+            return
+        }
+        
+        await MainActor.run {
+            self.miseboxUser.prime(id: firebaseUser.uid)
+            self.miseboxUserProfile.prime(id: firebaseUser.uid)
+        }
+        
+        // Ensure user and profile are primed with necessary initial data
+        await primeNewUserAndProfile(firebaseUser: firebaseUser)
+        
+        do {
+            let userExists = try await checkMiseboxUserExistsInFirestore()
+            let userProfileExists = try await checkMiseboxUserProfileExistsInFirestore()  // Assume this method is implemented
+            
+            if !userExists {
+                print("MiseboxUserManager [onboardUser] User with ID \(firebaseUser.uid) not found, creating a new one...")
+                try await setMiseboxUser()  // Assume this method is implemented
+            }
+            
+            if !userProfileExists {
+                print("MiseboxUserManager [onboardUser] User profile with ID \(firebaseUser.uid) not found, creating a new one...")
+                try await setMiseboxUserProfile()  // Assume this method is implemented
+            }
+            
+            attachUserDocumentListener()
+        } catch {
+            print("MiseboxUserManager [onboardUser] Error during onboarding: \(error.localizedDescription)")
+        }
+    }
 
-         await MainActor.run {
-             self.miseboxUser.prime(id: firebaseUser.uid)
-             self.miseboxUserProfile.prime(id: firebaseUser.uid)
-         }
-
-         do {
-             let userExists = try await checkMiseboxUserExistsInFirestore()
-             if !userExists {
-                 print("MiseboxUserManager [onboardUser] User with ID \(firebaseUser.uid) not found, creating a new one...")
-                 try await setMiseboxUserAndProfile()
-             }
-             attachUserDocumentListener()
-         } catch {
-             print("MiseboxUserManager [onboardUser] Error during onboarding: \(error.localizedDescription)")
-         }
-     }
- 
     public func checkMiseboxUserExistsInFirestore() async throws -> Bool {
         let exists = try await firestoreManager.checkDocumentExists(collection: miseboxUser.collection, documentID: id)
         return exists

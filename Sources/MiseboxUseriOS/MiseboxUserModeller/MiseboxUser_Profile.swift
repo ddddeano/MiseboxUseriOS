@@ -28,6 +28,7 @@ extension MiseboxUserManager {
             update(with: data)
         }
         
+        
         public func update(with data: [String: Any]) {
             email = data["email"] as? String ?? ""
             if let providerStrings = data["account_providers"] as? [String] {
@@ -41,14 +42,29 @@ extension MiseboxUserManager {
             } else {
                 self.accountCreated = Date()
             }
+            
+            if let rolesArray = data["roles"] as? [[String: Any]] {
+                self.userRoles = rolesArray.compactMap(UserRole.init(data:))
+            }
         }
         
         public func toFirestore() -> [String: Any] {
-            [
+            let subscriptionData: [String: Any] = [
+                "type": subscription.type.rawValue,
+                "start_date": subscription.startDate,
+                "end_date": subscription.endDate,
+            ]
+            
+            let rolesData = userRoles.map { $0.toFirestore() }
+            
+            return [
+                "id": id,
                 "email": email,
                 "account_providers": accountProviders.map { $0.rawValue },
                 "account_created": Timestamp(date: accountCreated),
                 "miseCODE": miseCODE,
+                "subscription": subscriptionData,
+                "userRoles": rolesData,
             ]
         }
         

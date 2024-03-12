@@ -14,7 +14,7 @@ import FirebaseFirestore
 
 extension MiseboxUserManager {
     public static func checkUserHasRole(userID: String, role: MiseboxEcosystem.Role, completion: @escaping (Bool, Error?) -> Void) {
-        let collection = "misebox-users"
+        let collection = "misebox-user-profiles"
         // Use StaticFirestoreManager to reference the document
         let documentRef = StaticFirestoreManager.documentReference(forCollection: collection, documentID: userID)
         

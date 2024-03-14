@@ -78,14 +78,6 @@ public struct Dashboard<
                         .stroke(Color.red, lineWidth: 2)
                 )
             }
-            .navigationDestination(for: ProfileDestination.self) { destination in
-                switch destination {
-                case .user:
-                    userProfileView
-                case .role:
-                    OptionalView(roleProfileView)
-                }
-            }
         }
     }
 

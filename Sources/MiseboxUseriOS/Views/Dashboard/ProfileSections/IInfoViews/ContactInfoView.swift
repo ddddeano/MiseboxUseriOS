@@ -13,8 +13,7 @@ struct ContactInfoView: View {
     var body: some View {
         VStack {
             EmailProfileView()
-            // Assuming AddressProfileView is implemented to edit the address
-           // AddressProfileView()
+            //AddressProfileView()
             Spacer()
         }
         .padding()

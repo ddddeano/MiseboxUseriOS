@@ -51,11 +51,11 @@ public struct MiseboxUserProfile: ProfileViewProtocol, View {
 public struct ProfileListView<Section: ProfileSection, Destination: View>: View {
     let sections: [Section]
     let destinationView: (Section) -> Destination
-    @Binding var navigationPath: NavigationPath  // Now using a binding passed from the parent
+    @Binding var navigationPath: NavigationPath
 
     public init(sections: [Section], navigationPath: Binding<NavigationPath>, destinationView: @escaping (Section) -> Destination) {
         self.sections = sections
-        self._navigationPath = navigationPath  // Initialize the binding
+        self._navigationPath = navigationPath
         self.destinationView = destinationView
     }
 
@@ -63,7 +63,6 @@ public struct ProfileListView<Section: ProfileSection, Destination: View>: View 
         ScrollView {
             ForEach(sections, id: \.self) { section in
                 Button {
-                    print("Navigating to section: \(section)")
                     navigationPath.append(section)
                 } label: {
                     HStack {
@@ -77,6 +76,7 @@ public struct ProfileListView<Section: ProfileSection, Destination: View>: View 
                 }
                 .buttonStyle(PlainButtonStyle())
                 .contentShape(Rectangle())
+                .navigationDestination(for: Section.self, destination: destinationView)
             }
             .sectionStyle(borderColor: Env.env.appLight)
         }
@@ -92,3 +92,4 @@ public struct ProfileListView<Section: ProfileSection, Destination: View>: View 
             .frame(width: 24, height: 24)
     }
 }
+

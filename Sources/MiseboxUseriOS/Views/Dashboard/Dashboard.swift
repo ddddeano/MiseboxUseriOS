@@ -59,7 +59,7 @@ public struct Dashboard<
                         navigationPath.append(ProfileDestination.user)
                     }
 
-                if let roleProfileView = roleProfileView, let roleCardView = roleCardView {
+                if let roleCardView = roleCardView {
                     roleCardView
                         .onTapGesture {
                             navigationPath.append(ProfileDestination.role)
@@ -83,11 +83,12 @@ public struct Dashboard<
                 case .user:
                     userProfileView
                 case .role:
-                    roleProfileView ?? AnyView(Text("Role profile not available"))
+                    OptionalView(roleProfileView)
                 }
             }
         }
     }
+
 
     enum ProfileDestination: Hashable {
         case user
@@ -99,5 +100,22 @@ public struct Dashboard<
     
 
 
+struct OptionalView<Content: View>: View {
+    var content: Content?
+    
+    init(_ content: Content?) {
+        self.content = content
+    }
+    
+    var body: some View {
+        Group {
+            if let content = content {
+                content
+            } else {
+                EmptyView()
+            }
+        }
+    }
+}
 
 

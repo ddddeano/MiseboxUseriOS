@@ -10,6 +10,18 @@ import FirebaseiOSMisebox
 import Firebase
 import MiseboxiOSGlobal
 
+class DashboardNavigation: ObservableObject {
+    @Published var selectionPath = NavigationPath()
+    var options: [DashboardSelectionOptions] = [.miseboxUser, .role]
+    
+    enum DashboardSelectionOptions: String, CaseIterable, Identifiable {
+        case miseboxUser, role
+        
+        var id: Self { self }
+        
+        var displayName: String { rawValue.capitalized }
+    }
+}
 public struct Dashboard<
     RoleManagerType: RoleManager,
     RoleProfileView: ProfileViewProtocol,
@@ -17,10 +29,8 @@ public struct Dashboard<
     UserProfileView: ProfileViewProtocol,
     UserCardView: CardViewProtocol
 >: View {
-
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @ObservedObject var cvm: ContentViewModel<RoleManagerType>
-
     @Binding var navigationPath: NavigationPath
     @Binding var isAuthenticated: Bool
 
@@ -53,43 +63,49 @@ public struct Dashboard<
 
     private var dashboardView: some View {
         VStack {
-            NavigationStack(path: $navigationPath) {
+            NavigationView {
                 userCardView
                     .onTapGesture {
-                        navigationPath.append(ProfileDestination.user)
+                        navigationPath.append(DashboardNavigation.DashboardSelectionOptions.miseboxUser)
                     }
-
-                if let roleCardView = roleCardView {
-                    roleCardView
-                        .onTapGesture {
-                            navigationPath.append(ProfileDestination.role)
-                        }
-                }
-
-                Button("Sign Out") {
-                    Task {
-                        await cvm.signOut()
+                
+                OptionalView(roleCardView)
+                    .onTapGesture {
+                        navigationPath.append(DashboardNavigation.DashboardSelectionOptions.role)
                     }
+                
+                SignOutButton(cvm: cvm)
+            }
+            .navigationDestination(for: DashboardNavigation.DashboardSelectionOptions.self) { option in
+                switch option {
+                case .miseboxUser:
+                    userProfileView
+                case .role:
+                    OptionalView(roleProfileView)
                 }
-                .foregroundColor(.red)
-                .padding()
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.red, lineWidth: 2)
-                )
             }
         }
     }
 
-
-    enum ProfileDestination: Hashable {
-        case user
-        case role
+    struct SignOutButton: View {
+        @ObservedObject var cvm: ContentViewModel<RoleManagerType>
+        
+        var body: some View {
+            Button("Sign Out") {
+                Task {
+                    await cvm.signOut()
+                }
+            }
+            .foregroundColor(.red)
+            .padding()
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.red, lineWidth: 2)
+            )
+        }
     }
 }
 
-
-    
 
 
 struct OptionalView<Content: View>: View {

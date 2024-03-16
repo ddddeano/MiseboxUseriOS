@@ -47,8 +47,7 @@ public struct MiseboxUserProfile: ProfileViewProtocol, View {
         }
     }
 }
-
-public struct ProfileListView<Section: ProfileSection, Destination: View>: View {
+public struct ProfileListView<Section: ProfileSection & Identifiable, Destination: View>: View {
     let sections: [Section]
     let destinationView: (Section) -> Destination
     @Binding var navigationPath: NavigationPath
@@ -76,12 +75,14 @@ public struct ProfileListView<Section: ProfileSection, Destination: View>: View 
                 }
                 .buttonStyle(PlainButtonStyle())
                 .contentShape(Rectangle())
-                .navigationDestination(for: Section.self, destination: destinationView)
             }
             .sectionStyle(borderColor: Env.env.appLight)
         }
         .padding()
         .pageStyle(backgroundColor: Env.env.appDark.opacity(0.1))
+        .navigationDestination(for: Section.self) { section in
+            destinationView(section)
+        }
     }
 
     @ViewBuilder
@@ -92,4 +93,3 @@ public struct ProfileListView<Section: ProfileSection, Destination: View>: View 
             .frame(width: 24, height: 24)
     }
 }
-

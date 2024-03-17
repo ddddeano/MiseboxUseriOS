@@ -1,36 +1,29 @@
-
-//
-//  [MiseboxUseriOS]Dashboard.swift
-//  MiseboxUseriOS
-//
-//  Created by Daniel Watson on 26.02.2024.
-//
 import SwiftUI
 import FirebaseiOSMisebox
 import Firebase
 import MiseboxiOSGlobal
 
-class DashboardNavigation<RoleProfileView: View>: ObservableObject {
-    var options: [DashboardViewNavigationOptions] = [.user, .role]
+public class DashboardNavigation<RoleProfileView: View>: ObservableObject {
+    public var options: [DashboardViewNavigationOptions] = [.user, .role]
     
-    enum DashboardViewNavigationOptions: String, CaseIterable, Identifiable {
+    public enum DashboardViewNavigationOptions: String, CaseIterable, Identifiable {
         case user, role
         
-        var id: Self { self }
+        public var id: Self { self }
         
-        var iconName: String {
+        public var iconName: String {
             switch self {
             case .user: return "person"
             case .role: return "briefcase"
             }
         }
         
-        var displayName: String { rawValue.capitalized }
+        public var displayName: String { rawValue.capitalized }
     }
     
-    var roleProfileView: RoleProfileView
+    public var roleProfileView: RoleProfileView
 
-    init(roleProfileView: RoleProfileView) {
+    public init(roleProfileView: RoleProfileView) {
         self.roleProfileView = roleProfileView
     }
     
@@ -45,14 +38,13 @@ class DashboardNavigation<RoleProfileView: View>: ObservableObject {
     }
 }
 
-
 public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: ProfileViewProtocol, RoleCardView: CardViewProtocol>: View {
-    @EnvironmentObject var navPath: NavigationPathObject
-    @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
-    @ObservedObject var cvm: ContentViewModel<RoleManagerType>
-    @StateObject var dashboardNav: DashboardNavigation<RoleProfileView>
-    let userCard: MiseboxUserCard
-    @Binding var isAuthenticated: Bool
+    @EnvironmentObject public var navPath: NavigationPathObject
+    @EnvironmentObject public var miseboxUser: MiseboxUserManager.MiseboxUser
+    @ObservedObject public var cvm: ContentViewModel<RoleManagerType>
+    @StateObject public var dashboardNav: DashboardNavigation<RoleProfileView>
+    public let userCard: MiseboxUserCard
+    @Binding public var isAuthenticated: Bool
     
     public var roleCardView: RoleCardView?
 
@@ -79,8 +71,7 @@ public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: ProfileVi
         }
     }
 
-
-    struct SignOutButton: View {
+    public struct SignOutButton: View {
         @ObservedObject var cvm: ContentViewModel<RoleManagerType>
         
         public var body: some View {

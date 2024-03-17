@@ -55,21 +55,34 @@ public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: ProfileVi
     
     public var roleCardView: RoleCardView?
 
-    public init(cvm: ContentViewModel<RoleManagerType>, dashboardNav: DashboardNavigation<RoleProfileView>, isAuthenticated: Binding<Bool>, roleCardView: RoleCardView?, userCard: MiseboxUserCard) { 
+    public init(cvm: ContentViewModel<RoleManagerType>, dashboardNav: DashboardNavigation<RoleProfileView>, isAuthenticated: Binding<Bool>, roleCardView: RoleCardView?, userCard: MiseboxUserCard) {
         self._cvm = ObservedObject(wrappedValue: cvm)
         self._dashboardNav = StateObject(wrappedValue: dashboardNav)
         self._isAuthenticated = isAuthenticated
         self.roleCardView = roleCardView
         self.userCard = userCard
     }
-    
     public var body: some View {
         if cvm.isAnon {
             AnonymousUserCard(isAuthenticated: $isAuthenticated)
         } else {
             VStack {
-                userCard.onTapGesture { navPath.navigationPath.append(dashboardNav.options[0]) }.padding(.bottom, 5)
-                OptionalView(content: roleCardView).onTapGesture { navPath.navigationPath.append(dashboardNav.options[1]) }.padding(.bottom, 5)
+                userCard
+                    .onTapGesture {
+                        print("Before appending to navPath:", navPath.navigationPath)
+                        navPath.navigationPath.append(dashboardNav.options[0])
+                        print("After appending to navPath:", navPath.navigationPath)
+                    }
+                    .padding(.bottom, 5)
+                
+                OptionalView(content: roleCardView)
+                    .onTapGesture {
+                        print("Before appending to navPath:", navPath.navigationPath)
+                        navPath.navigationPath.append(dashboardNav.options[1])
+                        print("After appending to navPath:", navPath.navigationPath)
+                    }
+                    .padding(.bottom, 5)
+                
                 SignOutButton(cvm: cvm)
             }
             .navigationDestination(for: DashboardNavigation.DashboardViewNavigationOptions.self) { option in
@@ -77,6 +90,7 @@ public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: ProfileVi
             }
         }
     }
+
 
 
     struct SignOutButton: View {

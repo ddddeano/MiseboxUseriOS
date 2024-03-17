@@ -32,7 +32,7 @@ public struct MiseboxUserProfile: ProfileViewProtocol, View {
     public var body: some View {
         VStack {
             Text("Account Created: \(miseboxUserProfile.formattedAccountCreated)")
-            ProfileListView(sections: UserProfileViewNavigation.ProfileSections.allCases, navigationPath: $navPath.navigationPath) { section in
+            ProfileListView(sections: UserProfileViewNavigation.ProfileSections.allCases) { section in
                 section.view()
             }
         }
@@ -51,11 +51,10 @@ public struct MiseboxUserProfile: ProfileViewProtocol, View {
 public struct ProfileListView<Section: ProfileSection & Identifiable, Destination: View>: View {
     let sections: [Section]
     let destinationView: (Section) -> Destination
-    @Binding var navigationPath: NavigationPath
+    @EnvironmentObject var navPath: NavigationPathObject
 
-    public init(sections: [Section], navigationPath: Binding<NavigationPath>, destinationView: @escaping (Section) -> Destination) {
+    public init(sections: [Section], destinationView: @escaping (Section) -> Destination) {
         self.sections = sections
-        self._navigationPath = navigationPath
         self.destinationView = destinationView
     }
 
@@ -63,7 +62,7 @@ public struct ProfileListView<Section: ProfileSection & Identifiable, Destinatio
         ScrollView {
             ForEach(sections, id: \.self) { section in
                 Button {
-                    navigationPath.append(section)
+                    navPath.navigationPath.append(section)
                 } label: {
                     HStack {
                         iconView(systemName: section.iconName)

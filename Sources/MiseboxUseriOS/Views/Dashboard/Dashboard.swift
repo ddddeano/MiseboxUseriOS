@@ -10,30 +10,30 @@ import FirebaseiOSMisebox
 import Firebase
 import MiseboxiOSGlobal
 
-// DashboardNavigation with RoleProfileView as a generic parameter.
-public class DashboardNavigation<RoleProfileView: View>: ObservableObject {
-    public var options = [DashboardViewNavigationOptions.user, .role]
+class DashboardNavigation<RoleProfileView: View>: ObservableObject {
+    var options: [DashboardViewNavigationOptions] = [.user, .role]
     
-    public enum DashboardViewNavigationOptions: String, CaseIterable, Identifiable {
+    enum DashboardViewNavigationOptions: String, CaseIterable, Identifiable {
         case user, role
-
-        public var id: Self { self }
-
-        public var iconName: String {
+        
+        var id: Self { self }
+        
+        var iconName: String {
             switch self {
             case .user: return "person"
             case .role: return "briefcase"
             }
         }
-        public var displayName: String { rawValue.capitalized }
+        
+        var displayName: String { rawValue.capitalized }
     }
+    
+    var roleProfileView: RoleProfileView
 
-    public var roleProfileView: RoleProfileView
-
-    public init(roleProfileView: RoleProfileView) {
+    init(roleProfileView: RoleProfileView) {
         self.roleProfileView = roleProfileView
     }
-
+    
     @ViewBuilder
     public func dashboardViewPaths(item: DashboardViewNavigationOptions) -> some View {
         switch item {
@@ -44,6 +44,7 @@ public class DashboardNavigation<RoleProfileView: View>: ObservableObject {
         }
     }
 }
+
 
 public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: ProfileViewProtocol, RoleCardView: CardViewProtocol>: View {
     @EnvironmentObject var navPath: NavigationPathObject

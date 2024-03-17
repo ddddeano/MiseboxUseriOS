@@ -55,7 +55,7 @@ public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: ProfileVi
     
     public var roleCardView: RoleCardView?
 
-    public init(cvm: ContentViewModel<RoleManagerType>, dashboardNav: DashboardNavigation<RoleProfileView>, isAuthenticated: Binding<Bool>, roleCardView: RoleCardView?, userCard: MiseboxUserCard) { // Add userCard parameter
+    public init(cvm: ContentViewModel<RoleManagerType>, dashboardNav: DashboardNavigation<RoleProfileView>, isAuthenticated: Binding<Bool>, roleCardView: RoleCardView?, userCard: MiseboxUserCard) { 
         self._cvm = ObservedObject(wrappedValue: cvm)
         self._dashboardNav = StateObject(wrappedValue: dashboardNav)
         self._isAuthenticated = isAuthenticated

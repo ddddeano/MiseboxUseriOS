@@ -12,7 +12,7 @@ public protocol CardViewProtocol: View {
 }
 
 public struct MiseboxUserCard: CardViewProtocol, View {
-    @Binding public var navigationPath: NavigationPath
+    @EnvironmentObject var navPath: NavigationPathObject
     @ObservedObject var photoVM: PhotosPickerVM
     @EnvironmentObject var miseboxUserManager: MiseboxUserManager
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
@@ -20,7 +20,6 @@ public struct MiseboxUserCard: CardViewProtocol, View {
 
     public init(photoVM: PhotosPickerVM, navigationPath: Binding<NavigationPath>) {
         self.photoVM = photoVM
-        self._navigationPath = navigationPath
     }
     
     public var body: some View {

@@ -45,38 +45,22 @@ public class DashboardNavigation<RoleProfileView: View>: ObservableObject {
     }
 }
 
-// UserCardView as a placeholder for user content.
-public struct UserCardView: View {
-    public var body: some View {
-        VStack {
-            Text("User Card").font(.title).padding()
-            Image(systemName: "person.fill").resizable().frame(width: 100, height: 100).padding()
-            Text("This is a placeholder for user-related content.").padding()
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.gray.opacity(0.1))
-        .cornerRadius(12)
-        .padding()
-    }
-    
-    public init() {}
-}
-
 public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: ProfileViewProtocol, RoleCardView: CardViewProtocol>: View {
     @EnvironmentObject var navPath: NavigationPathObject
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @ObservedObject var cvm: ContentViewModel<RoleManagerType>
     @StateObject var dashboardNav: DashboardNavigation<RoleProfileView>
-    
+    let userCard: MiseboxUserCard
     @Binding var isAuthenticated: Bool
     
     public var roleCardView: RoleCardView?
 
-    public init(cvm: ContentViewModel<RoleManagerType>, dashboardNav: DashboardNavigation<RoleProfileView>, isAuthenticated: Binding<Bool>, roleCardView: RoleCardView?) {
+    public init(cvm: ContentViewModel<RoleManagerType>, dashboardNav: DashboardNavigation<RoleProfileView>, isAuthenticated: Binding<Bool>, roleCardView: RoleCardView?, userCard: MiseboxUserCard) { // Add userCard parameter
         self._cvm = ObservedObject(wrappedValue: cvm)
         self._dashboardNav = StateObject(wrappedValue: dashboardNav)
         self._isAuthenticated = isAuthenticated
         self.roleCardView = roleCardView
+        self.userCard = userCard
     }
     
     public var body: some View {
@@ -84,7 +68,7 @@ public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: ProfileVi
             AnonymousUserCard(isAuthenticated: $isAuthenticated)
         } else {
             VStack {
-                UserCardView().onTapGesture { navPath.navigationPath.append(dashboardNav.options[0]) }.padding(.bottom, 5)
+                userCard.onTapGesture { navPath.navigationPath.append(dashboardNav.options[0]) }.padding(.bottom, 5)
                 OptionalView(content: roleCardView).onTapGesture { navPath.navigationPath.append(dashboardNav.options[1]) }.padding(.bottom, 5)
                 SignOutButton(cvm: cvm)
             }
@@ -93,6 +77,7 @@ public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: ProfileVi
             }
         }
     }
+
 
     struct SignOutButton: View {
         @ObservedObject var cvm: ContentViewModel<RoleManagerType>

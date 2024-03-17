@@ -18,7 +18,7 @@ public struct MiseboxUserCard: CardViewProtocol, View {
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
 
-    public init(photoVM: PhotosPickerVM, navigationPath: Binding<NavigationPath>) {
+    public init(photoVM: PhotosPickerVM) {
         self.photoVM = photoVM
     }
     

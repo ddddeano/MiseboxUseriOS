@@ -18,13 +18,13 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
     
     @Published public var miseboxUserManager: MiseboxUserManager
     
-    @Published public var roleManager: RoleManagerType?
-    
+    @Published public var roleManager: RoleManagerType
+
     @Published public var currentUser: AuthenticationManager.FirebaseUser?
     
     public init(miseboxUserManager: MiseboxUserManager, roleManager: RoleManagerType? = nil) {
         self.miseboxUserManager = miseboxUserManager
-        self.roleManager = roleManager
+        self.roleManager = roleManager ?? NoRoleManager() as! RoleManagerType
         Task {
             await authenticate()
             if Env.env.mode == .development {
@@ -59,8 +59,8 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
                         self.isAuthenticated = true
                         Task {
                             await self.miseboxUserManager.onboard(firebaseUser: firebaseUser)
-                            if let roleManager = self.roleManager {
-                                await roleManager.onboard(firebaseUser: firebaseUser)
+                            if !(self.roleManager is NoRoleManager) {
+                                await self.roleManager.onboard(firebaseUser: firebaseUser)
                             }
                         }
                     }

@@ -23,8 +23,5 @@ let package = Package(
                 .product(name: "MiseboxiOSGlobal", package: "misebox-ios-global-pkg")
             ]
         ),
-        .testTarget(
-            name: "MiseboxUseriOS_PKGTests",
-            dependencies: ["MiseboxUseriOS_PKG"]),
     ]
 )

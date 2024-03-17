@@ -9,32 +9,36 @@ import SwiftUI
 import FirebaseiOSMisebox
 import Firebase
 import MiseboxiOSGlobal
+import SwiftUI
+import FirebaseiOSMisebox
+import Firebase
+import MiseboxiOSGlobal
 
-class DashboardNavigation<RoleProfileView: View>: ObservableObject {
-    var options: [DashboardViewNavigationOptions] = [.user, .role]
+public class DashboardNavigation<RoleProfileView: View>: ObservableObject {
+    public var options: [DashboardViewNavigationOptions] = [.user, .role]
     
-    enum DashboardViewNavigationOptions: String, CaseIterable, Identifiable {
+    public enum DashboardViewNavigationOptions: String, CaseIterable, Identifiable {
         case user, role
         
-        var id: Self { self }
+        public var id: Self { self }
         
-        var iconName: String {
+        public var iconName: String {
             switch self {
             case .user: return "person"
             case .role: return "briefcase"
             }
         }
-        var displayName: String { rawValue.capitalized }
+        public var displayName: String { rawValue.capitalized }
     }
     
-    var roleProfileView: RoleProfileView
+    public var roleProfileView: RoleProfileView
 
-    init(roleProfileView: RoleProfileView) {
+    public init(roleProfileView: RoleProfileView) {
         self.roleProfileView = roleProfileView
     }
     
     @ViewBuilder
-    func dashboardViewPaths(item: DashboardViewNavigationOptions) -> some View {
+    public func dashboardViewPaths(item: DashboardViewNavigationOptions) -> some View {
         switch item {
         case .user:
             MiseboxUserProfile()
@@ -43,8 +47,9 @@ class DashboardNavigation<RoleProfileView: View>: ObservableObject {
         }
     }
 }
-struct UserCardView: View {
-    var body: some View {
+
+public struct UserCardView: View {
+    public var body: some View {
         VStack {
             Text("User Card")
                 .font(.title)
@@ -61,14 +66,11 @@ struct UserCardView: View {
         .cornerRadius(12)
         .padding()
     }
+    
+    public init() {}
 }
 
-
-struct Dashboard<
-    RoleManagerType: RoleManager,
-    RoleProfileView: ProfileViewProtocol,
-    RoleCardView: CardViewProtocol
->: View {
+public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: ProfileViewProtocol, RoleCardView: CardViewProtocol>: View {
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @ObservedObject var cvm: ContentViewModel<RoleManagerType>
     @EnvironmentObject var navPath: NavigationPathObject
@@ -78,12 +80,19 @@ struct Dashboard<
     
     var roleCardView: RoleCardView?
     
-    var body: some View {
+    public var body: some View {
         if cvm.isAnon {
             anonView
         } else {
             dashboardView
         }
+    }
+    
+    public init(cvm: ContentViewModel<RoleManagerType>, navPath: NavigationPathObject, isAuthenticated: Binding<Bool>, roleCardView: RoleCardView?) {
+        self._cvm = ObservedObject(wrappedValue: cvm)
+        self._navPath = EnvironmentObject(wrappedValue: navPath)
+        self._isAuthenticated = isAuthenticated
+        self.roleCardView = roleCardView
     }
     
     private var anonView: some View {
@@ -92,15 +101,12 @@ struct Dashboard<
     
     private var dashboardView: some View {
         VStack {
-            // UserCardView is the interactive element for user profile
             UserCardView()
                 .onTapGesture {
                     navPath.navigationPath.append(dashboardNav.options[0])
-                    
                 }
                 .padding(.bottom, 5)
             
-            // RoleCardView (or its placeholder) for role profile
             OptionalView(content: roleCardView)
                 .onTapGesture {
                     navPath.navigationPath.append(dashboardNav.options[1])
@@ -117,7 +123,7 @@ struct Dashboard<
     struct SignOutButton: View {
         @ObservedObject var cvm: ContentViewModel<RoleManagerType>
         
-        var body: some View {
+        public var body: some View {
             Button("Sign Out") {
                 Task {
                     await cvm.signOut()
@@ -130,18 +136,21 @@ struct Dashboard<
                     .stroke(Color.red, lineWidth: 2)
             )
         }
+        
+        public init(cvm: ContentViewModel<RoleManagerType>) {
+            self._cvm = ObservedObject(wrappedValue: cvm)
+        }
     }
 }
 
-
-struct OptionalView<Content: View>: View {
+public struct OptionalView<Content: View>: View {
     var content: Content?
 
-    init(content: Content?) {
+    public init(content: Content?) {
         self.content = content
     }
 
-    var body: some View {
+    public var body: some View {
         Group {
             if let content = content {
                 content
@@ -151,4 +160,3 @@ struct OptionalView<Content: View>: View {
         }
     }
 }
-

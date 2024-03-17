@@ -9,7 +9,6 @@ import MiseboxiOSGlobal
 import _PhotosUI_SwiftUI
 
 public protocol CardViewProtocol: View {
-    var navigationPath: NavigationPath { get }
 }
 
 public struct MiseboxUserCard: CardViewProtocol, View {

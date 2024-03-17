@@ -12,26 +12,27 @@ import _PhotosUI_SwiftUI
 
 
 public protocol ProfileViewProtocol: View {
-    var navigationPath: NavigationPath { get }
+
 }
 
 public struct MiseboxUserProfile: ProfileViewProtocol, View {
+    @EnvironmentObject var navPath: NavigationPathObject
+
+    
     @EnvironmentObject var miseboxUserManager: MiseboxUserManager
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
 
-    @Binding public var navigationPath: NavigationPath
     @StateObject var nav = UserProfileViewNavigation()
 
-    public init(navigationPath: Binding<NavigationPath>) {
-        self._navigationPath = navigationPath
+    public init() {
         self._nav = StateObject(wrappedValue: UserProfileViewNavigation())
     }
 
     public var body: some View {
         VStack {
             Text("Account Created: \(miseboxUserProfile.formattedAccountCreated)")
-            ProfileListView(sections: UserProfileViewNavigation.ProfileSections.allCases, navigationPath: $navigationPath) { section in
+            ProfileListView(sections: UserProfileViewNavigation.ProfileSections.allCases, navigationPath: $navPath.navigationPath) { section in
                 section.view()
             }
         }

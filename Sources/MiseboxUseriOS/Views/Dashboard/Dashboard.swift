@@ -62,27 +62,25 @@ public struct Dashboard<
 
     private var dashboardView: some View {
         VStack {
-            NavigationView {
-                userCardView
+            userCardView
+                .onTapGesture {
+                    navigationPath.append(DashboardNavigation.DashboardSelectionOptions.miseboxUser)
+                }
+            
+            if !(cvm.roleManager is NoRoleManager) {
+                OptionalView(roleCardView)
                     .onTapGesture {
-                        navigationPath.append(DashboardNavigation.DashboardSelectionOptions.miseboxUser)
+                        navigationPath.append(DashboardNavigation.DashboardSelectionOptions.role)
                     }
-                
-                if !(cvm.roleManager is NoRoleManager) {
-                    OptionalView(roleCardView)
-                        .onTapGesture {
-                            navigationPath.append(DashboardNavigation.DashboardSelectionOptions.role)
-                        }
-                }
-                SignOutButton(cvm: cvm)
             }
-            .navigationDestination(for: DashboardNavigation.DashboardSelectionOptions.self) { option in
-                switch option {
-                case .miseboxUser:
-                    userProfileView
-                case .role:
-                    OptionalView(roleProfileView)
-                }
+            SignOutButton(cvm: cvm)
+        }
+        .navigationDestination(for: DashboardNavigation.DashboardSelectionOptions.self) { option in
+            switch option {
+            case .miseboxUser:
+                userProfileView
+            case .role:
+                OptionalView(roleProfileView)
             }
         }
     }

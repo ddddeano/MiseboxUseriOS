@@ -10,4 +10,6 @@ import SwiftUI
 
 public class NavigationPathObject: ObservableObject {
     @Published var navigationPath = NavigationPath()
+    
+    public init () {}
 }

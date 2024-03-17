@@ -44,6 +44,7 @@ public class DashboardNavigation<RoleProfileView: View>: ObservableObject {
         }
     }
 }
+
 public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: ProfileViewProtocol, RoleCardView: CardViewProtocol>: View {
     @EnvironmentObject var navPath: NavigationPathObject
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
@@ -51,8 +52,6 @@ public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: ProfileVi
     @StateObject var dashboardNav: DashboardNavigation<RoleProfileView>
     let userCard: MiseboxUserCard
     @Binding var isAuthenticated: Bool
-    
-    @StateObject var dashboardNavPath = NavigationPathObject() // Separate navigation path for Dashboard
     
     public var roleCardView: RoleCardView?
 
@@ -69,40 +68,25 @@ public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: ProfileVi
             AnonymousUserCard(isAuthenticated: $isAuthenticated)
         } else {
             VStack {
-                userCard
-                    .onTapGesture {
-                        print("Before appending to navPath:", dashboardNavPath.navigationPath)
-                        dashboardNavPath.navigationPath.append(dashboardNav.options[0])
-                        print("After appending to navPath:", dashboardNavPath.navigationPath)
-        
-                    }
-                    .padding(.bottom, 5)
-                
-                OptionalView(content: roleCardView)
-                    .onTapGesture {
-                        print("Before appending to navPath:", dashboardNavPath.navigationPath)
-                        dashboardNavPath.navigationPath.append(dashboardNav.options[1])
-                        print("After appending to navPath:", dashboardNavPath.navigationPath)
-                    }
-                    .padding(.bottom, 5)
-                
+                userCard.onTapGesture { navPath.navigationPath.append(dashboardNav.options[0]) }.padding(.bottom, 5)
+                OptionalView(content: roleCardView).onTapGesture { navPath.navigationPath.append(dashboardNav.options[1]) }.padding(.bottom, 5)
                 SignOutButton(cvm: cvm)
             }
             .navigationDestination(for: DashboardNavigation.DashboardViewNavigationOptions.self) { option in
                 dashboardNav.dashboardViewPaths(item: option)
             }
-            .environmentObject(dashboardNavPath) // Provide separate navigation path to Dashboard
         }
     }
-    
+
+
     struct SignOutButton: View {
         @ObservedObject var cvm: ContentViewModel<RoleManagerType>
         
         public var body: some View {
             Button("Sign Out") { Task { await cvm.signOut() } }
-                .foregroundColor(.red)
-                .padding()
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 2))
+            .foregroundColor(.red)
+            .padding()
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 2))
         }
         
         public init(cvm: ContentViewModel<RoleManagerType>) {

@@ -11,7 +11,6 @@ import Firebase
 import MiseboxiOSGlobal
 
 class DashboardNavigation: ObservableObject {
-    @Published var selectionPath = NavigationPath()
     var options: [DashboardSelectionOptions] = [.miseboxUser, .role]
     
     enum DashboardSelectionOptions: String, CaseIterable, Identifiable {
@@ -69,11 +68,12 @@ public struct Dashboard<
                         navigationPath.append(DashboardNavigation.DashboardSelectionOptions.miseboxUser)
                     }
                 
-                OptionalView(roleCardView)
-                    .onTapGesture {
-                        navigationPath.append(DashboardNavigation.DashboardSelectionOptions.role)
-                    }
-                
+                if !(cvm.roleManager is NoRoleManager) {
+                    OptionalView(roleCardView)
+                        .onTapGesture {
+                            navigationPath.append(DashboardNavigation.DashboardSelectionOptions.role)
+                        }
+                }
                 SignOutButton(cvm: cvm)
             }
             .navigationDestination(for: DashboardNavigation.DashboardSelectionOptions.self) { option in
@@ -105,8 +105,6 @@ public struct Dashboard<
         }
     }
 }
-
-
 
 struct OptionalView<Content: View>: View {
     var content: Content?

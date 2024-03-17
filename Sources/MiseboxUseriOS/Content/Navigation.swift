@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 public class NavigationPathObject: ObservableObject {
-    @Published var navigationPath = NavigationPath()
+    @Published public var navigationPath = NavigationPath()
     
     public init () {}
 }

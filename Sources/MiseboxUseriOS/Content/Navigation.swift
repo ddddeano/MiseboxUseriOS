@@ -8,6 +8,6 @@
 import Foundation
 import SwiftUI
 
-class NavigationPathObject: ObservableObject {
+public class NavigationPathObject: ObservableObject {
     @Published var navigationPath = NavigationPath()
 }

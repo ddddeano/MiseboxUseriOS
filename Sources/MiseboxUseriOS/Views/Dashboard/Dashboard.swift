@@ -31,9 +31,12 @@ public class DashboardNavigation<RoleProfileView: View>: ObservableObject {
     public func dashboardViewPaths(item: DashboardViewNavigationOptions) -> some View {
         switch item {
         case .user:
-            MiseboxUserProfile()
+            Text("user Profile")
+            //MiseboxUserProfile()
         case .role:
-            roleProfileView
+            Text("user Profile")
+
+          //  roleProfileView
         }
     }
 }

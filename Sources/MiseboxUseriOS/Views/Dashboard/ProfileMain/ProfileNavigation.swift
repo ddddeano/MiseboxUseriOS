@@ -16,7 +16,7 @@ public protocol ProfileSection: CaseIterable, Identifiable, Hashable, RawReprese
 public class UserProfileViewNavigation: ObservableObject {
     public init() {}
 
-    public enum ProfileSections: String, CaseIterable, Identifiable, RawRepresentable, ProfileSection {
+    public enum UserProfileSections: String, CaseIterable, Identifiable, RawRepresentable, ProfileSection {
         case personalInfo = "Personal Information"
         case contactInfo = "Contact Information"
         case additionalInfo = "Additional Information"

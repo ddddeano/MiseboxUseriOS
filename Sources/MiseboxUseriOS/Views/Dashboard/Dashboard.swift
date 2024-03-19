@@ -5,7 +5,7 @@ import MiseboxiOSGlobal
 
 public protocol RoleProfileViewProtocol: View {}
 
-
+// Marking the class and its initializer as public
 public class DashboardNavigation<RoleProfileView: RoleProfileViewProtocol>: ObservableObject {
     
     var options: [DashboardRoutes] = [.user, .role]
@@ -27,7 +27,7 @@ public class DashboardNavigation<RoleProfileView: RoleProfileViewProtocol>: Obse
     
     var roleProfileView: RoleProfileView
 
-    init(roleProfileView: RoleProfileView) {
+    public init(roleProfileView: RoleProfileView) {
         self.roleProfileView = roleProfileView
     }
     
@@ -100,8 +100,6 @@ public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: RoleProfi
         }
     }
 }
-
-
 
 public struct OptionalView<Content: View>: View {
     var content: Content?

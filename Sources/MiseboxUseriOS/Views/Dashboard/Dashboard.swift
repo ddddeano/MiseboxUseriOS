@@ -56,7 +56,7 @@ public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: RoleProfi
     
     public var body: some View {
         VStack {
-            // Clickable text view to test user card navigation
+            // Clickable text view to test user info navigation
             Text("Click to navigate - User Info Placeholder")
                 .onTapGesture {
                     navPath.navigationPath.append(dashboardNav.options[0])
@@ -77,6 +77,9 @@ public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: RoleProfi
                     .cornerRadius(10)
             }
             .padding(.bottom, 5)
+        }
+        .navigationDestination(for: DashboardNavigation.DashboardRoutes.self) { route in
+            dashboardNav.router(item: route)
         }
     }
 }

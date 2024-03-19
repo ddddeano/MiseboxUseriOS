@@ -12,9 +12,9 @@ import Firebase
 
 public struct Misebox<ContentView: ContentViewProtocol>: View where ContentView.RoleManagerType: RoleManager {
     @ObservedObject var miseboxUserManager: MiseboxUserManager
-    var roleManager: ContentView.RoleManagerType?
+    var roleManager: ContentView.RoleManagerType
 
-    public init(miseboxUserManager: MiseboxUserManager, roleManager: ContentView.RoleManagerType? = nil) {
+    public init(miseboxUserManager: MiseboxUserManager, roleManager: ContentView.RoleManagerType) {
         self.miseboxUserManager = miseboxUserManager
         self.roleManager = roleManager
         let role = miseboxUserManager.role

@@ -22,16 +22,16 @@ public class ContentViewModel<RoleManagerType: RoleManager>: ObservableObject {
 
     @Published public var currentUser: AuthenticationManager.FirebaseUser?
     
-    public init(miseboxUserManager: MiseboxUserManager, roleManager: RoleManagerType? = nil) {
-        self.miseboxUserManager = miseboxUserManager
-        self.roleManager = roleManager ?? NoRoleManager() as! RoleManagerType
-        Task {
-            await authenticate()
-            if Env.env.mode == .development {
-                self.isAuthenticated = true
-            }
-        }
-    }
+    public init(miseboxUserManager: MiseboxUserManager, roleManager: RoleManagerType) {
+           self.miseboxUserManager = miseboxUserManager
+           self.roleManager = roleManager
+           Task {
+               await authenticate()
+               if Env.env.mode == .development {
+                   self.isAuthenticated = true
+               }
+           }
+       }
 
     @Published public var isAuthenticated = false
     @Published public var email = "test@test.com"

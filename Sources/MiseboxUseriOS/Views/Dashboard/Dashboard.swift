@@ -42,7 +42,7 @@ public class DashboardNavigation<RoleProfileView: RoleProfileViewProtocol>: Obse
     }
 }
 
-struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: RoleProfileViewProtocol>: View {
+public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: RoleProfileViewProtocol>: View {
     @EnvironmentObject var navPath: NavigationPathObject
     @ObservedObject var cvm: ContentViewModel<RoleManagerType>
     @StateObject var dashboardNav: DashboardNavigation<RoleProfileView>

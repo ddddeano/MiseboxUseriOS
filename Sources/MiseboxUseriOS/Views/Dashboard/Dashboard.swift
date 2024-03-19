@@ -56,29 +56,31 @@ public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: RoleProfi
     
     public var body: some View {
         VStack {
-            // Static text view replacing user card tap gesture
-            Text("Static User Info Placeholder")
+            // Clickable text view to test user card navigation
+            Text("Click to navigate - User Info Placeholder")
+                .onTapGesture {
+                    navPath.navigationPath.append(dashboardNav.options[0])
+                }
                 .padding()
                 .frame(maxWidth: .infinity)
                 .background(Color.blue)
                 .cornerRadius(10)
                 .padding(.bottom, 5)
             
-            // Static view replacing role profile view button
-            Text("Static Role Profile Placeholder")
-                .frame(maxWidth: .infinity)
-                .background(Color.green)
-                .cornerRadius(10)
-                .padding(.bottom, 5)
-
-            // Static sign-out button without functionality
-            Text("Sign Out Placeholder")
-                .foregroundColor(.red)
-                .padding()
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 2))
+            // Button to test role profile navigation
+            Button(action: {
+                navPath.navigationPath.append(dashboardNav.options[1])
+            }) {
+                Text("Click to navigate - Role Profile Placeholder")
+                    .frame(maxWidth: .infinity)
+                    .background(Color.green)
+                    .cornerRadius(10)
+            }
+            .padding(.bottom, 5)
         }
     }
 }
+
 
 
 public struct OptionalView<Content: View>: View {

@@ -11,7 +11,7 @@ import MiseboxiOSGlobal
 public class MiseboxUserProfileViewNavigation: ObservableObject {
     public init() {}
 
-    public enum ProfileSections: String, CaseIterable, Identifiable {
+    public enum MiseboxUserProfileSections: String, CaseIterable, Identifiable {
         case basicInfo = "Basic Information"
         case mediumInfo = "Medium Information"
         case advancedInfo = "Advanced Information"

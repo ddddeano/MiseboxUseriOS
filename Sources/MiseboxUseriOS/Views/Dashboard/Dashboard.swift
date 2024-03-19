@@ -44,9 +44,9 @@ public class DashboardNavigation<RoleProfileView: RoleProfileViewProtocol>: Obse
 
 public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: RoleProfileViewProtocol>: View {
     @EnvironmentObject var navPath: NavigationPathObject
-    @ObservedObject var cvm: ContentViewModel<RoleManagerType>
-    @StateObject var dashboardNav: DashboardNavigation<RoleProfileView>
-    @Binding var isAuthenticated: Bool
+    @ObservedObject public var cvm: ContentViewModel<RoleManagerType>
+    @StateObject public var dashboardNav: DashboardNavigation<RoleProfileView>
+    @Binding public var isAuthenticated: Bool
 
     public init(cvm: ContentViewModel<RoleManagerType>, dashboardNav: DashboardNavigation<RoleProfileView>, isAuthenticated: Binding<Bool>) {
         self._cvm = ObservedObject(wrappedValue: cvm)
@@ -56,53 +56,30 @@ public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: RoleProfi
     
     public var body: some View {
         VStack {
-            // Simple Text view as a placeholder for the user card
-            Text("User Info Placeholder")
-                .onTapGesture {
-                    navPath.navigationPath.append(dashboardNav.options[0])
-                }
+            // Static text view replacing user card tap gesture
+            Text("Static User Info Placeholder")
                 .padding()
                 .frame(maxWidth: .infinity)
                 .background(Color.blue)
                 .cornerRadius(10)
                 .padding(.bottom, 5)
             
-            Button(action: {
-                navPath.navigationPath.append(dashboardNav.options[1])
-            }) {
-                dashboardNav.roleProfileView
-                    .frame(maxWidth: .infinity)
-                    .background(Color.blue)
-                    .cornerRadius(10)
-            }
-            .padding(.bottom, 5)
-            
-            SignOutButton(cvm: cvm)
-        }
-        .navigationDestination(for: DashboardNavigation.DashboardRoutes.self) { route in
-            dashboardNav.router(item: route)
-        }
-    }
-    
-    public struct SignOutButton: View {
-        @ObservedObject var cvm: ContentViewModel<RoleManagerType>
-        
-        public var body: some View {
-            Button("Sign Out") {
-                Task {
-                    await cvm.signOut()
-                }
-            }
-            .foregroundColor(.red)
-            .padding()
-            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 2))
-        }
-        
-        public init(cvm: ContentViewModel<RoleManagerType>) {
-            self._cvm = ObservedObject(wrappedValue: cvm)
+            // Static view replacing role profile view button
+            Text("Static Role Profile Placeholder")
+                .frame(maxWidth: .infinity)
+                .background(Color.green)
+                .cornerRadius(10)
+                .padding(.bottom, 5)
+
+            // Static sign-out button without functionality
+            Text("Sign Out Placeholder")
+                .foregroundColor(.red)
+                .padding()
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 2))
         }
     }
 }
+
 
 public struct OptionalView<Content: View>: View {
     var content: Content?

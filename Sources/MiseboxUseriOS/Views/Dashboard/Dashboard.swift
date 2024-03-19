@@ -42,26 +42,29 @@ public class DashboardNavigation<RoleProfileView: RoleProfileViewProtocol>: Obse
     }
 }
 
-public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: RoleProfileViewProtocol>: View {
+struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: RoleProfileViewProtocol>: View {
     @EnvironmentObject var navPath: NavigationPathObject
     @ObservedObject var cvm: ContentViewModel<RoleManagerType>
     @StateObject var dashboardNav: DashboardNavigation<RoleProfileView>
-    var userCard: MiseboxUserCard
     @Binding var isAuthenticated: Bool
 
-    public init(cvm: ContentViewModel<RoleManagerType>, dashboardNav: DashboardNavigation<RoleProfileView>, isAuthenticated: Binding<Bool>, userCard: MiseboxUserCard) {
+    public init(cvm: ContentViewModel<RoleManagerType>, dashboardNav: DashboardNavigation<RoleProfileView>, isAuthenticated: Binding<Bool>) {
         self._cvm = ObservedObject(wrappedValue: cvm)
         self._dashboardNav = StateObject(wrappedValue: dashboardNav)
         self._isAuthenticated = isAuthenticated
-        self.userCard = userCard
     }
     
     public var body: some View {
         VStack {
-            userCard
+            // Simple Text view as a placeholder for the user card
+            Text("User Info Placeholder")
                 .onTapGesture {
                     navPath.navigationPath.append(dashboardNav.options[0])
                 }
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(Color.blue)
+                .cornerRadius(10)
                 .padding(.bottom, 5)
             
             Button(action: {

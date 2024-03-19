@@ -3,82 +3,93 @@ import FirebaseiOSMisebox
 import Firebase
 import MiseboxiOSGlobal
 
-public class DashboardNavigation<RoleProfileView: View>: ObservableObject {
-    public var options: [DashboardViewNavigationOptions] = [.user, .role]
+public protocol RoleProfileViewProtocol: View {}
+
+
+public class DashboardNavigation<RoleProfileView: RoleProfileViewProtocol>: ObservableObject {
     
-    public enum DashboardViewNavigationOptions: String, CaseIterable, Identifiable {
+    var options: [DashboardRoutes] = [.user, .role]
+    
+    enum DashboardRoutes: String, CaseIterable, Identifiable, NavigationSection {
         case user, role
         
-        public var id: Self { self }
+        var id: Self { self }
         
-        public var iconName: String {
+        var iconName: String {
             switch self {
             case .user: return "person"
             case .role: return "briefcase"
             }
         }
         
-        public var displayName: String { rawValue.capitalized }
+        var displayName: String { rawValue.capitalized }
     }
     
-    public var roleProfileView: RoleProfileView
+    var roleProfileView: RoleProfileView
 
-    public init(roleProfileView: RoleProfileView) {
+    init(roleProfileView: RoleProfileView) {
         self.roleProfileView = roleProfileView
     }
     
     @ViewBuilder
-    public func dashboardViewPaths(item: DashboardViewNavigationOptions) -> some View {
+    func router(item: DashboardRoutes) -> some View {
         switch item {
         case .user:
-            Text("user Profile")
-            //MiseboxUserProfile()
+            MiseboxUserProfile()
         case .role:
-            Text("user Profile")
-
-          //  roleProfileView
+            roleProfileView
         }
     }
 }
 
-public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: ProfileViewProtocol, RoleCardView: CardViewProtocol>: View {
-    @EnvironmentObject public var navPath: NavigationPathObject
-    @EnvironmentObject public var miseboxUser: MiseboxUserManager.MiseboxUser
-    @ObservedObject public var cvm: ContentViewModel<RoleManagerType>
-    @StateObject public var dashboardNav: DashboardNavigation<RoleProfileView>
-    public let userCard: MiseboxUserCard
-    @Binding public var isAuthenticated: Bool
-    
-    public var roleCardView: RoleCardView?
+public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: RoleProfileViewProtocol>: View {
+    @EnvironmentObject var navPath: NavigationPathObject
+    @ObservedObject var cvm: ContentViewModel<RoleManagerType>
+    @StateObject var dashboardNav: DashboardNavigation<RoleProfileView>
+    var userCard: MiseboxUserCard
+    @Binding var isAuthenticated: Bool
 
-    public init(cvm: ContentViewModel<RoleManagerType>, dashboardNav: DashboardNavigation<RoleProfileView>, isAuthenticated: Binding<Bool>, roleCardView: RoleCardView?, userCard: MiseboxUserCard) {
+    public init(cvm: ContentViewModel<RoleManagerType>, dashboardNav: DashboardNavigation<RoleProfileView>, isAuthenticated: Binding<Bool>, userCard: MiseboxUserCard) {
         self._cvm = ObservedObject(wrappedValue: cvm)
         self._dashboardNav = StateObject(wrappedValue: dashboardNav)
         self._isAuthenticated = isAuthenticated
-        self.roleCardView = roleCardView
         self.userCard = userCard
     }
     
     public var body: some View {
-        if cvm.isAnon {
-            AnonymousUserCard(isAuthenticated: $isAuthenticated)
-        } else {
-            VStack {
-                userCard.onTapGesture { navPath.navigationPath.append(dashboardNav.options[0]) }.padding(.bottom, 5)
-                OptionalView(content: roleCardView).onTapGesture { navPath.navigationPath.append(dashboardNav.options[1]) }.padding(.bottom, 5)
-                SignOutButton(cvm: cvm)
+        VStack {
+            userCard
+                .onTapGesture {
+                    navPath.navigationPath.append(dashboardNav.options[0])
+                }
+                .padding(.bottom, 5)
+            
+            Button(action: {
+                navPath.navigationPath.append(dashboardNav.options[1])
+            }) {
+                dashboardNav.roleProfileView
+                    .frame(maxWidth: .infinity)
+                    .background(Color.blue)
+                    .cornerRadius(10)
             }
-            .navigationDestination(for: DashboardNavigation.DashboardViewNavigationOptions.self) { option in
-                dashboardNav.dashboardViewPaths(item: option)
-            }
+            .padding(.bottom, 5)
+            
+            SignOutButton(cvm: cvm)
+        }
+        .navigationDestination(for: DashboardNavigation.DashboardRoutes.self) { route in
+            dashboardNav.router(item: route)
         }
     }
-
+    
     public struct SignOutButton: View {
         @ObservedObject var cvm: ContentViewModel<RoleManagerType>
         
         public var body: some View {
-            Button("Sign Out") { Task { await cvm.signOut() } }
+            Button("Sign Out") {
+                Task {
+                    await cvm.signOut()
+                }
+            }
             .foregroundColor(.red)
             .padding()
             .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 2))
@@ -89,6 +100,8 @@ public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: ProfileVi
         }
     }
 }
+
+
 
 public struct OptionalView<Content: View>: View {
     var content: Content?

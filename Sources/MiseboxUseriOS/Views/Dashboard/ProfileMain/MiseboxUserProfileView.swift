@@ -14,7 +14,7 @@ import _PhotosUI_SwiftUI
 public protocol ProfileViewProtocol: View {
 
 }
-
+/*
 public struct MiseboxUserProfile: ProfileViewProtocol, View {
     @EnvironmentObject var navPath: NavigationPathObject
 
@@ -32,7 +32,7 @@ public struct MiseboxUserProfile: ProfileViewProtocol, View {
     public var body: some View {
         VStack {
             Text("Account Created: \(miseboxUserProfile.formattedAccountCreated)")
-            ProfileListView(sections: UserProfileViewNavigation.UserProfileSections.allCases) { section in
+            ProfileListView(sections: UserProfileViewNavigation.UserProfileSectionsCatch.allCases) { section in
                 section.view()
             }
         }
@@ -47,7 +47,7 @@ public struct MiseboxUserProfile: ProfileViewProtocol, View {
             }
         }
     }
-}
+}*/
 public struct ProfileListView<Section: ProfileSection & Identifiable, Destination: View>: View {
     let sections: [Section]
     let destinationView: (Section) -> Destination

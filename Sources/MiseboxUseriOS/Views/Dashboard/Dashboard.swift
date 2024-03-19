@@ -35,7 +35,7 @@ public class DashboardNavigation<RoleProfileView: RoleProfileViewProtocol>: Obse
     func router(item: DashboardRoutes) -> some View {
         switch item {
         case .user:
-            MiseboxUserProfile()
+            Text("MiseboxUserProfile()")
         case .role:
             roleProfileView
         }

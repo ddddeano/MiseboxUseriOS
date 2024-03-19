@@ -13,7 +13,7 @@ public protocol ProfileSection: CaseIterable, Identifiable, Hashable, RawReprese
     var displayName: String { get }
 }
 
-public class UserProfileViewNavigation: ObservableObject {
+public class UserProfileViewNavigationCatch: ObservableObject {
     public init() {}
 
     public enum UserProfileSections: String, CaseIterable, Identifiable, RawRepresentable, ProfileSection {

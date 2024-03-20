@@ -35,71 +35,52 @@ public class DashboardNavigation<RoleProfileView: RoleProfileViewProtocol>: Obse
     func router(item: DashboardRoutes) -> some View {
         switch item {
         case .user:
-            Text("MiseboxUserProfile()")
+            MiseboxUserProfile()
         case .role:
             roleProfileView
         }
     }
 }
 
-public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: RoleProfileViewProtocol>: View {
+public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: RoleProfileViewProtocol, RoleCardView: View>: View {
     @EnvironmentObject var navPath: NavigationPathObject
-    @ObservedObject public var cvm: ContentViewModel<RoleManagerType>
-    @StateObject public var dashboardNav: DashboardNavigation<RoleProfileView>
-    @Binding public var isAuthenticated: Bool
-
-    public init(cvm: ContentViewModel<RoleManagerType>, dashboardNav: DashboardNavigation<RoleProfileView>, isAuthenticated: Binding<Bool>) {
+    @ObservedObject var cvm: ContentViewModel<RoleManagerType>
+    @StateObject var dashboardNav: DashboardNavigation<RoleProfileView>
+    
+    let userCard: MiseboxUserCard
+    let roleCardView: RoleCardView?
+    
+    public init(cvm: ContentViewModel<RoleManagerType>, dashboardNav: DashboardNavigation<RoleProfileView>, userCard: MiseboxUserCard, roleCardView: RoleCardView? = nil) {
         self._cvm = ObservedObject(wrappedValue: cvm)
         self._dashboardNav = StateObject(wrappedValue: dashboardNav)
-        self._isAuthenticated = isAuthenticated
+        self.userCard = userCard
+        self.roleCardView = roleCardView
     }
     
     public var body: some View {
         VStack {
-            // Clickable text view to test user info navigation
-            Text("Click to navigate - User Info Placeholder")
+            userCard
                 .onTapGesture {
                     navPath.navigationPath.append(dashboardNav.options[0])
                 }
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.blue)
-                .cornerRadius(10)
                 .padding(.bottom, 5)
             
-            // Button to test role profile navigation
-            Button(action: {
-                navPath.navigationPath.append(dashboardNav.options[1])
-            }) {
-                Text("Click to navigate - Role Profile Placeholder")
-                    .frame(maxWidth: .infinity)
-                    .background(Color.green)
-                    .cornerRadius(10)
+            if let roleCard = roleCardView {
+                roleCard
+                    .onTapGesture {
+                        navPath.navigationPath.append(dashboardNav.options[1])
+                    }
+                    .padding(.bottom, 5)
             }
-            .padding(.bottom, 5)
+            
+            Button("Sign Out") { Task { await cvm.signOut() } }
+                .foregroundColor(.red)
+                .padding()
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 2))
         }
-        .navigationDestination(for: DashboardNavigation.DashboardRoutes.self) { route in
-            dashboardNav.router(item: route)
+        .navigationDestination(for: DashboardNavigation.DashboardRoutes.self) { option in
+            dashboardNav.router(item: option)
         }
     }
 }
 
-
-
-public struct OptionalView<Content: View>: View {
-    var content: Content?
-
-    public init(content: Content?) {
-        self.content = content
-    }
-
-    public var body: some View {
-        Group {
-            if let content = content {
-                content
-            } else {
-                EmptyView()
-            }
-        }
-    }
-}

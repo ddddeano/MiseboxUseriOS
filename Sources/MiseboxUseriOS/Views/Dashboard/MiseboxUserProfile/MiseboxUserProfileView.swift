@@ -13,23 +13,22 @@ import _PhotosUI_SwiftUI
 
 public struct MiseboxUserProfile: View {
     @EnvironmentObject var router: NavigationPathObject
-    @StateObject var miseboxUserProfileNavigation = MiseboxUserProfileViewNavigation()
 
-    @EnvironmentObject var miseboxUserManager: MiseboxUserManager
-    @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
 
     public var body: some View {
         VStack {
             Text("MiseboxUserProfile")
             Text("Account Created: \(miseboxUserProfile.formattedAccountCreated)")
-            ProfileListView(sections: MiseboxUserProfileViewNavigation.Routes.allCases) { section in
-                miseboxUserProfileNavigation.router(section)
+
+            Button("Test Navigation") {
+                router.route = NavigationPath([MiseboxUserProfileViewNavigation.Route.userInfo])
             }
         }
         .padding()
     }
 }
+
 
 public struct ProfileListView<Section: Identifiable, Destination: View>: View where Section: ProfileSection {
     let sections: [Section]

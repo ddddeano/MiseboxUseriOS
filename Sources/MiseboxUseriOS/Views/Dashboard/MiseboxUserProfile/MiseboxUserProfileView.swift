@@ -36,7 +36,7 @@ public struct MiseboxUserProfile: View {
 public struct ProfileListView<Section: Identifiable, Destination: View>: View where Section: ProfileSection {
     let sections: [Section]
     let destinationView: (Section) -> Destination
-    @EnvironmentObject var navPath: NavigationPathObject
+    @EnvironmentObject var router: NavigationPathObject
     
     public init(sections: [Section], destinationView: @escaping (Section) -> Destination) {
         self.sections = sections
@@ -48,7 +48,7 @@ public struct ProfileListView<Section: Identifiable, Destination: View>: View wh
             VStack(alignment: .leading) {
                 ForEach(sections) { section in
                     Button(action: {
-                        navPath.route = NavigationPath([section])
+                        router.route = NavigationPath([section])
                     }) {
                         HStack {
                             iconView(systemName: section.iconName)

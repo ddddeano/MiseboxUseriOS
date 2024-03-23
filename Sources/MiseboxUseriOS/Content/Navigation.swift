@@ -10,7 +10,7 @@ import SwiftUI
 import MiseboxiOSGlobal
 
 public class GlobalNavigation: ObservableObject {
-    public enum GlobalRoutes: String, CaseIterable, Identifiable {
+    public enum Routes: String, CaseIterable, Identifiable {
         case option1, option2, notifs, chats
 
         public var id: Self { self }
@@ -29,7 +29,7 @@ public class GlobalNavigation: ObservableObject {
     public init() {}
 
     @ViewBuilder
-    public func router(route: GlobalRoutes) -> some View {
+    public func router(route: Routes) -> some View {
         switch route {
         case .notifs:
             NotifsView()
@@ -68,10 +68,10 @@ struct CommonNavigationModifiers: ViewModifier {
                     if navigation.route.count == 0 {
                         Menu {
                             Button(contentViewNavigation.option1Label) {
-                                navigation.route = NavigationPath([GlobalNavigation.GlobalRoutes.option1])
+                                navigation.route = NavigationPath([GlobalNavigation.Routes.option1])
                             }
                             Button(contentViewNavigation.option2Label) {
-                                navigation.route = NavigationPath([GlobalNavigation.GlobalRoutes.option2])
+                                navigation.route = NavigationPath([GlobalNavigation.Routes.option2])
                             }
                         } label: {
                             Image(systemName: "star")
@@ -83,14 +83,14 @@ struct CommonNavigationModifiers: ViewModifier {
                 
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button(action: {
-                        navigation.route = NavigationPath([GlobalNavigation.GlobalRoutes.notifs])
+                        navigation.route = NavigationPath([GlobalNavigation.Routes.notifs])
                     }) {
-                        Image(systemName: GlobalNavigation.GlobalRoutes.notifs.iconName)
+                        Image(systemName: GlobalNavigation.Routes.notifs.iconName)
                     }
                     Button(action: {
-                        navigation.route = NavigationPath([GlobalNavigation.GlobalRoutes.chats])
+                        navigation.route = NavigationPath([GlobalNavigation.Routes.chats])
                     }) {
-                        Image(systemName: GlobalNavigation.GlobalRoutes.chats.iconName)
+                        Image(systemName: GlobalNavigation.Routes.chats.iconName)
                     }
                 }
             }

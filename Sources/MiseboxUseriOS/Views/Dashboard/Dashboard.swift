@@ -35,6 +35,7 @@ public class DashboardNavigation<RoleProfileView: RoleProfileViewProtocol>: Obse
         switch item {
         case .user:
             MiseboxUserProfile()
+            
         case .role:
             roleProfileView
         }
@@ -80,6 +81,7 @@ public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: RoleProfi
         }
         .navigationDestination(for: DashboardNavigation.DashboardRoutes.self) { option in
             dashboardNav.router(item: option)
+                .environmentObject(navPath)
         }
         .environmentObject(navPath)
     }

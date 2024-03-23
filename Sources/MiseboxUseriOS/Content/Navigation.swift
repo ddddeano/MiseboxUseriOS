@@ -9,14 +9,13 @@ import Foundation
 import SwiftUI
 import SwiftUI
 
-class GlobalNavigation: ObservableObject {
-    enum GlobalRoutes: String, CaseIterable, Identifiable {
+public class GlobalNavigation: ObservableObject {
+    public enum GlobalRoutes: String, CaseIterable, Identifiable {
         case option1, option2, notifs, chats
 
-        var id: Self { self }
-        public init() {}
+        public var id: Self { self }
 
-        var iconName: String {
+        public var iconName: String {
             switch self {
             // No icons for option1 and option2
             case .option1, .option2: return ""
@@ -25,21 +24,24 @@ class GlobalNavigation: ObservableObject {
             }
         }
 
-        var displayName: String { rawValue.capitalized }
+        public var displayName: String { rawValue.capitalized }
     }
 
+    public init() {}
+
     @ViewBuilder
-    func router(route: GlobalRoutes) -> some View {
+    public func router(route: GlobalRoutes) -> some View {
         switch route {
         case .notifs:
-            NotifsView()
+            NotifsView()  // Ensure NotifsView is public
         case .chats:
-            ChatsView()
+            ChatsView()  // Ensure ChatsView is public
         default:
             EmptyView()
         }
     }
 }
+
 public class NavigationPathObject: ObservableObject {
     @Published public var navigationPath = NavigationPath()
     public init() {}

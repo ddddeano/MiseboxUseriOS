@@ -51,25 +51,19 @@ public protocol NavigationSection: RawRepresentable, CaseIterable, Identifiable 
     var iconName: String { get }
     var displayName: String { get }
 }
+import Foundation
+import SwiftUI
 
-extension View {
-    func navSystem(contentViewNavigation: ContentViewNavigationProtocol) -> some View {
-        self.modifier(
-            CommonNavigationModifiers(contentViewNavigation: contentViewNavigation)
-        )
-    }
-}
-
-protocol ContentViewNavigationProtocol {
+public protocol ContentViewNavigationProtocol {
     var option1Label: String { get }
     var option2Label: String { get }
 }
 
-struct CommonNavigationModifiers: ViewModifier {
+public struct CommonNavigationModifiers: ViewModifier {
     @EnvironmentObject var navigation: NavigationPathObject
     var contentViewNavigation: ContentViewNavigationProtocol
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
@@ -111,12 +105,18 @@ struct CommonNavigationModifiers: ViewModifier {
     }
 }
 
+public extension View {
+    func navSystem(contentViewNavigation: ContentViewNavigationProtocol) -> some View {
+        self.modifier(
+            CommonNavigationModifiers(contentViewNavigation: contentViewNavigation)
+        )
+    }
+}
 
-
-struct CustomBackButton: View {
+public struct CustomBackButton: View {
     @EnvironmentObject var navigationPath: NavigationPathObject
 
-    var body: some View {
+    public var body: some View {
         Button(action: {
             navigationPath.navigationPath.removeLast()
         }) {
@@ -127,4 +127,5 @@ struct CustomBackButton: View {
         }
     }
 }
+
 

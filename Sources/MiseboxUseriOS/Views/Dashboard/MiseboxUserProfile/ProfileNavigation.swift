@@ -19,7 +19,7 @@ public protocol ProfileSection: CaseIterable, Identifiable, Hashable, RawReprese
 public class MiseboxUserProfileViewNavigation: ObservableObject {
     public init() {}
 
-    public enum Route: String, CaseIterable, Identifiable, ProfileSection {
+    public enum Routes: String, CaseIterable, Identifiable, ProfileSection {
         case userInfo = "User Information"
         case contactInfo = "Contact Information"
         case additionalInfo = "Additional Information"
@@ -38,7 +38,7 @@ public class MiseboxUserProfileViewNavigation: ObservableObject {
     }
 
     @ViewBuilder
-    func router(_ route: Route) -> some View {
+    func router(_ route: Routes) -> some View {
         switch route {
         case .userInfo:
             UserInfoView()

@@ -10,6 +10,7 @@ import SwiftUI
 import MiseboxiOSGlobal
 import _PhotosUI_SwiftUI
 
+
 public struct MiseboxUserProfile: View {
     @EnvironmentObject var router: NavigationPathObject
     @StateObject var miseboxUserProfileNavigation = MiseboxUserProfileViewNavigation()
@@ -22,13 +23,11 @@ public struct MiseboxUserProfile: View {
         VStack {
             Text("MiseboxUserProfile")
             Text("Account Created: \(miseboxUserProfile.formattedAccountCreated)")
-            ProfileListView(sections: MiseboxUserProfileViewNavigation.Route.allCases) { section in
+            ProfileListView(sections: MiseboxUserProfileViewNavigation.Routes.allCases) { section in
                 miseboxUserProfileNavigation.router(section)
-                    .environmentObject(router)
             }
         }
         .padding()
-        .environmentObject(router)
     }
 }
 

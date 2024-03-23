@@ -33,6 +33,7 @@ public struct MiseboxUserProfile: View {
                 .environmentObject(router)
 
         }
+        .environmentObject(router)
     }
 }
 

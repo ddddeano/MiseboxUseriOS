@@ -5,32 +5,55 @@
 //  Created by Daniel Watson on 23.02.2024.
 //
 
-import Foundation
-import SwiftUI
-import MiseboxiOSGlobal
-import _PhotosUI_SwiftUI
 
+import SwiftUI
+public class SMiseboxUserProfileViewNavigation: ObservableObject {
+    public init() {}
+
+    public enum Routes: String, CaseIterable, Identifiable, ProfileSection {
+        case userInfo = "User Information"
+        case contactInfo = "Contact Information"
+        case additionalInfo = "Additional Information"
+
+        public var id: Self { self }
+
+        public var iconName: String {
+            switch self {
+            case .userInfo: return "person.fill"
+            case .contactInfo: return "envelope.fill"
+            case .additionalInfo: return "gear"
+            }
+        }
+
+        public var displayName: String { self.rawValue }
+    }
+}
 
 public struct MiseboxUserProfile: View {
     @EnvironmentObject var router: NavigationPathObject
 
-    @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
-
     public var body: some View {
         VStack {
             Text("MiseboxUserProfile")
-            Text("Account Created: \(miseboxUserProfile.formattedAccountCreated)")
 
             Button("Test Navigation") {
                 print("Current route before setting: \(router.route)")
-                router.route = NavigationPath([MiseboxUserProfileViewNavigation.Route.userInfo])
+                router.route = NavigationPath([SMiseboxUserProfileViewNavigation.Routes.userInfo])
                 print("Route set successfully")
                 print("Current route after setting: \(router.route)")
             }
-
-
+            .padding()
         }
-        .padding()
+        .navigationDestination(for: SMiseboxUserProfileViewNavigation.Routes.self) { route in
+            switch route {
+            case .userInfo:
+                UserInfoView()
+            case .contactInfo:
+                ContactInfoView()
+            case .additionalInfo:
+                AdditionalInfoView()
+            }
+        }
     }
 }
 

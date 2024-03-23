@@ -16,23 +16,37 @@ public protocol ProfileSection: CaseIterable, Identifiable, Hashable, RawReprese
     var displayName: String { get }
 }
 
-import SwiftUI
-import MiseboxiOSGlobal
-
 public class MiseboxUserProfileViewNavigation: ObservableObject {
-    public enum Route: String, CaseIterable, Identifiable {
-        case userInfo
+    public init() {}
+
+    public enum Routes: String, CaseIterable, Identifiable, ProfileSection {
+        case userInfo = "User Information"
+        case contactInfo = "Contact Information"
+        case additionalInfo = "Additional Information"
 
         public var id: Self { self }
+
+        public var iconName: String {
+            switch self {
+            case .userInfo: return "person.fill"
+            case .contactInfo: return "envelope.fill"
+            case .additionalInfo: return "gear"
+            }
+        }
+
+        public var displayName: String { self.rawValue }
     }
 
-    @MainActor @ViewBuilder
-    public func router(_ route: Route) -> some View {
+    @ViewBuilder
+    func router(_ route: Routes) -> some View {
         switch route {
         case .userInfo:
-            Text("User Info View")
+            UserInfoView()
+        case .contactInfo:
+            ContactInfoView()
+        case .additionalInfo:
+            AdditionalInfoView()
         }
     }
 }
-
 

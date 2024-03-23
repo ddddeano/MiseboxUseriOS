@@ -1,20 +1,22 @@
-
 //
 //  Utilities.swift
 //  NavigationStack
 //
 //  Created by Daniel Watson on 15.03.2024.
 //
+
 import Foundation
 import SwiftUI
+import SwiftUI
 
-public class GlobalNavigation: ObservableObject {
-    public enum GlobalRoutes: String, CaseIterable, Identifiable {
+class GlobalNavigation: ObservableObject {
+    enum GlobalRoutes: String, CaseIterable, Identifiable {
         case option1, option2, notifs, chats
 
-        public var id: Self { self }
+        var id: Self { self }
+        public init() {}
 
-        public var iconName: String {
+        var iconName: String {
             switch self {
             // No icons for option1 and option2
             case .option1, .option2: return ""
@@ -23,22 +25,21 @@ public class GlobalNavigation: ObservableObject {
             }
         }
 
-        public var displayName: String { rawValue.capitalized }
+        var displayName: String { rawValue.capitalized }
     }
 
     @ViewBuilder
-    public func router(route: GlobalRoutes) -> some View {
+    func router(route: GlobalRoutes) -> some View {
         switch route {
         case .notifs:
-            NotifsView()  // Ensure NotifsView is public or replace with a public view
+            NotifsView()
         case .chats:
-            ChatsView()  // Ensure ChatsView is public or replace with a public view
+            ChatsView()
         default:
             EmptyView()
         }
     }
 }
-
 public class NavigationPathObject: ObservableObject {
     @Published public var navigationPath = NavigationPath()
     public init() {}
@@ -49,7 +50,7 @@ public protocol NavigationSection: RawRepresentable, CaseIterable, Identifiable 
     var displayName: String { get }
 }
 
-public extension View {
+extension View {
     func navSystem(contentViewNavigation: ContentViewNavigationProtocol) -> some View {
         self.modifier(
             CommonNavigationModifiers(contentViewNavigation: contentViewNavigation)
@@ -57,16 +58,16 @@ public extension View {
     }
 }
 
-public protocol ContentViewNavigationProtocol {
+protocol ContentViewNavigationProtocol {
     var option1Label: String { get }
     var option2Label: String { get }
 }
 
-public struct CommonNavigationModifiers: ViewModifier {
+struct CommonNavigationModifiers: ViewModifier {
     @EnvironmentObject var navigation: NavigationPathObject
     var contentViewNavigation: ContentViewNavigationProtocol
 
-    public func body(content: Content) -> some View {
+    func body(content: Content) -> some View {
         content
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
@@ -108,10 +109,12 @@ public struct CommonNavigationModifiers: ViewModifier {
     }
 }
 
-public struct CustomBackButton: View {
+
+
+struct CustomBackButton: View {
     @EnvironmentObject var navigationPath: NavigationPathObject
 
-    public var body: some View {
+    var body: some View {
         Button(action: {
             navigationPath.navigationPath.removeLast()
         }) {
@@ -122,3 +125,4 @@ public struct CustomBackButton: View {
         }
     }
 }
+

@@ -5,18 +5,16 @@
 //
 //  Created by Daniel Watson on 15.03.2024.
 //
-
 import Foundation
 import SwiftUI
-import SwiftUI
 
-class GlobalNavigation: ObservableObject {
-    enum GlobalRoutes: String, CaseIterable, Identifiable {
+public class GlobalNavigation: ObservableObject {
+    public enum GlobalRoutes: String, CaseIterable, Identifiable {
         case option1, option2, notifs, chats
 
-        var id: Self { self }
+        public var id: Self { self }
 
-        var iconName: String {
+        public var iconName: String {
             switch self {
             // No icons for option1 and option2
             case .option1, .option2: return ""
@@ -25,21 +23,22 @@ class GlobalNavigation: ObservableObject {
             }
         }
 
-        var displayName: String { rawValue.capitalized }
+        public var displayName: String { rawValue.capitalized }
     }
 
     @ViewBuilder
-    func router(route: GlobalRoutes) -> some View {
+    public func router(route: GlobalRoutes) -> some View {
         switch route {
         case .notifs:
-            NotifsView()
+            NotifsView()  // Ensure NotifsView is public or replace with a public view
         case .chats:
-            ChatsView()
+            ChatsView()  // Ensure ChatsView is public or replace with a public view
         default:
             EmptyView()
         }
     }
 }
+
 public class NavigationPathObject: ObservableObject {
     @Published public var navigationPath = NavigationPath()
     public init() {}
@@ -50,7 +49,7 @@ public protocol NavigationSection: RawRepresentable, CaseIterable, Identifiable 
     var displayName: String { get }
 }
 
-extension View {
+public extension View {
     func navSystem(contentViewNavigation: ContentViewNavigationProtocol) -> some View {
         self.modifier(
             CommonNavigationModifiers(contentViewNavigation: contentViewNavigation)
@@ -58,16 +57,16 @@ extension View {
     }
 }
 
-protocol ContentViewNavigationProtocol {
+public protocol ContentViewNavigationProtocol {
     var option1Label: String { get }
     var option2Label: String { get }
 }
 
-struct CommonNavigationModifiers: ViewModifier {
+public struct CommonNavigationModifiers: ViewModifier {
     @EnvironmentObject var navigation: NavigationPathObject
     var contentViewNavigation: ContentViewNavigationProtocol
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
@@ -109,12 +108,10 @@ struct CommonNavigationModifiers: ViewModifier {
     }
 }
 
-
-
-struct CustomBackButton: View {
+public struct CustomBackButton: View {
     @EnvironmentObject var navigationPath: NavigationPathObject
 
-    var body: some View {
+    public var body: some View {
         Button(action: {
             navigationPath.navigationPath.removeLast()
         }) {
@@ -125,4 +122,3 @@ struct CustomBackButton: View {
         }
     }
 }
-

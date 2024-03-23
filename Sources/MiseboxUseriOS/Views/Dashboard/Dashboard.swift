@@ -7,9 +7,9 @@ public protocol RoleProfileViewProtocol: View {}
 
 public class DashboardNavigation<RoleProfileView: RoleProfileViewProtocol>: ObservableObject {
     
-    public var options: [DashboardRoutes] = [.user, .role]
+    public var options: [Routes] = [.user, .role]
     
-    public enum DashboardRoutes: String, CaseIterable, Identifiable, NavigationSection {
+    public enum Routes: String, CaseIterable, Identifiable, NavigationSection {
         case user, role
         
         public var id: Self { self }
@@ -31,11 +31,10 @@ public class DashboardNavigation<RoleProfileView: RoleProfileViewProtocol>: Obse
     }
     
     @MainActor @ViewBuilder
-    public func router(item: DashboardRoutes) -> some View {
-        switch item {
+    public func router(_ route: Routes) -> some View {
+        switch route {
         case .user:
             MiseboxUserProfile()
-            
         case .role:
             roleProfileView
         }
@@ -79,8 +78,8 @@ public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: RoleProfi
                 .padding()
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 2))
         }
-        .navigationDestination(for: DashboardNavigation.DashboardRoutes.self) { option in
-            dashboardNav.router(item: option)
+        .navigationDestination(for: DashboardNavigation.Routes.self) { route in
+            dashboardNav.router(route)
                 .environmentObject(navPath)
         }
         .environmentObject(navPath)

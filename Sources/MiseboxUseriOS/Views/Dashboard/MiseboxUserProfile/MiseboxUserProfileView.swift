@@ -28,11 +28,6 @@ public struct MiseboxUserProfile: View {
             }
         }
         .padding()
-        .navigationDestination(for: MiseboxUserProfileViewNavigation.Route.self) { section in
-            miseboxUserProfileNavigation.router(section)
-                .environmentObject(router)
-
-        }
         .environmentObject(router)
     }
 }

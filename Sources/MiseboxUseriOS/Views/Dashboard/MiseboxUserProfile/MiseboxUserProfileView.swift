@@ -7,6 +7,8 @@
 
 
 import SwiftUI
+import MiseboxiOSGlobal
+
 public class SMiseboxUserProfileViewNavigation: ObservableObject {
     public init() {}
 

@@ -7,7 +7,8 @@
 
 import Foundation
 import SwiftUI
-import SwiftUI
+import MiseboxiOSGlobal
+
 
 public class GlobalNavigation: ObservableObject {
     public enum GlobalRoutes: String, CaseIterable, Identifiable {
@@ -100,8 +101,8 @@ public struct CommonNavigationModifiers: ViewModifier {
             }
             .transition(.slide)
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(.blue)
-            .foregroundColor(.orange)
+            .background(Env.env.appDark)
+            .foregroundColor(Env.env.appLight)
     }
 }
 

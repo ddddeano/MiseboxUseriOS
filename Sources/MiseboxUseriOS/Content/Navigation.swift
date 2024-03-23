@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 import MiseboxiOSGlobal
 
-
 public class GlobalNavigation: ObservableObject {
     public enum GlobalRoutes: String, CaseIterable, Identifiable {
         case option1, option2, notifs, chats
@@ -101,10 +100,13 @@ public struct CommonNavigationModifiers: ViewModifier {
             }
             .transition(.slide)
             .toolbarBackground(.visible, for: .navigationBar)
-            .background(Env.env.appDark)
+            .toolbarBackground(Env.env.appDark)
             .foregroundColor(Env.env.appLight)
     }
 }
+
+
+
 
 public extension View {
     func navSystem(contentViewNavigation: ContentViewNavigationProtocol) -> some View {

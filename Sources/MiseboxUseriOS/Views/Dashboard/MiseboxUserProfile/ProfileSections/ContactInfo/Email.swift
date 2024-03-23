@@ -9,13 +9,13 @@ import SwiftUI
 import MiseboxiOSGlobal
 struct EmailProfileView: View {
     @EnvironmentObject var miseboxUserManager: MiseboxUserManager
-    @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile  // Using MiseboxUserProfile
+    @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
     @State private var isEditing: Bool = false
     @State private var lastValid: String = ""
 
     var body: some View {
         ProfileInput(
-            inputs: [FieldInput(title: "Email", text: $miseboxUserProfile.email)],  // Using email from MiseboxUserProfile
+            inputs: [FieldInput(title: "Email", text: $miseboxUserProfile.email)],
             isEditing: $isEditing,
             onEdit: { lastValid = miseboxUserProfile.email },
             onDone: { post() },
@@ -28,7 +28,7 @@ struct EmailProfileView: View {
         let result = check()
         if result.isValid {
             Task {
-                await miseboxUserManager.update(contexts: [.email])  // Ensure this updates the profile
+                await miseboxUserManager.update(contexts: [.email])
             }
         } else {
             miseboxUserProfile.email = lastValid

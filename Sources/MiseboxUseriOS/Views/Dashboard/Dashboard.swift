@@ -61,14 +61,14 @@ public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: RoleProfi
         VStack {
             userCard
                 .onTapGesture {
-                    navPath.navigationPath.append(dashboardNav.options[0])
+                    navPath.route.append(dashboardNav.options[0])
                 }
                 .padding(.bottom, 5)
             
             if let roleCard = roleCardView {
                 roleCard
                     .onTapGesture {
-                        navPath.navigationPath.append(dashboardNav.options[1])
+                        navPath.route.append(dashboardNav.options[1])
                     }
                     .padding(.bottom, 5)
             }

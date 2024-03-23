@@ -8,16 +8,19 @@
 import Foundation
 import SwiftUI
 
+import Foundation
+import SwiftUI
+
 public protocol ProfileSection: CaseIterable, Identifiable, Hashable, RawRepresentable where RawValue == String {
     var iconName: String { get }
     var displayName: String { get }
 }
 
-public class UserProfileViewNavigationCatch: ObservableObject {
+public class MiseboxUserProfileViewNavigation: ObservableObject {
     public init() {}
 
-    public enum UserProfileSections: String, CaseIterable, Identifiable, RawRepresentable, ProfileSection {
-        case personalInfo = "Personal Information"
+    public enum Routes: String, CaseIterable, Identifiable, ProfileSection {
+        case userInfo = "User Information"
         case contactInfo = "Contact Information"
         case additionalInfo = "Additional Information"
 
@@ -25,24 +28,25 @@ public class UserProfileViewNavigationCatch: ObservableObject {
 
         public var iconName: String {
             switch self {
-            case .personalInfo: return "person.fill"
+            case .userInfo: return "person.fill"
             case .contactInfo: return "envelope.fill"
             case .additionalInfo: return "gear"
             }
         }
 
         public var displayName: String { self.rawValue }
+    }
 
-        @ViewBuilder
-        public func view() -> some View {
-            switch self {
-            case .personalInfo:
-                UserInfoView()
-            case .contactInfo:
-                ContactInfoView()
-            case .additionalInfo:
-                AdditionalInfoView()
-            }
+    @ViewBuilder
+    func router(_ route: Routes) -> some View {
+        switch route {
+        case .userInfo:
+            UserInfoView()
+        case .contactInfo:
+            ContactInfoView()
+        case .additionalInfo:
+            AdditionalInfoView()
         }
     }
 }
+

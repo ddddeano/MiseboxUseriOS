@@ -1,6 +1,33 @@
 //
-//  File.swift
+//  SwiftUIView.swift
 //  
+//
+//  Created by Daniel Watson on 23.03.2024.
+//
+
+import SwiftUI
+
+struct UserRolesView: View {
+    @EnvironmentObject var miseboxUserManager: MiseboxUserManager
+    @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
+
+    var body: some View {
+        VStack {
+            ForEach(miseboxUserProfile.userRoles, id: \.role.doc) { role in
+                Text("Role: \(role.role.doc)")
+            }
+        }
+        .padding()
+    }
+}
+
+
+#Preview {
+    UserRolesView()
+}
+//
+//  File.swift
+//
 //
 //  Created by Daniel Watson on 23.02.2024.
 //
@@ -144,7 +171,7 @@ struct UpdateableUserRoles_Previews: PreviewProvider {
         let mockViewModel = DashboardVM(miseboxUserManager: mockManager, signOutAction: {})
         let mockUserRoles = [MiseboxUserManager.exampleUserRole]
 
-        UpdateableUserRoles(vm: mockViewModel, title: "Preview Roles", userRoles: .constant(mockUserRoles)) {
+        UpdateableUserRoles(vm: mock  ViewModel, title: "Preview Roles", userRoles: .constant(mockUserRoles)) {
             print("Update action triggered")
         }
     }

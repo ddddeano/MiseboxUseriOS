@@ -96,3 +96,57 @@ struct ProfileInput: View {
     }
 }
 
+struct UpdateableBool: View {
+    var title: String
+    @Binding var value: Bool
+    let updateAction: () async -> Void
+
+    var body: some View {
+        Toggle(isOn: $value) {
+            Text(title)
+        }
+        .onChange(of: value) { newValue in
+            Task {
+                await updateAction()
+            }
+        }
+    }
+}
+struct UpdateableArrayOfStrings: View {
+    var title: String
+    @Binding var array: [String]
+    let updateAction: () async -> Void
+
+    var body: some View {
+        VStack {
+            Text(title)
+            ForEach(array, id: \.self) { item in
+                Text(item)
+            }
+            Button("Update") {
+                Task {
+                    await updateAction()
+                }
+            }
+        }
+    }
+}
+
+
+struct UpdateableSubscription: View {
+    var title: String
+    @Binding var subscription: MiseboxUserManager.Subscription
+    let updateAction: () async -> Void
+
+    var body: some View {
+        VStack {
+            Text("Subscription Type: \(subscription.type.rawValue)")
+            Button("Change Subscription") {
+                Task {
+                    await updateAction()
+                }
+            }
+        }
+    }
+}
+

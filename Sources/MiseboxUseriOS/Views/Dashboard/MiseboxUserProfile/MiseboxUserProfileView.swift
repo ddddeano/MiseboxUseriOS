@@ -30,6 +30,8 @@ public struct MiseboxUserProfile: View {
         .padding()
         .navigationDestination(for: MiseboxUserProfileViewNavigation.Routes.self) { section in
             miseboxUserProfileNavigation.router(section)
+                .environmentObject(router)
+
         }
     }
 }

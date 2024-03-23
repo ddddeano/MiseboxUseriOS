@@ -22,8 +22,13 @@ public struct MiseboxUserProfile: View {
             Text("Account Created: \(miseboxUserProfile.formattedAccountCreated)")
 
             Button("Test Navigation") {
+                print("Current route before setting: \(router.route)")
                 router.route = NavigationPath([MiseboxUserProfileViewNavigation.Route.userInfo])
+                print("Route set successfully")
+                print("Current route after setting: \(router.route)")
             }
+
+
         }
         .padding()
     }

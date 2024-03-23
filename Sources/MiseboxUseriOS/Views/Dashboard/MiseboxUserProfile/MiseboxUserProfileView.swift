@@ -22,13 +22,13 @@ public struct MiseboxUserProfile: View {
         VStack {
             Text("MiseboxUserProfile")
             Text("Account Created: \(miseboxUserProfile.formattedAccountCreated)")
-            ProfileListView(sections: MiseboxUserProfileViewNavigation.Routes.allCases) { section in
+            ProfileListView(sections: MiseboxUserProfileViewNavigation.Route.allCases) { section in
                 miseboxUserProfileNavigation.router(section)
                     .environmentObject(router)
             }
         }
         .padding()
-        .navigationDestination(for: MiseboxUserProfileViewNavigation.Routes.self) { section in
+        .navigationDestination(for: MiseboxUserProfileViewNavigation.Route.self) { section in
             miseboxUserProfileNavigation.router(section)
                 .environmentObject(router)
 

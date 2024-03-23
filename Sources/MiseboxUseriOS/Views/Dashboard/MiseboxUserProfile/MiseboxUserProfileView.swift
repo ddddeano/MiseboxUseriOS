@@ -11,7 +11,7 @@ import MiseboxiOSGlobal
 import _PhotosUI_SwiftUI
 
 public struct MiseboxUserProfile: View {
-    @EnvironmentObject var navPath: NavigationPathObject
+    @EnvironmentObject var router: NavigationPathObject
     @StateObject var miseboxUserProfileNavigation = MiseboxUserProfileViewNavigation()
 
     @EnvironmentObject var miseboxUserManager: MiseboxUserManager
@@ -24,6 +24,7 @@ public struct MiseboxUserProfile: View {
             Text("Account Created: \(miseboxUserProfile.formattedAccountCreated)")
             ProfileListView(sections: MiseboxUserProfileViewNavigation.Routes.allCases) { section in
                 miseboxUserProfileNavigation.router(section)
+                    .environmentObject(router)
             }
         }
         .padding()

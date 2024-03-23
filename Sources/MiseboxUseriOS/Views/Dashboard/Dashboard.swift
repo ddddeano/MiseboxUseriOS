@@ -5,24 +5,23 @@ import MiseboxiOSGlobal
 
 public protocol RoleProfileViewProtocol: View {}
 
-// Marking the class and its initializer as public
 public class DashboardNavigation<RoleProfileView: RoleProfileViewProtocol>: ObservableObject {
     
-    var options: [DashboardRoutes] = [.user, .role]
+    public var options: [DashboardRoutes] = [.user, .role]
     
-    enum DashboardRoutes: String, CaseIterable, Identifiable, NavigationSection {
+    public enum DashboardRoutes: String, CaseIterable, Identifiable, NavigationSection {
         case user, role
         
-        var id: Self { self }
+        public var id: Self { self }
         
-        var iconName: String {
+        public var iconName: String {
             switch self {
             case .user: return "person"
             case .role: return "briefcase"
             }
         }
         
-        var displayName: String { rawValue.capitalized }
+        public var displayName: String { rawValue.capitalized }
     }
     
     var roleProfileView: RoleProfileView
@@ -31,8 +30,8 @@ public class DashboardNavigation<RoleProfileView: RoleProfileViewProtocol>: Obse
         self.roleProfileView = roleProfileView
     }
     
-    @ViewBuilder
-    func router(item: DashboardRoutes) -> some View {
+    @MainActor @ViewBuilder
+    public func router(item: DashboardRoutes) -> some View {
         switch item {
         case .user:
             MiseboxUserProfile()
@@ -41,6 +40,7 @@ public class DashboardNavigation<RoleProfileView: RoleProfileViewProtocol>: Obse
         }
     }
 }
+
 
 public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: RoleProfileViewProtocol, RoleCardView: View>: View {
     @EnvironmentObject var navPath: NavigationPathObject
@@ -81,6 +81,7 @@ public struct Dashboard<RoleManagerType: RoleManager, RoleProfileView: RoleProfi
         .navigationDestination(for: DashboardNavigation.DashboardRoutes.self) { option in
             dashboardNav.router(item: option)
         }
+        .environmentObject(navPath)
     }
 }
 

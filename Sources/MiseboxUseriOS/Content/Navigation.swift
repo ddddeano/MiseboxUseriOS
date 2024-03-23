@@ -2,14 +2,7 @@
 //  File.swift
 //  
 //
-//  Created by Daniel Watson on 17.03.2024.
+//  Created by Daniel Watson on 22.03.2024.
 //
 
 import Foundation
-import SwiftUI
-
-public class NavigationPathObject: ObservableObject {
-    @Published public var navigationPath = NavigationPath()
-    
-    public init () {}
-}

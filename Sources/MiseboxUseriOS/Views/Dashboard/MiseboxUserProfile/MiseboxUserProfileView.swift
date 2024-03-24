@@ -17,20 +17,21 @@ public struct MiseboxUserProfile: View {
     @EnvironmentObject var miseboxUserManager: MiseboxUserManager
     @EnvironmentObject var miseboxUser: MiseboxUserManager.MiseboxUser
     @EnvironmentObject var miseboxUserProfile: MiseboxUserManager.MiseboxUserProfile
-
+    
     public var body: some View {
         VStack {
             Text("MiseboxUserProfile")
             Text("Account Created: \(miseboxUserProfile.formattedAccountCreated)")
             ProfileListView(sections: MiseboxUserProfileViewNavigation.Routes.allCases) { section in
-                print("Selected section: \(section.displayName)")
                 router.route.append(section)
             }
         }
+        .profileToolbarModifier(title: "Misebox User Profile")
         .navigationDestination(for: MiseboxUserProfileViewNavigation.Routes.self) { route in
             navigation.router(route)
+                .profileToolbarModifier(title: route.displayName)
+                .environmentObject(router)
         }
-        .padding()
     }
 }
 

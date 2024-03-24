@@ -129,3 +129,45 @@ public extension View {
 }
 
  
+public struct ProfileNavigationModifiers: ViewModifier {
+    @EnvironmentObject var router: NavigationPathObject
+    var title: String
+
+    // Making the initializer public to allow external usage
+    public init(title: String) {
+        self.title = title
+    }
+
+    public func body(content: Content) -> some View {
+        content
+            .navigationBarBackButtonHidden(true)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    if !router.route.isEmpty {
+                        CustomBackButton()
+                            .environmentObject(router) // Ensure the router is passed to the CustomBackButton
+                    }
+                    Text(title)
+                        .font(.headline)
+                        .foregroundColor(Env.env.appLight) // Ensure this color is accessible
+                }
+                
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button("Help") {
+                        print("Help tapped")
+                    }
+                }
+            }
+            .transition(.slide)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarBackground(Env.env.appDark) // Ensure this color is accessible
+            .foregroundColor(Env.env.appLight) // Ensure this color is accessible
+    }
+}
+
+public extension View {
+    func profileToolbarModifier(title: String) -> some View {
+        self.modifier(ProfileNavigationModifiers(title: title))
+    }
+}

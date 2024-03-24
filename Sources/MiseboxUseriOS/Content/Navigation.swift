@@ -103,10 +103,10 @@ struct CommonNavigationModifiers: ViewModifier {
 
 
 
-struct CustomBackButton: View {
+public struct CustomBackButton: View {
     @EnvironmentObject var navigationPath: NavigationPathObject
 
-    var body: some View {
+    public var body: some View {
         Button(action: {
             navigationPath.route.removeLast()
         }) {

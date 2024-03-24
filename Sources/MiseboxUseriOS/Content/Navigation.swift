@@ -102,9 +102,11 @@ struct CommonNavigationModifiers: ViewModifier {
 }
 
 
-
 public struct CustomBackButton: View {
     @EnvironmentObject var navigationPath: NavigationPathObject
+
+    // Public initializer
+    public init() {}
 
     public var body: some View {
         Button(action: {
@@ -117,7 +119,6 @@ public struct CustomBackButton: View {
         }
     }
 }
-
 
 public extension View {
     func navSystem(contentViewNavigation: ContentViewNavigationProtocol) -> some View {

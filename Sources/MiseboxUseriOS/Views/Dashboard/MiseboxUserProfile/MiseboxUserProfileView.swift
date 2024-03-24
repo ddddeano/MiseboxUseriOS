@@ -38,12 +38,18 @@ public struct ProfileListView<Section: ProfileSection>: View {
     let sections: [Section]
     let onSectionSelected: (Section) -> Void
 
+    // Public initializer
+    public init(sections: [Section], onSectionSelected: @escaping (Section) -> Void) {
+        self.sections = sections
+        self.onSectionSelected = onSectionSelected
+    }
+
     public var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
                 ForEach(sections, id: \.id) { section in
                     Button(action: {
-                        onSectionSelected(section)
+                        self.onSectionSelected(section)
                     }) {
                         HStack {
                             Image(systemName: section.iconName)
@@ -51,7 +57,6 @@ public struct ProfileListView<Section: ProfileSection>: View {
                                 .scaledToFit()
                                 .frame(width: 24, height: 24)
                                 .foregroundColor(Env.env.appDark)
-                                .padding(.leading, 8)
                             Text(section.displayName)
                                 .foregroundColor(Env.env.appDark)
                                 .padding(.vertical, 10)
@@ -70,4 +75,5 @@ public struct ProfileListView<Section: ProfileSection>: View {
         }
     }
 }
+
 
